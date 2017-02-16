@@ -1,0 +1,15 @@
+PODS:
+  - SlidingTabBar (0.2.1)
+  - SOAPEngine (1.28)
+
+DEPENDENCIES:
+  - SlidingTabBar
+  - SOAPEngine
+
+SPEC CHECKSUMS:
+  SlidingTabBar: 027224f312efeb1a76de93e1d9a108b8318d6494
+  SOAPEngine: 75ca70e899b8ab7349ee9f4d69d11f081db1afba
+
+PODFILE CHECKSUM: 9316e42a59306ef3c1c172a6b4cbe7942ee711d9
+
+COCOAPODS: 1.2.0.beta.1

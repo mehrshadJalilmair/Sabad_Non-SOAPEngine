@@ -1,0 +1,6 @@
+framework module Pods_SabadUITests {
+  umbrella header "Pods-SabadUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

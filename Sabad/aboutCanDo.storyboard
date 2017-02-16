@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="05Q-G7-9aQ">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--About Can Do-->
+        <scene sceneID="ZPl-XE-XZo">
+            <objects>
+                <viewController restorationIdentifier="aboutCanDo" storyboardIdentifier="aboutCanDo" id="05Q-G7-9aQ" customClass="aboutCanDo" customModule="Sabad" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="n5c-fn-lEd"/>
+                        <viewControllerLayoutGuide type="bottom" id="kWo-hi-e32"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fX4-NP-0jd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="درباره سبد" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c89-eS-gnX">
+                                <rect key="frame" x="190" y="28" width="169" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="VtA-Tv-49W"/>
+                                    <constraint firstAttribute="width" constant="169" id="WV9-Af-nBy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q5l-Ff-T7d">
+                                <rect key="frame" x="16" y="69" width="343" height="162.5"/>
+                                <mutableString key="text">سبد به عموم مردم این امکان را می دهد تا بازدیدی حرفه ای از پاساژ داشته باشند به طوری که بازدید کننده با نصب رایگان این نرم افزار بر روی موبایل خود میتواند راحت تر و سریعتر به فروشگاه های مورد نظر خود دسترسی داشته وبا آن تعامل داشته باشد.از دیگر امکانات این نرم افزار امکان ثبت تخفیف و فروش ویژه،توسط فروشگاه دار و مطلع نمودن بازدیدکننده از محل فروشگاه می باشد.</mutableString>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="q5l-Ff-T7d" firstAttribute="top" secondItem="c89-eS-gnX" secondAttribute="bottom" constant="20" id="HA9-LL-s5P"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="q5l-Ff-T7d" secondAttribute="leading" id="P1n-04-Haa"/>
+                            <constraint firstItem="c89-eS-gnX" firstAttribute="top" secondItem="n5c-fn-lEd" secondAttribute="bottom" constant="8" id="Whd-99-A1a"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="q5l-Ff-T7d" secondAttribute="trailing" id="sXH-2P-AKC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="c89-eS-gnX" secondAttribute="trailing" id="zI1-ld-uui"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="300"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="01X-ar-iS3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="288.80000000000001" y="429.08545727136436"/>
+        </scene>
+    </scenes>
+</document>

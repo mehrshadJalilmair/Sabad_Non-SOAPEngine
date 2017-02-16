@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>Pods-Sabad.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>Pods-SabadTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>Pods-SabadUITests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>SlidingTabBar.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>09FAE98D51CBD04083A71983845CE447</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>89BA9EE6DFF7B9C1F54C42605F272213</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F18C05507B7A3E762C20E0B5596C5938</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F4C96C956F1DA0AC6C06732221C1FBF0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
