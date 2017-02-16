@@ -50,6 +50,7 @@
 		2FDA93FE1E5466FF00B2C224 /* tageds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA93FD1E5466FF00B2C224 /* tageds.swift */; };
 		2FFEC37B1E433E6800E91E5F /* TopCollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFEC37A1E433E6800E91E5F /* TopCollView.swift */; };
 		2FFEC3821E435D6A00E91E5F /* Ad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFEC3811E435D6A00E91E5F /* Ad.swift */; };
+		2FFF2C741E55F82C0051D495 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFF2C731E55F82C0051D495 /* XMLReader.m */; };
 		33CBB0A037B1DCE331FE0387 /* Pods_SabadUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92CCAA377094980FA506AC28 /* Pods_SabadUITests.framework */; };
 		745A8065E2F20A78BFB44930 /* Pods_SabadTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26837CF6E136A59085AFCAD9 /* Pods_SabadTests.framework */; };
 		831175CDDBD018A07AD4914F /* Pods_Sabad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33E607DCA8143C34B2D4C308 /* Pods_Sabad.framework */; };
@@ -126,6 +127,8 @@
 		2FDA93FD1E5466FF00B2C224 /* tageds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tageds.swift; sourceTree = "<group>"; };
 		2FFEC37A1E433E6800E91E5F /* TopCollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopCollView.swift; sourceTree = "<group>"; };
 		2FFEC3811E435D6A00E91E5F /* Ad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ad.swift; sourceTree = "<group>"; };
+		2FFF2C721E55F82C0051D495 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
+		2FFF2C731E55F82C0051D495 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		33E607DCA8143C34B2D4C308 /* Pods_Sabad.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sabad.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EB8315BB75EB6BF995C33B8 /* Pods-SabadUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SabadUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SabadUITests/Pods-SabadUITests.release.xcconfig"; sourceTree = "<group>"; };
 		408304FF0F3EF50A6122A2CF /* Pods-SabadTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SabadTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SabadTests/Pods-SabadTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -287,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				2127B5591E3C06BF00031E2F /* Sabad-Bridging-Header.h */,
+				2FFF2C711E55F7CC0051D495 /* XMLReader */,
 				216E55001E381B7900D6C957 /* DesignInCode */,
 				2127B5541E3BF79100031E2F /* Model */,
 				2F43D8C31E4B2621003669F9 /* AppInShareModals */,
@@ -362,6 +366,15 @@
 				2FC83E041E4F7C0200300635 /* GoodAddress.storyboard */,
 			);
 			name = goodAddress;
+			sourceTree = "<group>";
+		};
+		2FFF2C711E55F7CC0051D495 /* XMLReader */ = {
+			isa = PBXGroup;
+			children = (
+				2FFF2C721E55F82C0051D495 /* XMLReader.h */,
+				2FFF2C731E55F82C0051D495 /* XMLReader.m */,
+			);
+			name = XMLReader;
 			sourceTree = "<group>";
 		};
 		70BAA2947B44B0033E453485 /* Frameworks */ = {
@@ -702,6 +715,7 @@
 				2F57DDC51E4DE1ED00538108 /* setAbuse.swift in Sources */,
 				216E54F91E38030A00D6C957 /* AvatarImageView.swift in Sources */,
 				2F53C59A1E41F53600475CD5 /* Filter.swift in Sources */,
+				2FFF2C741E55F82C0051D495 /* XMLReader.m in Sources */,
 				2FC83E051E4F7C0200300635 /* GoodAddress.swift in Sources */,
 				21C69C151E37CAF90030A69F /* Host.swift in Sources */,
 				2F4F8E1B1E559615005E9D24 /* aboutCanDo.swift in Sources */,
@@ -867,7 +881,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ir.cando.mjm.Sabad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mehrshad/Desktop/Sabad Project/Sabad/Sabad/Sabad-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mehrshad/Desktop/Sabad Project/Sabad Versions/Sabad_Non-SOAPEngine/Sabad/Sabad-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -883,7 +897,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ir.cando.mjm.Sabad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mehrshad/Desktop/Sabad Project/Sabad/Sabad/Sabad-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mehrshad/Desktop/Sabad Project/Sabad Versions/Sabad_Non-SOAPEngine/Sabad/Sabad-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

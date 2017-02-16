@@ -190,29 +190,27 @@ with [**Notifications**](https://developer.apple.com/library/mac/documentation/C
     NSLog(@"error: %@, result: %@", error, dict)
 ```
 
-[**Swift**](http://www.wikipedia.org/wiki/Swift_programming_language) language :
+[**Swift 3**](http://www.wikipedia.org/wiki/Swift_programming_language) language :
 
 ``` swift
-        import SOAPEngine64
-        
-        let soap = SOAPEngine()
+        var soap = SOAPEngine()
         soap.userAgent = "SOAPEngine"
         soap.actionNamespaceSlash = true
-        soap.version = SOAPVersion.VERSION_1_1
+        soap.version = VERSION_1_1
         soap.responseHeader = true // use only for non standard MS-SOAP service
         
         soap.setValue("param-value", forKey: "param-name")
         soap.requestURL("http://www.my-web.com/my-service.asmx",
             soapAction: "http://www.my-web.com/My-Method-name",
             completeWithDictionary: { (statusCode : Int, 
-            					 dict : [NSObject : AnyObject]!) -> Void in
+            					 dict : [AnyHashable : Any]?) -> Void in
                 
-                let result:Dictionary = dict as Dictionary
-                NSLog("%@", result)
+                var result:Dictionary = dict! as Dictionary
+                print(result)
                 
-            }) { (error : NSError!) -> Void in
+            }) { (error : Error?) -> Void in
                 
-                NSLog("%@", error)
+                print(error)
         }
 ```
 	
@@ -489,8 +487,11 @@ this is not optimized, very slow, instead you can use the optimization below :
 ---
 ###With Cocoapods###
 
-Read the ["Getting Started" guide](https://github.com/priore/SOAPEngine/wiki/Getting-Started-with-SOAPEngine)
+Read the ["Getting Started" guide](https://github.com/priore/SOAPEngine/wiki/Cocoapods-Installation-guide)
 
+###Cocoapods and Swift###
+
+Read the [Integrating SOAPEngine with a Swift project](https://github.com/priore/SOAPEngine/wiki/Integrating-SOAPEngine-with-a-Swift-project)
 
 ###Standard installation###
 
@@ -498,9 +499,9 @@ Read the ["Standard Installation" guide](https://github.com/priore/SOAPEngine/wi
 
 ## Licenses
 ---
-Trial (only simulator) | Single App | Enterprise (multi App)
-------------- | ------------- | -------------
-[![TRIAL LICENSE](https://github.com/priore/SOAPEngine/raw/master/screen/freetrial.png)](https://github.com/priore/SOAPEngine/archive/master.zip)  | [![BUY SINGLE LICENSE](https://github.com/priore/SOAPEngine/raw/master/screen/1299.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G3RXTN3YD7VRG) | [![BUY ENTERPRISE LICENSE](https://github.com/priore/SOAPEngine/raw/master/screen/7799.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6YH9LJRNXPTHE)
+Trial (simulator) | Single App | Enterprise (multi App) | Full Source Code
+------------- | ------------- | ------------- | ------------- 
+[![TRIAL LICENSE](https://github.com/priore/SOAPEngine/raw/master/screen/freetrial.png)](https://github.com/priore/SOAPEngine/archive/master.zip)  | [![BUY SINGLE LICENSE](https://github.com/priore/SOAPEngine/raw/master/screen/1299.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G3RXTN3YD7VRG) | [![BUY ENTERPRISE LICENSE](https://github.com/priore/SOAPEngine/raw/master/screen/7799.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6YH9LJRNXPTHE) | [Contact US](mailto:support@prioregroup.com)
 
 ##Contacts
 ---

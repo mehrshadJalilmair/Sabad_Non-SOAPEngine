@@ -30,6 +30,7 @@ final class aboutCanDo: UIViewController
         super.viewDidAppear(animated)
         
         self.view.layer.cornerRadius = 4
+        self.view.frame.origin.y = self.view.frame.origin.y - (self.parent?.tabBarController?.tabBar.frame.height)!/2 + 10.0
     }
     
     // MARK: - Button Action

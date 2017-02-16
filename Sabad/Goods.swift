@@ -203,6 +203,7 @@ extension Goods
     func QueryOnDB(twId:Int , MallId:Int , stId:Int, srvTypeId:Int , Offset:Int) //check out all conditions
     {
         let soap = SOAPEngine()
+        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
         soap.userAgent = "SOAPEngine"
         soap.actionNamespaceSlash = true
         soap.version = SOAPVersion.VERSION_1_1

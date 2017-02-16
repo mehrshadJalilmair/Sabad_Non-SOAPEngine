@@ -401,21 +401,21 @@ extension Filter
         self.view.removeGestureRecognizer(self.tapGesture)
         filterType = -1
         self.typeDialogView.isHidden = true
-        self._Type.setTitle(types[filterType - 1], for: UIControlState.normal)
+        self._Type.setTitle(types[filterType + 1], for: UIControlState.normal)
     }
     func NewGoodsType()
     {
         self.view.removeGestureRecognizer(self.tapGesture)
         filterType = 0
         self.typeDialogView.isHidden = true
-        self._Type.setTitle(types[filterType - 1], for: UIControlState.normal)
+        self._Type.setTitle(types[filterType + 1], for: UIControlState.normal)
     }
     func OffsType()
     {
         self.view.removeGestureRecognizer(self.tapGesture)
         filterType = 1
         self.typeDialogView.isHidden = true
-        self._Type.setTitle(types[filterType - 1], for: UIControlState.normal)
+        self._Type.setTitle(types[filterType + 1], for: UIControlState.normal)
     }
     func TouchOutOfDialog()
     {

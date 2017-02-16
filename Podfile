@@ -8,6 +8,7 @@ target 'Sabad' do
   # Pods for Sabad
   pod "SlidingTabBar"
   pod 'SOAPEngine'
+  pod 'AFNetworking', '~> 3.0'
 
   target 'SabadTests' do
     inherit! :search_paths

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AFNetworking
 
 class Home: UIViewController , LIHSliderDelegate , UITableViewDataSource , UITableViewDelegate{
 
@@ -46,6 +47,97 @@ class Home: UIViewController , LIHSliderDelegate , UITableViewDataSource , UITab
         initSlider()
         configTableView()
         getHomeList(twId: twId)
+        test()
+    }
+    
+    func test()
+    {
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><TownList xmlns=\"http://BuyApp.ir/\" /></soap:Body></soap:Envelope>"
+        
+        let soapLenth = String(soapMessage.characters.count)
+        let theUrlString = Request.webServiceAddress
+        let theURL = NSURL(string: theUrlString)
+        let mutableR = NSMutableURLRequest(url: theURL! as URL)
+        
+        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
+        mutableR.httpMethod = "POST"
+        mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
+        
+        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
+        let session : URLSession = URLSession(configuration: configuration)
+        
+        print("start")
+        let dataTask = session.dataTask(with: mutableR as URLRequest) {data,response,error in
+            
+            if error == nil
+            {
+                if let httpResponse = response as? HTTPURLResponse
+                {
+                    print(httpResponse.statusCode)
+                    
+                    var dictionaryData = NSDictionary()
+                    
+                    do
+                    {
+                        dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
+                        
+                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
+                        let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
+                        let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
+                        let mainDict1 = mainDict2.object(forKey: "TownListResponse") as! NSDictionary
+                        let mainDict = mainDict1.object(forKey: "TownListResult") as! NSDictionary
+                        
+                        //print(mainDict1)
+                        //print(mainDict)
+                        
+                        if mainDict.count > 0{
+                            
+                            let mainD = NSDictionary(dictionary: mainDict as [NSObject : AnyObject])
+                            var cont = mainD["text"] as? String
+                            cont = "{ \"content\" : " + cont! + "}"
+                            
+                            let data = (cont)?.data(using: .utf8)!
+                            
+                            guard let _result = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String : AnyObject] else{
+                                
+                                return
+                            }
+                            
+                            if let _towns = _result["content"] as? [AnyObject]{
+                                
+                                var newTown = Town(Id: -1 , twName: "همه شهرها" )
+                                townList.append(newTown)
+                                
+                                for town in _towns{
+                                    
+                                    if let actTown = town as? [String : AnyObject]{
+                                        
+                                        newTown = Town(Id: actTown["Id"] as! Int, twName: actTown["twName"] as! String)
+                                        townList.append(newTown)
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            
+                        }
+                    }
+                    catch
+                    {
+                        print("Your Dictionary value nil")
+                    }
+                }
+            }
+            else
+            {
+                print("nil data")
+            }
+        }
+        dataTask.resume()
+        
+        print("end")
     }
     
     

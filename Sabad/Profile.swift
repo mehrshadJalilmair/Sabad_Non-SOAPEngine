@@ -115,22 +115,20 @@ class Profile: UIViewController , UITableViewDelegate , UITableViewDataSource{
                     .create(self)
                     .customize(
                         [
-                            .layout(.top),
-                            .animation(.slideDown),
-                            .scrollable(false),
-                            .dismissWhenTaps(false),
-                            .backgroundStyle(.blackFilter(alpha: 0))
+                            .layout(.center),
+                            .animation(.fadeIn),
+                            .backgroundStyle(.blackFilter(alpha: 0.8)),
+                            .dismissWhenTaps(true),
+                            .scrollable(true)
                         ]
                     )
                     .didShowHandler { popup in
                         print("showed popup!")
-                        
                     }
-                    .didCloseHandler { _ in
-                        
-                        print("closed popup!")
+                    .didCloseHandler { popup in
+                    
                 }
-                //print(actad)
+                
                 let container = aboutCanDo.instance()
                 container.closeHandler = { _ in
                     popup.dismiss()
@@ -153,40 +151,6 @@ class Profile: UIViewController , UITableViewDelegate , UITableViewDataSource{
         
         return 40
     }
-    /*func about(uiView : UIView)
-    {
-        container.frame = uiView.frame
-        container.center = uiView.center
-        container.backgroundColor = UIColor(red: CGFloat(0xFF)/255, green: CGFloat(0xFF)/255, blue: CGFloat(0xFF)/255, alpha: 0.5)
-     
-        let loadingView: UIView = UIView()
-        loadingView.frame = CGRect(0, 0, uiView.frame.size.width - 100 , uiView.frame.size.height/2)
-        loadingView.center = uiView.center
-        loadingView.backgroundColor = UIColor(red: CGFloat(0x44)/255, green: CGFloat(0x44)/255, blue: CGFloat(0x44)/255, alpha: 0.7)
-        loadingView.clipsToBounds = true
-        loadingView.layer.cornerRadius = 10
-        
-        let actInd: UILabel = UILabel()
-        actInd.frame = CGRect(0.0, 0.0, uiView.frame.size.width - 100 , uiView.frame.size.height/2);
-        actInd.text = "salam"
-        actInd.textColor = UIColor.white
-        actInd.textAlignment = .center
-        actInd.center = CGPoint(loadingView.frame.size.width / 2,
-                                    loadingView.frame.size.height / 2)
-        
-        let close: UIButton = UIButton()
-        close.frame = CGRect(0.0, 0.0, 40.0 , 40.0);
-        close.center = CGPoint(loadingView.frame.size.width - 20,
-                                 20)
-        //close.setTitle("بستن", for: UIControlState.normal)
-        close.setImage(UIImage(named: "ic_delete_forever_white"), for: UIControlState.normal)
-        close.addTarget(self, action: #selector(closeing), for: UIControlEvents.touchUpInside)
-        
-        loadingView.addSubview(close)
-        loadingView.addSubview(actInd)
-        container.addSubview(loadingView)
-        uiView.addSubview(container)
-    }*/
 }
 
 extension CGRect{
