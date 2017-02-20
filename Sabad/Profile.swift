@@ -29,6 +29,17 @@ class Profile: UIViewController , UITableViewDelegate , UITableViewDataSource{
     override func viewDidAppear(_ animated: Bool) {
         
         tableView.reloadData()
+        
+        if openGettingStoreFields
+        {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let mvc = storyboard.instantiateViewController(withIdentifier: "StoreCreation") as! StoreCreation
+            mvc.isModalInPopover = true
+            mvc.modalTransitionStyle = .coverVertical
+            openGettingStoreFields = false
+            self.present(mvc, animated: true, completion: nil)
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -104,6 +115,17 @@ class Profile: UIViewController , UITableViewDelegate , UITableViewDataSource{
             break
             
         case 1:
+            
+            if indexPath.row == 0{
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                
+                let mvc = storyboard.instantiateViewController(withIdentifier: "TowNandMallBeforStCr") as! TowNandMallBeforStCr
+                mvc.isModalInPopover = true
+                mvc.modalTransitionStyle = .coverVertical
+                openGettingStoreFields = false
+                self.present(mvc, animated: true, completion: nil)
+            }
             
             break
             

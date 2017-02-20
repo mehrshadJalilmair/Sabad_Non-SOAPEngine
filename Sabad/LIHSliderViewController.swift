@@ -121,7 +121,7 @@ open class LIHSliderViewController: UIViewController, LIHSliderItemDelegate {
             })
         } else {
             
-            //here
+            //here = fatal error: unexpectedly found nil while unwrapping an Optional value
             self.pageController.setViewControllers([self.contentViewController(atIndex: self.currentIndex+1)], direction: UIPageViewControllerNavigationDirection.forward, animated: true, completion: { (complete) -> Void in
                 self.currentIndex = self.currentIndex + 1
             })

@@ -22,6 +22,13 @@ var twId:Int = 1
 var twIdIndex:Int = 1
 var changeBannerAndList = false // when town is changed
 
+
+//StoreCreatoin
+var openGettingStoreFields = false
+var storeTwon = -1
+var storeTwonIndex = -1
+var storeMall = -1
+
 //follows
 var followGoods:[Good] = [Good]()
 

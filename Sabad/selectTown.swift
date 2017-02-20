@@ -8,10 +8,13 @@
 
 import UIKit
 
-class selectTown: UIViewController , UITableViewDataSource , UITableViewDelegate{
+class selectTown: UIViewController , UITableViewDataSource , UITableViewDelegate , UITextFieldDelegate{
 
+    
     @IBOutlet weak var tableView: UITableView!
     let cellId = "listId"
+    
+    @IBOutlet var searchFor: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +31,31 @@ class selectTown: UIViewController , UITableViewDataSource , UITableViewDelegate
         {
             request.GetTownList()
         }
-    }
         
+        townListCopy = townList
+        searchFor.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+    }
+    
+    func textFieldDidChange(_ textField: UITextField)
+    {
+        if textField.text! == "" {
+            
+            townList = townListCopy
+        }
+        else
+        {
+            townList = [Town]()
+            for town in townListCopy {
+                
+                if (town.twName?.contains(textField.text!))! {
+                    
+                    townList.append(town)
+                }
+            }
+        }
+        self.tableView.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
 
@@ -38,7 +64,7 @@ class selectTown: UIViewController , UITableViewDataSource , UITableViewDelegate
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return 50
+        return 53
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

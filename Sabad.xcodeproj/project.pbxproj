@@ -48,6 +48,8 @@
 		2FC83E061E4F7C0200300635 /* GoodAddress.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FC83E041E4F7C0200300635 /* GoodAddress.storyboard */; };
 		2FDA93FC1E544AD500B2C224 /* selectTown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA93FB1E544AD500B2C224 /* selectTown.swift */; };
 		2FDA93FE1E5466FF00B2C224 /* tageds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA93FD1E5466FF00B2C224 /* tageds.swift */; };
+		2FFB34361E5AE48200E1EFCA /* StoreCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFB34351E5AE48200E1EFCA /* StoreCreation.swift */; };
+		2FFB34381E5AECAD00E1EFCA /* TowNandMallBeforStCr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFB34371E5AECAD00E1EFCA /* TowNandMallBeforStCr.swift */; };
 		2FFEC37B1E433E6800E91E5F /* TopCollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFEC37A1E433E6800E91E5F /* TopCollView.swift */; };
 		2FFEC3821E435D6A00E91E5F /* Ad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFEC3811E435D6A00E91E5F /* Ad.swift */; };
 		2FFF2C741E55F82C0051D495 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFF2C731E55F82C0051D495 /* XMLReader.m */; };
@@ -125,6 +127,8 @@
 		2FC83E041E4F7C0200300635 /* GoodAddress.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = GoodAddress.storyboard; sourceTree = "<group>"; };
 		2FDA93FB1E544AD500B2C224 /* selectTown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = selectTown.swift; sourceTree = "<group>"; };
 		2FDA93FD1E5466FF00B2C224 /* tageds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tageds.swift; sourceTree = "<group>"; };
+		2FFB34351E5AE48200E1EFCA /* StoreCreation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreCreation.swift; sourceTree = "<group>"; };
+		2FFB34371E5AECAD00E1EFCA /* TowNandMallBeforStCr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TowNandMallBeforStCr.swift; sourceTree = "<group>"; };
 		2FFEC37A1E433E6800E91E5F /* TopCollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopCollView.swift; sourceTree = "<group>"; };
 		2FFEC3811E435D6A00E91E5F /* Ad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ad.swift; sourceTree = "<group>"; };
 		2FFF2C721E55F82C0051D495 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
@@ -196,6 +200,7 @@
 				2FDA93FB1E544AD500B2C224 /* selectTown.swift */,
 				2FDA93FD1E5466FF00B2C224 /* tageds.swift */,
 				2F20962D1E547DE8000CC547 /* follows.swift */,
+				2FFB34391E5AECB600E1EFCA /* StoreCreatoin */,
 				2F4F8E171E5595C8005E9D24 /* aboutCanDo */,
 			);
 			name = Profile;
@@ -366,6 +371,15 @@
 				2FC83E041E4F7C0200300635 /* GoodAddress.storyboard */,
 			);
 			name = goodAddress;
+			sourceTree = "<group>";
+		};
+		2FFB34391E5AECB600E1EFCA /* StoreCreatoin */ = {
+			isa = PBXGroup;
+			children = (
+				2FFB34351E5AE48200E1EFCA /* StoreCreation.swift */,
+				2FFB34371E5AECAD00E1EFCA /* TowNandMallBeforStCr.swift */,
+			);
+			name = StoreCreatoin;
 			sourceTree = "<group>";
 		};
 		2FFF2C711E55F7CC0051D495 /* XMLReader */ = {
@@ -692,6 +706,7 @@
 				217952F81E3A1A950077C113 /* LIHSliderItemViewController.swift in Sources */,
 				21A48CC61E3AA1A0009E4D61 /* SearchCell.swift in Sources */,
 				21C69C1B1E37CAFA0030A69F /* Sabad.xcdatamodeld in Sources */,
+				2FFB34361E5AE48200E1EFCA /* StoreCreation.swift in Sources */,
 				2F1349AD1E4C681700319532 /* StoreModal.swift in Sources */,
 				217952F61E3A1A950077C113 /* LIHSliderViewController.swift in Sources */,
 				21A48CC41E3A9C9E009E4D61 /* FloatLabelTextField.swift in Sources */,
@@ -721,6 +736,7 @@
 				2F4F8E1B1E559615005E9D24 /* aboutCanDo.swift in Sources */,
 				21C69C131E37CAF90030A69F /* AppDelegate.swift in Sources */,
 				21A48CC11E3A9C39009E4D61 /* Search.swift in Sources */,
+				2FFB34381E5AECAD00E1EFCA /* TowNandMallBeforStCr.swift in Sources */,
 				210812711E3D09FE00CDC9A7 /* Mall.swift in Sources */,
 				2FDA93FE1E5466FF00B2C224 /* tageds.swift in Sources */,
 			);
