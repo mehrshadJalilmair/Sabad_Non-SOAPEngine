@@ -14,14 +14,27 @@ class TowNandMallBeforStCr: UIViewController , UITableViewDelegate , UITableView
     @IBOutlet var searhFor: UITextField!
     @IBOutlet var topLabel: UILabel!
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var bottomView: UIView!
+    @IBOutlet var bottomLabel: UILabel!
+    @IBOutlet var bottomBotton: UIButton!
+    
     
     var whichList = 0 //0 == town list && 1 == mall list && 2 == arealist
     
     let cellId = "listId"
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.bringSubview(toFront: tableView)
+        
+        bottomBotton.backgroundColor = UIColor(r: 80, g: 101, b: 161)
+        //button.setImage(UIImage(named: "ic_refresh"), for: .normal)
+        bottomBotton.tintColor = UIColor.white
+        bottomBotton.layer.cornerRadius = 2
+        bottomBotton.layer.masksToBounds = true
+        bottomBotton.setTitleColor(UIColor.white, for: .normal)
+        bottomBotton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         
         storeTwon = -1
         storeMall = -1
@@ -49,6 +62,11 @@ extension TowNandMallBeforStCr
             
             openGettingStoreFields = false
         }
+    }
+    
+    @IBAction func addAreaOrMall(_ sender: Any) {
+        
+        
     }
     
     func reloadTownList()
@@ -122,6 +140,7 @@ extension TowNandMallBeforStCr
         }
         else //whichList == 1 || 2
         {
+            //fatal error: Index out of range
             cell.label.text = townMallList[indexPath.row].MallName as! String?
             cell.rightIcon.image = UIImage(named: "ic_refresh")
             cell.leftIcon.image = UIImage(named: "ic_refresh")
@@ -146,7 +165,23 @@ extension TowNandMallBeforStCr
                 case .default:
                     
                     self.whichList = 1
-                    self.GetTownMallList(TwId: selectedTownId)
+                    
+                    DispatchQueue.main.async {
+                     
+                        if storeTwon == -1 //remove botton view or add
+                        {
+                            self.changeLayout(removeBottomViewOrAdd: true)
+                        }
+                        else
+                        {
+                            self.topLabel.text = "مکانی که فروشگاه شما در آن قرار دارد را انتخاب کنید"
+                            self.bottomBotton.setTitle("افزودن پاساژ", for: .normal)
+                            self.bottomLabel.text = "اگر پاساژ،بازار یا مجتمع مربوط به فروشگاه شما در لیست بالا نیست،بازار یا مجتمع جدید اضافه کنید"
+                            self.changeLayout(removeBottomViewOrAdd: false)
+                        }
+                    }
+                    
+                    self.GetTownMallList(TwId: storeTwon)
                     print("default")
                     break
                     
@@ -174,7 +209,25 @@ extension TowNandMallBeforStCr
                     print("cancel")
                     
                     self.whichList = 2
-                    self.GetTownMallList(TwId: selectedTownId)
+                    
+                    
+                    DispatchQueue.main.async {
+                     
+                        if storeTwon == -1
+                        {
+                            self.changeLayout(removeBottomViewOrAdd: true)
+                        }
+                        else
+                        {
+                            self.topLabel.text = "آدرس اصلی که فروشگاه شما در آن قرار دارد را انتخاب کنید"
+                            self.bottomBotton.setTitle("افزودن محل", for: .normal)
+                            self.bottomLabel.text = "چنانچه فروشگاه شما در آدرس های بالا موجود نیست،می توانید نام میدان یا خیابان اصلی را به لیست اضافه کنید"
+                            self.changeLayout(removeBottomViewOrAdd: false)
+                        }
+                    }
+
+                    
+                    self.GetTownMallList(TwId: storeTwon)
                     break
                     
                 case .destructive:
@@ -198,6 +251,26 @@ extension TowNandMallBeforStCr
                 
                 
             })
+        }
+    }
+    
+    func changeLayout(removeBottomViewOrAdd:Bool)// add area 1 == AddMallOrArea
+    {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        //bottomView.translatesAutoresizingMaskIntoConstraints = false
+        
+        if removeBottomViewOrAdd /// we dont need to add because twId = -1
+        {
+            let heightConstraint = NSLayoutConstraint(item: self.tableView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0)
+            NSLayoutConstraint.activate([heightConstraint])
+            //self.view.bringSubview(toFront: tableView)
+        }
+        else
+        {
+            //h
+            let heightConstraint = NSLayoutConstraint(item: self.tableView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: -self.bottomView.frame.size.height)
+            NSLayoutConstraint.activate([heightConstraint])
+            //self.view.bringSubview(toFront: bottomView)
         }
     }
     
@@ -252,8 +325,20 @@ extension TowNandMallBeforStCr
                                     else if self.whichList == 2
                                     {
                                         //poplulate array form isMall = 0
+                                        var Index = 0
+                                        for item in townMallList
+                                        {
+                                            if item.IsMall as! Bool == true
+                                            {
+                                                townMallList.remove(at: Index)
+                                            }
+                                            else
+                                            {
+                                                Index += 1
+                                            }
+                                        }
                                     }
-                                    //self.whichList = 1
+                                    townMallListCopy = townMallList
                                     self.tableView.reloadData()
                                 }
                             }

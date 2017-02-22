@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Search: UIViewController , UICollectionViewDelegateFlowLayout , UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource , UIScrollViewDelegate{
+class Search: UIViewController , UICollectionViewDelegateFlowLayout , UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource , UIScrollViewDelegate , UITextFieldDelegate{
 
     var tapGesture:UITapGestureRecognizer!
     
@@ -118,6 +118,8 @@ class Search: UIViewController , UICollectionViewDelegateFlowLayout , UICollecti
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        searchText.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        
         configDialog()
         configTableView()
         configCollectionView()
@@ -126,7 +128,7 @@ class Search: UIViewController , UICollectionViewDelegateFlowLayout , UICollecti
         self.dialogView.isHidden = true
         QueryOnDB(type: self.type, TxtSearch: self.TxtSearch, Offset: self.Offset)
     }
-    
+
     func configCollectionView()
     {
         view.addSubview(collectionView)
@@ -215,6 +217,14 @@ class Search: UIViewController , UICollectionViewDelegateFlowLayout , UICollecti
 
 extension Search
 {
+    func textFieldDidChange(_ textField: UITextField)
+    {
+        if textField.text! == "" {
+            
+            QueryOnDB(type: 1, TxtSearch: "" , Offset: 0)
+        }
+    }
+    
     @IBAction func doSearch(_ sender: Any) {
         
         configuerTouchOutOfDialog()
@@ -268,6 +278,8 @@ extension Search
         soap.setValue(type, forKey: "type")
         soap.setValue(TxtSearch, forKey: "text")
         soap.setValue(Offset, forKey: "Offset")
+        soap.setValue(twId, forKey: "twId")
+        
         soap.requestURL(Request.webServiceAddress,
                         soapAction: Request.searchAction,
                         completeWithDictionary: { (statusCode : Int,

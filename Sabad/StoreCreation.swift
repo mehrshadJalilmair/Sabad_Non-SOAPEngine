@@ -14,6 +14,8 @@ class StoreCreation: UIViewController {
         super.viewDidLoad()
 
         openGettingStoreFields = false
+        //print(storeTwon)
+        //print(storeMall)
     }
 }
 
