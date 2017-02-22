@@ -822,12 +822,26 @@
                                             <action selector="back:" destination="U9X-ET-WwG" eventType="touchUpInside" id="4fe-h5-oJh"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nXQ-nc-bUm">
+                                        <rect key="frame" x="337" y="18" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="48l-Ah-GkJ"/>
+                                            <constraint firstAttribute="width" constant="30" id="t4z-u9-oUp"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="back2"/>
+                                        <connections>
+                                            <action selector="confirm:" destination="U9X-ET-WwG" eventType="touchUpInside" id="YSr-X9-g4M"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.31372549020000001" green="0.39607843139999999" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="5yd-Kt-QjE" firstAttribute="leading" secondItem="jmH-OP-5CP" secondAttribute="leading" constant="8" id="D6e-kd-1Nv"/>
                                     <constraint firstItem="5yd-Kt-QjE" firstAttribute="top" secondItem="jmH-OP-5CP" secondAttribute="top" constant="18" id="F7w-Cb-Gkj"/>
                                     <constraint firstAttribute="height" constant="60" id="lJl-b0-4LC"/>
+                                    <constraint firstAttribute="trailing" secondItem="nXQ-nc-bUm" secondAttribute="trailing" constant="8" id="mmA-ss-vbB"/>
+                                    <constraint firstItem="nXQ-nc-bUm" firstAttribute="top" secondItem="jmH-OP-5CP" secondAttribute="top" constant="18" id="pcf-Xs-Wzg"/>
                                 </constraints>
                             </view>
                         </subviews>

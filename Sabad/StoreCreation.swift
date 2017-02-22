@@ -10,6 +10,67 @@ import UIKit
 
 class StoreCreation: UIViewController {
 
+    
+    let ImagesContainer : UIView! = {
+        
+        let filterView = UIView()
+        filterView.backgroundColor = UIColor.green
+        filterView.translatesAutoresizingMaskIntoConstraints = false
+        filterView.layer.cornerRadius = 3
+        filterView.layer.masksToBounds = true
+        return filterView
+    }()
+    
+    let NameContainer : UIView! = {
+        
+        let filterView = UIView()
+        filterView.backgroundColor = UIColor.green
+        filterView.translatesAutoresizingMaskIntoConstraints = false
+        filterView.layer.cornerRadius = 3
+        filterView.layer.masksToBounds = true
+        return filterView
+    }()
+    
+    let ManagementContainer : UIView! = {
+        
+        let filterView = UIView()
+        filterView.backgroundColor = UIColor.green
+        filterView.translatesAutoresizingMaskIntoConstraints = false
+        filterView.layer.cornerRadius = 3
+        filterView.layer.masksToBounds = true
+        return filterView
+    }()
+    
+    let PhoneContainer : UIView! = {
+        
+        let filterView = UIView()
+        filterView.backgroundColor = UIColor.green
+        filterView.translatesAutoresizingMaskIntoConstraints = false
+        filterView.layer.cornerRadius = 3
+        filterView.layer.masksToBounds = true
+        return filterView
+    }()
+    
+    let DescriptionContainer : UIView! = {
+        
+        let filterView = UIView()
+        filterView.backgroundColor = UIColor.green
+        filterView.translatesAutoresizingMaskIntoConstraints = false
+        filterView.layer.cornerRadius = 3
+        filterView.layer.masksToBounds = true
+        return filterView
+    }()
+    
+    let AddressContainer : UIView! = {
+        
+        let filterView = UIView()
+        filterView.backgroundColor = UIColor.green
+        filterView.translatesAutoresizingMaskIntoConstraints = false
+        filterView.layer.cornerRadius = 3
+        filterView.layer.masksToBounds = true
+        return filterView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,5 +88,10 @@ extension StoreCreation
             
             
         }
+    }
+    
+    @IBAction func confirm(_ sender: Any) {//create store
+        
+        
     }
 }
