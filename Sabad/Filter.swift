@@ -85,6 +85,9 @@ class Filter: UIViewController, PopupContentViewController, UITableViewDataSourc
     
         super.viewDidLoad()
         
+        
+        self.tableView.keyboardDismissMode = .onDrag
+        
         typesContainer.layer.borderWidth = 1
         typesContainer.layer.borderColor = UIColor.black.cgColor
         typesContainer.layer.masksToBounds = true
@@ -123,6 +126,13 @@ class Filter: UIViewController, PopupContentViewController, UITableViewDataSourc
         self.view.layer.cornerRadius = 4
         self.view.frame.origin.y = self.view.frame.origin.y - (self.parent?.tabBarController?.tabBar.frame.height)!/2 + 10.0
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        
+        closeHandler?()
+        print("here")
+    }
+    
     
     class func instance() -> Filter {
         
@@ -195,7 +205,10 @@ extension Filter
 {
     func reloadTownList()
     {
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            
+            self.tableView.reloadData()
+        }
     }
     
     @IBAction func closeFiltering(_ sender: AnyObject) {
@@ -340,9 +353,107 @@ extension Filter
         }
     }
     
-    func GetTownMallList(TwId:Int) //check out all conditions
+    func GetTownMallList(TwId:Int)
+    {
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><MallForFilter xmlns=\"http://BuyApp.ir/\"><twId>\(TwId)</twId></MallForFilter></soap:Body></soap:Envelope>"
+        
+        let soapLenth = String(soapMessage.characters.count)
+        let theUrlString = Request.webServiceAddress
+        let theURL = NSURL(string: theUrlString)
+        let mutableR = NSMutableURLRequest(url: theURL! as URL)
+        
+        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
+        mutableR.httpMethod = "POST"
+        mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
+        
+        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
+        let session : URLSession = URLSession(configuration: configuration)
+        
+        let dataTask = session.dataTask(with: mutableR as URLRequest) {data,response,error in
+            
+            if error == nil
+            {
+                if let httpResponse = response as? HTTPURLResponse
+                {
+                    print(httpResponse.statusCode)
+                    
+                    var dictionaryData = NSDictionary()
+                    
+                    do
+                    {
+                        dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
+                        
+                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
+                        let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
+                        let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
+                        let mainDict1 = mainDict2.object(forKey: "MallForFilterResponse") as! NSDictionary
+                        let mainDict = mainDict1.object(forKey: "MallForFilterResult") as! NSDictionary
+                        
+                        //print(mainDict1)
+                        //print(mainDict)
+                        
+                        if mainDict.count > 0{
+                            
+                            let mainD = NSDictionary(dictionary: mainDict as [NSObject : AnyObject])
+                            var cont = mainD["text"] as? String
+                            cont = "{ \"content\" : " + cont! + "}"
+                            
+                            let data = (cont)?.data(using: .utf8)!
+                            
+                            guard let _result = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String : AnyObject] else{
+                                
+                                return
+                            }
+                            
+                            if let _malls = _result["content"] as? [AnyObject]{
+                                
+                                townMallList = [Mall]()
+                                var newmall = Mall(Id: -1 as AnyObject, twId: -1 as AnyObject , MallName: "همه پاساژها و محدوده ها" as AnyObject, MallDescription: "" as AnyObject , MallAddress: "" as AnyObject , MallTel: "" as AnyObject , MallLogo: "" as AnyObject , MallActive: false as AnyObject, IsMall: true as AnyObject , Stores:0 as AnyObject)
+                                townMallList.append(newmall)
+                                for mall in _malls{
+                                    
+                                    if let actmall = mall as? [String : AnyObject]{
+                                        
+                                        newmall = Mall(Id: actmall["Id"]!, twId: -1 as AnyObject , MallName: actmall["MallName"]!, MallDescription: "" as AnyObject , MallAddress: "" as AnyObject , MallTel: "" as AnyObject , MallLogo: "" as AnyObject , MallActive: false as AnyObject, IsMall: actmall["IsMall"]!, Stores: 0 as AnyObject)//Stores: actmall["Stores"]!)
+                                        townMallList.append(newmall)
+                                    }
+                                }
+                                if townMallList.count > 0
+                                {
+                                    self.whichList = true
+                                    townMallListCopy = townMallList
+                                    
+                                    DispatchQueue.main.async {
+                                        
+                                        self.tableView.reloadData()
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            
+                        }
+                    }
+                    catch
+                    {
+                        //print("Your Dictionary value nil")
+                    }
+                }
+            }
+            else
+            {
+                print("nil data")
+            }
+        }
+        dataTask.resume()
+    }
+    
+    /*func GetTownMallList(TwId:Int) //check out all conditions
     {
         let soap = SOAPEngine()
+        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
         soap.userAgent = "SOAPEngine"
         soap.actionNamespaceSlash = true
         soap.version = SOAPVersion.VERSION_1_1
@@ -393,7 +504,7 @@ extension Filter
             
             print(error!)
         }
-    }
+    }*/
     
     //search dialog funcs
     func AllGoodsType()

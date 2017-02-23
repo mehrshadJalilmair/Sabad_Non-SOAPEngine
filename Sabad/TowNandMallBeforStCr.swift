@@ -28,6 +28,8 @@ class TowNandMallBeforStCr: UIViewController , UITableViewDelegate , UITableView
         
         self.view.bringSubview(toFront: tableView)
         
+        self.tableView.keyboardDismissMode = .onDrag
+        
         bottomBotton.backgroundColor = UIColor(r: 80, g: 101, b: 161)
         //button.setImage(UIImage(named: "ic_refresh"), for: .normal)
         bottomBotton.tintColor = UIColor.white
@@ -71,7 +73,10 @@ extension TowNandMallBeforStCr
     
     func reloadTownList()
     {
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            
+            self.tableView.reloadData()
+        }
     }
     
     func textFieldDidChange(_ textField: UITextField) {
@@ -277,6 +282,7 @@ extension TowNandMallBeforStCr
     func GetTownMallList(TwId:Int) //check out all conditions
     {
         let soap = SOAPEngine()
+        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
         soap.userAgent = "SOAPEngine"
         soap.actionNamespaceSlash = true
         soap.version = SOAPVersion.VERSION_1_1

@@ -47,99 +47,7 @@ class Home: UIViewController , LIHSliderDelegate , UITableViewDataSource , UITab
         initSlider()
         configTableView()
         getHomeList(twId: twId)
-        test()
     }
-    
-    func test()
-    {
-        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><TownList xmlns=\"http://BuyApp.ir/\" /></soap:Body></soap:Envelope>"
-        
-        let soapLenth = String(soapMessage.characters.count)
-        let theUrlString = Request.webServiceAddress
-        let theURL = NSURL(string: theUrlString)
-        let mutableR = NSMutableURLRequest(url: theURL! as URL)
-        
-        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
-        mutableR.httpMethod = "POST"
-        mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
-        
-        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
-        let session : URLSession = URLSession(configuration: configuration)
-        
-        print("start")
-        let dataTask = session.dataTask(with: mutableR as URLRequest) {data,response,error in
-            
-            if error == nil
-            {
-                if let httpResponse = response as? HTTPURLResponse
-                {
-                    print(httpResponse.statusCode)
-                    
-                    var dictionaryData = NSDictionary()
-                    
-                    do
-                    {
-                        dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
-                        
-                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
-                        let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
-                        let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
-                        let mainDict1 = mainDict2.object(forKey: "TownListResponse") as! NSDictionary
-                        let mainDict = mainDict1.object(forKey: "TownListResult") as! NSDictionary
-                        
-                        //print(mainDict1)
-                        //print(mainDict)
-                        
-                        if mainDict.count > 0{
-                            
-                            let mainD = NSDictionary(dictionary: mainDict as [NSObject : AnyObject])
-                            var cont = mainD["text"] as? String
-                            cont = "{ \"content\" : " + cont! + "}"
-                            
-                            let data = (cont)?.data(using: .utf8)!
-                            
-                            guard let _result = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String : AnyObject] else{
-                                
-                                return
-                            }
-                            
-                            if let _towns = _result["content"] as? [AnyObject]{
-                                
-                                var newTown = Town(Id: -1 , twName: "همه شهرها" )
-                                townList.append(newTown)
-                                
-                                for town in _towns{
-                                    
-                                    if let actTown = town as? [String : AnyObject]{
-                                        
-                                        newTown = Town(Id: actTown["Id"] as! Int, twName: actTown["twName"] as! String)
-                                        townList.append(newTown)
-                                    }
-                                }
-                            }
-                        }
-                        else{
-                            
-                        }
-                    }
-                    catch
-                    {
-                        print("Your Dictionary value nil")
-                    }
-                }
-            }
-            else
-            {
-                print("nil data")
-            }
-        }
-        dataTask.resume()
-        
-        print("end")
-    }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         
@@ -210,12 +118,110 @@ extension Home
         print(index)
     }
     
+    func GetAdImagesAndSet(twId:Int)
+    {
+        
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><AdvList xmlns=\"http://BuyApp.ir/\"><twId>\(twId)</twId></AdvList></soap:Body></soap:Envelope>"
+        
+        let soapLenth = String(soapMessage.characters.count)
+        let theUrlString = Request.webServiceAddress
+        let theURL = NSURL(string: theUrlString)
+        let mutableR = NSMutableURLRequest(url: theURL! as URL)
+        
+        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
+        mutableR.httpMethod = "POST"
+        mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
+        
+        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
+        let session : URLSession = URLSession(configuration: configuration)
+        
+        let dataTask = session.dataTask(with: mutableR as URLRequest) {data,response,error in
+            
+            if error == nil
+            {
+                if let httpResponse = response as? HTTPURLResponse
+                {
+                    print(httpResponse.statusCode)
+                    
+                    var dictionaryData = NSDictionary()
+                    
+                    do
+                    {
+                        dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
+                        
+                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
+                        let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
+                        let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
+                        let mainDict1 = mainDict2.object(forKey: "AdvListResponse") as! NSDictionary
+                        let mainDict = mainDict1.object(forKey: "AdvListResult") as! NSDictionary
+                        
+                        //print(mainDict1)
+                        //print(mainDict)
+                        
+                        if mainDict.count > 0{
+                            
+                            let mainD = NSDictionary(dictionary: mainDict as [NSObject : AnyObject])
+                            var cont = mainD["text"] as? String
+                            cont = "{ \"content\" : " + cont! + "}"
+                            
+                            let data = (cont)?.data(using: .utf8)!
+                            
+                            guard let _result = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String : AnyObject] else{
+                                
+                                return
+                            }
+                            
+                            if let _ads = _result["content"] as? [AnyObject]{
+                                
+                                adsImages = [String]()
+                                ads = [Ad]()
+                                for ad in _ads{
+                                    
+                                    if let actad = ad as? [String : AnyObject]{
+                                        
+                                        
+                                        let newAd = Ad(advImageUrl: actad["advImageUrl"]!, advText: actad["advText"]!, _Type: actad["Type"]!, Address: actad["Address"]!)
+                                        ads.append(newAd)
+                                        adsImages.append(actad["advImageUrl"] as! String)
+                                    }
+                                }
+                                
+                                if adsImages.count > 0
+                                {
+                                    self.sliderVc1.slider.sliderImages = adsImages
+                                    self.sliderVc1.pageControl.numberOfPages = adsImages.count
+                                }
+                            }                        }
+                        else{
+                            
+                        }
+                    }
+                    catch
+                    {
+                        //print("Your Dictionary value nil")
+                    }
+                }
+            }
+            else
+            {
+                print("nil data")
+            }
+        }
+        dataTask.resume()
+    }
+    
     //get from web service
-    func GetAdImagesAndSet(twId:Int) //check out all conditions
+    /*func GetAdImagesAndSet(twId:Int) //check out all conditions
     {
         let soap = SOAPEngine()
+
         soap.userAgent = "SOAPEngine"
         soap.actionNamespaceSlash = true
+        
+        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
+        
         soap.version = SOAPVersion.VERSION_1_1
         soap.responseHeader = true
         
@@ -265,14 +271,149 @@ extension Home
             
             print(error!)
         }
-    }
+    }*/
 
+    
+    
+    func getHomeList(twId:Int)
+    {
+        
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetHomeList xmlns=\"http://BuyApp.ir/\"><twId>\(twId)</twId></GetHomeList></soap:Body></soap:Envelope>"
+        
+        let soapLenth = String(soapMessage.characters.count)
+        let theUrlString = Request.webServiceAddress
+        let theURL = NSURL(string: theUrlString)
+        let mutableR = NSMutableURLRequest(url: theURL! as URL)
+        
+        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
+        mutableR.httpMethod = "POST"
+        mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
+        
+        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
+        let session : URLSession = URLSession(configuration: configuration)
+        
+        let dataTask = session.dataTask(with: mutableR as URLRequest) {data,response,error in
+            
+            if error == nil
+            {
+                if let httpResponse = response as? HTTPURLResponse
+                {
+                    print(httpResponse.statusCode)
+                    
+                    var dictionaryData = NSDictionary()
+                    
+                    do
+                    {
+                        dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
+                        
+                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
+                        let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
+                        let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
+                        let mainDict1 = mainDict2.object(forKey: "GetHomeListResponse") as! NSDictionary
+                        let mainDict = mainDict1.object(forKey: "GetHomeListResult") as! NSDictionary
+                        
+                        //print(mainDict1)
+                        //print(mainDict)
+                        
+                        if mainDict.count > 0{
+                            
+                            let mainD = NSDictionary(dictionary: mainDict as [NSObject : AnyObject])
+                            var cont = mainD["text"] as? String
+                            cont = "{ \"content\" : " + cont! + "}"
+                            
+                            let data = (cont)?.data(using: .utf8)!
+                            
+                            guard let _result = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String : AnyObject] else{
+                                
+                                return
+                            }
+                            
+                            if let _results = _result["content"] as? [String : AnyObject]{
+                                
+                                
+                                if let _malls = _results["MallList"] as? [AnyObject]{
+                                    
+                                    if _malls.count > 0
+                                    {
+                                        homeMallList = [Mall]()
+                                    }
+                                    for mall in _malls{
+                                        
+                                        if let actmall = mall as? [String : AnyObject]{
+                                            
+                                            let newmall = Mall(Id: actmall["Id"]!, twId: actmall["twId"]!, MallName: actmall["MallName"]!, MallDescription: actmall["MallDescription"]!, MallAddress: actmall["MallAddress"]!, MallTel: actmall["MallTel"]!, MallLogo: actmall["MallLogo"]!, MallActive: actmall["MallActive"]!, IsMall: actmall["IsMall"]!, Stores: actmall["Stores"]!)
+                                            //print(actmall["MallAddress"]!)
+                                            homeMallList.append(newmall)
+                                        }
+                                    }
+                                }
+                                
+                                if let _stores = _results["StoreList"] as? [AnyObject]{
+                                    
+                                    homeStoreList = [Store]()
+                                    
+                                    for store in _stores{
+                                        
+                                        if let actstore = store as? [String : AnyObject]{
+                                            
+                                            let newstore = Store(Id: actstore["Id"]!, stCode: actstore["stCode"]!, MallId: actstore["MallId"]!, stName: actstore["stName"]!, stAddress: actstore["stAddress"]!, stManager: actstore["stManager"]!, stDescription: actstore["stDescription"]!, stTel: actstore["stTel"]!, stActive: actstore["stActive"]!, Mobile: actstore["Mobile"]!, urlImage: actstore["urlImage"]!, pm: actstore["pm"]!, Followers: actstore["Followers"]!)
+                                            homeStoreList.append(newstore)
+                                            
+                                        }
+                                    }
+                                }
+                                
+                                if let _goods = _results["OffList"] as? [AnyObject]{
+                                    
+                                    homeGoodsList = [Good]()
+                                    
+                                    for good in _goods{
+                                        
+                                        if let actgood = good as? [String : AnyObject]{
+                                            
+                                            let newgood = Good(Id: actgood["Id"]!, servicesId: actgood["servicesId"]!, offTitle: actgood["offTitle"]!, offPrImage: actgood["offPrImage"]!, offBeforePrice: actgood["offBeforePrice"]!, offPercent: actgood["offPercent"]!, offActive: actgood["offActive"]!, offDescription: actgood["offDescription"]!, offStartDate: actgood["offStartDate"]!, offEndDate: actgood["offEndDate"]!, offStartTime: actgood["offStartTime"]!, offEndTime: actgood["offEndTime"]!, Views: actgood["Views"]!)
+                                            homeGoodsList.append(newgood)
+                                            
+                                        }
+                                    }
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    
+                                    self.tableView.reloadData()
+                                }
+                            }
+                        }
+                        else{
+                            
+                        }
+                    }
+                    catch
+                    {
+                        //print("Your Dictionary value nil")
+                    }
+                }
+            }
+            else
+            {
+                print("nil data")
+            }
+        }
+        dataTask.resume()
+    }
+    
     //get from web service
-    func getHomeList(twId:Int) //check out all conditions
+    /*func getHomeList(twId:Int) //check out all conditions
     {
         let soap = SOAPEngine()
+        
         soap.userAgent = "SOAPEngine"
         soap.actionNamespaceSlash = true
+        
+        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
+        
         soap.version = SOAPVersion.VERSION_1_1
         soap.responseHeader = true
         
@@ -348,7 +489,7 @@ extension Home
             
             print(error!)
         }
-    }
+    }*/
     
     func numberOfSections(in tableView: UITableView) -> Int {
         

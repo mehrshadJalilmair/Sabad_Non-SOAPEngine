@@ -895,7 +895,7 @@
 				INFOPLIST_FILE = Sabad/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ir.cando.mjm.Sabad;
+				PRODUCT_BUNDLE_IDENTIFIER = ir.cando.Sabad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mehrshad/Desktop/Sabad Project/Sabad Versions/Sabad_Non-SOAPEngine/Sabad/Sabad-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -911,7 +911,7 @@
 				INFOPLIST_FILE = Sabad/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ir.cando.mjm.Sabad;
+				PRODUCT_BUNDLE_IDENTIFIER = ir.cando.Sabad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mehrshad/Desktop/Sabad Project/Sabad Versions/Sabad_Non-SOAPEngine/Sabad/Sabad-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

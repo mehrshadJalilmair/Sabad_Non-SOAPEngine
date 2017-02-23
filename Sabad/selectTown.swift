@@ -19,6 +19,7 @@ class selectTown: UIViewController , UITableViewDataSource , UITableViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.keyboardDismissMode = .onDrag
         //tableView.register(selecTownTableViewCell.self, forCellReuseIdentifier: self.cellId)
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTownList), name: NSNotification.Name(rawValue: "townListRecieved"), object: nil)
@@ -95,7 +96,10 @@ extension selectTown
 {
     func reloadTownList()
     {
-        self.tableView.reloadData()
+        DispatchQueue.main.async {
+            
+            self.tableView.reloadData()
+        }
     }
     
     @IBAction func back(_ sender: Any) {

@@ -35,6 +35,7 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
             collectionView.translatesAutoresizingMaskIntoConstraints = false
             collectionView.showsVerticalScrollIndicator = false
             collectionView.showsHorizontalScrollIndicator = false
+            collectionView.keyboardDismissMode = .onDrag
             return collectionView
     }()
     let collectionViewSupporterLabel: UILabel! = {
@@ -665,10 +666,120 @@ extension StoreModal
         self.present(mvc, animated: true, completion: nil)
     }
     
+    func GetImagesAndSet(stId:Int)
+    {
+        
+        //let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><ImagesInStore xmlns=\"http://BuyApp.ir/\"><stId>\(stId)</stId></ImagesInStore></soap:Body></soap:Envelope>"
+        
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><ImagesInStore xmlns=\"http://BuyApp.ir/\"><stId>\(stId)</stId></ImagesInStore></soap:Body></soap:Envelope>"
+        
+        let soapLenth = String(soapMessage.characters.count)
+        let theUrlString = Request.webServiceAddress
+        let theURL = NSURL(string: theUrlString)
+        let mutableR = NSMutableURLRequest(url: theURL! as URL)
+        
+        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
+        mutableR.httpMethod = "POST"
+        mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
+        
+        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
+        let session : URLSession = URLSession(configuration: configuration)
+        
+        let dataTask = session.dataTask(with: mutableR as URLRequest) {data,response,error in
+            
+            if error == nil
+            {
+                if let httpResponse = response as? HTTPURLResponse
+                {
+                    print(httpResponse.statusCode)
+                    
+                    var dictionaryData = NSDictionary()
+                    
+                    do
+                    {
+                        dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
+                        
+                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
+                        let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
+                        let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
+                        let mainDict1 = mainDict2.object(forKey: "ImagesInStoreResponse") as! NSDictionary
+                        let mainDict = mainDict1.object(forKey: "ImagesInStoreResult") as! NSDictionary
+                        
+                        //print(mainDict1)
+                        //print(mainDict)
+                        
+                        if mainDict.count > 0{
+                            
+                            let mainD = NSDictionary(dictionary: mainDict as [NSObject : AnyObject])
+                            var cont = mainD["text"] as? String
+                            cont = "{ \"content\" : " + cont! + "}"
+                            
+                            let data = (cont)?.data(using: .utf8)!
+                            
+                            guard let _result = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String : AnyObject] else{
+                                
+                                return
+                            }
+                            
+                            if let _ads = _result["content"] as? [AnyObject]{
+                                
+                                self.sliderImagesURLS = [String]()
+                                self.sliderImages = [Ad]()
+                                for ad in _ads{
+                                    
+                                    if let actad = ad as? [String : AnyObject]{
+                                        
+                                        
+                                        //let newAd = Ad(advImageUrl: actad["advImageUrl"]!, advText: actad["advText"]!, _Type: actad["Type"]!, Address: actad["Address"]!)
+                                        //self.sliderImages.append(newAd)
+                                        self.sliderImagesURLS.append(actad["imgUrl"] as! String)
+                                    }
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    
+                                    if self.sliderImagesURLS.count == 0
+                                    {
+                                        self.slider1ContainerSupportImageView.isHidden = false
+                                        self.scrollView.bringSubview(toFront: self.slider1ContainerSupportImageView)
+                                    }
+                                    else
+                                    {
+                                        //self.slider1Container.isHidden = false
+                                        
+                                        self.sliderImagesURLS.insert(self.store.urlImage as! String, at: 0)
+                                        self.slider1ContainerSupportImageView.isHidden = true
+                                        self.sliderVc1.slider.sliderImages = self.sliderImagesURLS
+                                        self.sliderVc1.pageControl.numberOfPages = self.sliderImagesURLS.count
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            
+                        }
+                    }
+                    catch
+                    {
+                        //print("Your Dictionary value nil")
+                    }
+                }
+            }
+            else
+            {
+                print("nil data")
+            }
+        }
+        dataTask.resume()
+    }
+
     //get from web service
-    func GetImagesAndSet(stId:Int) //check out all conditions
+    /*func GetImagesAndSet(stId:Int) //check out all conditions
     {
         let soap = SOAPEngine()
+        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
         soap.userAgent = "SOAPEngine"
         soap.actionNamespaceSlash = true
         soap.version = SOAPVersion.VERSION_1_1
@@ -729,12 +840,129 @@ extension StoreModal
             
             print(error!)
         }
+    }*/
+    
+    func QueryOnDB(stId:Int)
+    {
+        
+        //let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GoodsInStore xmlns=\"http://BuyApp.ir/\"><stId>\(stId)</stId></GoodsInStore></soap:Body></soap:Envelope>"
+        
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GoodsInStore xmlns=\"http://BuyApp.ir/\"><stId>\(stId)</stId></GoodsInStore></soap:Body></soap:Envelope>"
+        
+        let soapLenth = String(soapMessage.characters.count)
+        let theUrlString = Request.webServiceAddress
+        let theURL = NSURL(string: theUrlString)
+        let mutableR = NSMutableURLRequest(url: theURL! as URL)
+        
+        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
+        mutableR.httpMethod = "POST"
+        mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
+        
+        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
+        let session : URLSession = URLSession(configuration: configuration)
+        
+        let dataTask = session.dataTask(with: mutableR as URLRequest) {data,response,error in
+            
+            if error == nil
+            {
+                if let httpResponse = response as? HTTPURLResponse
+                {
+                    print(httpResponse.statusCode)
+                    
+                    var dictionaryData = NSDictionary()
+                    
+                    do
+                    {
+                        dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
+                        
+                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
+                        let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
+                        let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
+                        let mainDict1 = mainDict2.object(forKey: "GoodsInStoreResponse") as! NSDictionary
+                        let mainDict = mainDict1.object(forKey: "GoodsInStoreResult") as! NSDictionary
+                        
+                        //print(mainDict1)
+                        //print(mainDict)
+                        
+                        if mainDict.count > 0{
+                            
+                            let mainD = NSDictionary(dictionary: mainDict as [NSObject : AnyObject])
+                            var cont = mainD["text"] as? String
+                            cont = "{ \"content\" : " + cont! + "}"
+                            
+                            let data = (cont)?.data(using: .utf8)!
+                            
+                            guard let _result = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String : AnyObject] else{
+                                
+                                return
+                            }
+                            
+                            if let _goods = _result["content"] as? [AnyObject]{
+                                
+                                
+                                if _goods.count > 0
+                                {
+                                    self.storeGoods = [Good]()
+                                }
+                                for good in _goods{
+                                    
+                                    if let actgood = good as? [String : AnyObject]{
+                                        
+                                        let newgood = Good(Id: actgood["Id"]!, servicesId: actgood["servicesId"]!, offTitle: actgood["offTitle"]!, offPrImage: actgood["offPrImage"]!, offBeforePrice: actgood["offBeforePrice"]!, offPercent: actgood["offPercent"]!, offActive: actgood["offActive"]!, offDescription: actgood["offDescription"]!, offStartDate: actgood["offStartDate"]!, offEndDate: actgood["offEndDate"]!, offStartTime: actgood["offStartTime"]!, offEndTime: actgood["offEndTime"]!, Views: actgood["Views"]!)
+                                        self.storeGoods.append(newgood)
+                                        
+                                    }
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    
+                                    self.collectionView.reloadData()
+                                    if self.storeGoods.count > 0
+                                    {
+                                        let height = self.slider1Container.frame.height + self.followingButton.frame.height + 5 + self.containersContainer.frame.height + 5 + (4 * self.name.frame.height) + self.collectionView.frame.height + 8
+                                        
+                                        self.scrollView.contentSize = CGSize(self.view.frame.width , height)
+                                        //self.collectionViewSupporterLabel.isHidden = true
+                                    }
+                                    else
+                                    {
+                                        let height = self.slider1Container.frame.height + self.followingButton.frame.height + 5 + self.containersContainer.frame.height + 5 + (4 * self.name.frame.height)
+                                        
+                                        self.scrollView.contentSize = CGSize(self.view.frame.width , height)
+                                        
+                                        //self.collectionViewSupporterLabel.isHidden = false
+                                        //self.scrollView.bringSubview(toFront: self.collectionViewSupporterLabel)
+                                    }
+                                }
+                            }
+
+                        }
+                        else{
+                            
+                        }
+                    }
+                    catch
+                    {
+                        //print("Your Dictionary value nil")
+                    }
+                }
+            }
+            else
+            {
+                print("nil data")
+            }
+        }
+        dataTask.resume()
     }
+
     
     //get from web service
-    func QueryOnDB(stId:Int) //check out all conditions
+    /*func QueryOnDB(stId:Int) //check out all conditions
     {
         let soap = SOAPEngine()
+        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
         soap.userAgent = "SOAPEngine"
         soap.actionNamespaceSlash = true
         soap.version = SOAPVersion.VERSION_1_1
@@ -800,12 +1028,129 @@ extension StoreModal
             
             print(error!)
         }
+    }*/
+    
+    
+    func setFollow(stId:Int , userId: Int , saveUserId:Bool)
+    {
+        
+        //let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><SetFollow xmlns=\"http://BuyApp.ir/\"><stId>\(stId)</stId><userId>\(userId)</userId></SetFollow></soap:Body></soap:Envelope>"
+        
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><SetFollow xmlns=\"http://BuyApp.ir/\"><stId>\(stId)</stId><userId>\(userId)</userId></SetFollow></soap:Body></soap:Envelope>"
+        
+        let soapLenth = String(soapMessage.characters.count)
+        let theUrlString = Request.webServiceAddress
+        let theURL = NSURL(string: theUrlString)
+        let mutableR = NSMutableURLRequest(url: theURL! as URL)
+        
+        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
+        mutableR.httpMethod = "POST"
+        mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
+        
+        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
+        let session : URLSession = URLSession(configuration: configuration)
+        
+        let dataTask = session.dataTask(with: mutableR as URLRequest) {data,response,error in
+            
+            if error == nil
+            {
+                if let httpResponse = response as? HTTPURLResponse
+                {
+                    print(httpResponse.statusCode)
+                    
+                    var dictionaryData = NSDictionary()
+                    
+                    do
+                    {
+                        dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
+                        
+                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
+                        let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
+                        let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
+                        let mainDict1 = mainDict2.object(forKey: "SetFollowResponse") as! NSDictionary
+                        let mainDict = mainDict1.object(forKey: "SetFollowResult") as! NSDictionary
+                        
+                        //print(mainDict1)
+                        //print(mainDict)
+                        
+                        if mainDict.count > 0{
+                            
+                            let mainD = NSDictionary(dictionary: mainDict as [NSObject : AnyObject])
+                            var cont = mainD["text"] as? String
+                            cont = "{ \"content\" : " + cont! + "}"
+                            
+                            let data = (cont)?.data(using: .utf8)!
+                            
+                            guard let _result = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String : AnyObject] else{
+                                
+                                return
+                            }
+                            
+                            if let _res = _result["content"] as? [AnyObject]{
+                                
+                                for res in _res{
+                                    
+                                    if let actres = res as? [String : AnyObject]{
+                                        
+                                        //print(actres["Id"]!)
+                                        
+                                        if defaults.object(forKey: "follow\(self.store.Id!)") != nil //fellow already
+                                        {
+                                            DispatchQueue.main.async {
+                                                
+                                                self.followingButton.backgroundColor = UIColor(r: 80, g: 101, b: 161)
+                                                defaults.removeObject(forKey: "follow\(self.store.Id!)") //unfollow
+                                                self.store.Followers = ((self.store.Followers as! Int) - 1) as AnyObject
+                                                self.followerLabel.text = "\(self.store.Followers!) دنبال کننده"
+                                            }
+                                            //self.store.Followers = ((self.store.Followers as! Int) - 1) as AnyObject
+                                            //followerLabel.text = "\(self.store.Followers!) دنبال کننده"
+                                        }
+                                        else
+                                        {
+                                            DispatchQueue.main.async {
+                                                
+                                                self.followingButton.backgroundColor = UIColor(r: 0, g: 200, b: 0)
+                                                defaults.set(self.store.Id, forKey: "follow\(self.store.Id!)") //set follow
+                                                self.store.Followers = ((self.store.Followers as! Int) + 1) as AnyObject
+                                                self.followerLabel.text = "\(self.store.Followers!) دنبال کننده"
+                                            }
+                                        }
+                                        
+                                        
+                                        if saveUserId
+                                        {
+                                            defaults.set(actres["Id"] as! Int, forKey: "userId") //save user id once a time
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            
+                        }
+                    }
+                    catch
+                    {
+                        //print("Your Dictionary value nil")
+                    }
+                }
+            }
+            else
+            {
+                print("nil data")
+            }
+        }
+        dataTask.resume()
     }
     
     //get from web service
-    func setFollow(stId:Int , userId: Int , saveUserId:Bool) //check out all conditions
+    /*func setFollow(stId:Int , userId: Int , saveUserId:Bool) //check out all conditions
     {
         let soap = SOAPEngine()
+        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
         soap.userAgent = "SOAPEngine"
         soap.actionNamespaceSlash = true
         soap.version = SOAPVersion.VERSION_1_1
@@ -872,5 +1217,5 @@ extension StoreModal
             
             print(error!)
         }
-    }
+    }*/
 }
