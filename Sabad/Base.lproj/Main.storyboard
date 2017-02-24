@@ -804,8 +804,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PKn-4e-v6q">
+                            <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="PKn-4e-v6q">
                                 <rect key="frame" x="0.0" y="60" width="375" height="607"/>
+                                <connections>
+                                    <outlet property="delegate" destination="U9X-ET-WwG" id="2Zv-lH-k8d"/>
+                                </connections>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jmH-OP-5CP">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
@@ -856,6 +859,9 @@
                             <constraint firstItem="PKn-4e-v6q" firstAttribute="top" secondItem="jmH-OP-5CP" secondAttribute="bottom" id="zgZ-T5-4df"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="scrollView" destination="PKn-4e-v6q" id="UP4-zd-p5S"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="45X-Gz-ygJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
