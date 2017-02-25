@@ -9,7 +9,7 @@
 #ifndef Sabad_Bridging_Header_h
 #define Sabad_Bridging_Header_h
 
-#import <SOAPEngine64/SOAPEngine.h>
+
 #import <AFNetworking/AFNetworking.h>
 #import "XMLReader.h"
 

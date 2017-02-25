@@ -279,7 +279,121 @@ extension TowNandMallBeforStCr
         }
     }
     
-    func GetTownMallList(TwId:Int) //check out all conditions
+    
+    func GetTownMallList(TwId:Int)
+    {
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetFollowedGood xmlns=\"http://BuyApp.ir/\"><userId>\(TwId)</userId><Offset>\(TwId)</Offset></GetFollowedGood></soap:Body></soap:Envelope>"
+        
+        let soapLenth = String(soapMessage.characters.count)
+        let theUrlString = Request.webServiceAddress
+        let theURL = NSURL(string: theUrlString)
+        let mutableR = NSMutableURLRequest(url: theURL! as URL)
+        
+        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
+        mutableR.httpMethod = "POST"
+        mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
+        
+        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
+        let session : URLSession = URLSession(configuration: configuration)
+        
+        let dataTask = session.dataTask(with: mutableR as URLRequest) {data,response,error in
+            
+            if error == nil
+            {
+                if let httpResponse = response as? HTTPURLResponse
+                {
+                    print(httpResponse.statusCode)
+                    
+                    var dictionaryData = NSDictionary()
+                    
+                    do
+                    {
+                        dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
+                        
+                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
+                        let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
+                        let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
+                        let mainDict1 = mainDict2.object(forKey: "GetFollowedGoodResponse") as! NSDictionary
+                        let mainDict = mainDict1.object(forKey: "GetFollowedGoodResult") as! NSDictionary
+                        
+                        //print(mainDict1)
+                        //print(mainDict)
+                        
+                        if mainDict.count > 0{
+                            
+                            let mainD = NSDictionary(dictionary: mainDict as [NSObject : AnyObject])
+                            var cont = mainD["text"] as? String
+                            cont = "{ \"content\" : " + cont! + "}"
+                            
+                            let data = (cont)?.data(using: .utf8)!
+                            
+                            guard let _result = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String : AnyObject] else{
+                                
+                                return
+                            }
+                            
+                            if let _malls = _result["content"] as? [AnyObject]{
+                                
+                                townMallList = [Mall]()
+                                var newmall = Mall(Id: -1 as AnyObject, twId: -1 as AnyObject , MallName: "همه پاساژها و محدوده ها" as AnyObject, MallDescription: "" as AnyObject , MallAddress: "" as AnyObject , MallTel: "" as AnyObject , MallLogo: "" as AnyObject , MallActive: false as AnyObject, IsMall: true as AnyObject , Stores:0 as AnyObject)
+                                townMallList.append(newmall)
+                                for mall in _malls{
+                                    
+                                    if let actmall = mall as? [String : AnyObject]{
+                                        
+                                        newmall = Mall(Id: actmall["Id"]!, twId: -1 as AnyObject , MallName: actmall["MallName"]!, MallDescription: "" as AnyObject , MallAddress: "" as AnyObject , MallTel: "" as AnyObject , MallLogo: "" as AnyObject , MallActive: false as AnyObject, IsMall: actmall["IsMall"]!, Stores: 0 as AnyObject)//Stores: actmall["Stores"]!)
+                                        townMallList.append(newmall)
+                                    }
+                                }
+                                if townMallList.count > 0
+                                {
+                                    townMallListCopy = townMallList
+                                    if self.whichList == 1
+                                    {
+                                        //ok-no problem
+                                    }
+                                    else if self.whichList == 2
+                                    {
+                                        //poplulate array form isMall = 0
+                                        var Index = 0
+                                        for item in townMallList
+                                        {
+                                            if item.IsMall as! Bool == true
+                                            {
+                                                townMallList.remove(at: Index)
+                                            }
+                                            else
+                                            {
+                                                Index += 1
+                                            }
+                                        }
+                                    }
+                                    townMallListCopy = townMallList
+                                    self.tableView.reloadData()
+                                }
+                            }
+                        }
+                        else{
+                            
+                        }
+                    }
+                    catch
+                    {
+                        //print("Your Dictionary value nil")
+                    }
+                }
+            }
+            else
+            {
+                print("nil data")
+            }
+        }
+        dataTask.resume()
+    }
+
+    /*func GetTownMallList(TwId:Int) //check out all conditions
     {
         let soap = SOAPEngine()
         soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
@@ -353,5 +467,5 @@ extension TowNandMallBeforStCr
             
             print(error!)
         }
-    }
+    }*/
 }

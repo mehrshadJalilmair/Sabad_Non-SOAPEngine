@@ -120,7 +120,10 @@ class Profile: UIViewController , UITableViewDelegate , UITableViewDataSource{
                 
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 
-                let mvc = storyboard.instantiateViewController(withIdentifier: "TowNandMallBeforStCr") as! TowNandMallBeforStCr
+                //let mvc = storyboard.instantiateViewController(withIdentifier: "TowNandMallBeforStCr") as! TowNandMallBeforStCr
+                
+                let mvc = storyboard.instantiateViewController(withIdentifier: "StoreCreation") as! StoreCreation
+                
                 mvc.isModalInPopover = true
                 mvc.modalTransitionStyle = .coverVertical
                 openGettingStoreFields = false
