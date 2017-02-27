@@ -8,10 +8,20 @@
 
 import UIKit
 
-class StoreCreation: UIViewController , UIScrollViewDelegate{
+class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate , UITextFieldDelegate{
 
     @IBOutlet var scrollView: UIScrollView!
     
+    let imagePicker = UIImagePickerController()
+    enum chooseImageSource {
+        case none
+        case logo
+        case image1
+        case image2
+        case image3
+    }
+    var imageSource = chooseImageSource.none
+    var filledImageViews:[String:Bool] = ["logo":false , "image1":false , "image2":false , "image3":false]
     
     
     let ImagesContainer : UIView! = {
@@ -71,7 +81,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
     let logoLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor.white
         label.text = "لوگو"
         label.textAlignment = .center
@@ -87,6 +97,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
         button.tintColor = UIColor.white
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: .normal)
+        button.isHidden = true
         //button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         
         //button.semanticContentAttribute = .forceRightToLeft
@@ -101,6 +112,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
         //button.setTitle("پیگیری", for: .normal)
         button.setImage(UIImage(named: "ic_delete_forever_white"), for: .normal)
         button.tintColor = UIColor.white
+        button.isHidden = true
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: .normal)
         //button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
@@ -120,7 +132,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: .normal)
         //button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        
+        button.isHidden = true
         //button.semanticContentAttribute = .forceRightToLeft
         button.showsTouchWhenHighlighted = true
         button.tag = 2
@@ -136,7 +148,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: .normal)
         //button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        
+        button.isHidden = true
         //button.semanticContentAttribute = .forceRightToLeft
         button.showsTouchWhenHighlighted = true
         button.tag = 1
@@ -159,9 +171,9 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
     let NameLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor.black
-        label.text = "نام فروشگاه"
+        label.text = "* نام فروشگاه"
         label.textAlignment = .right
         label.backgroundColor = UIColor.red
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -183,7 +195,6 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
     
     
     
-    
     let ManagementContainer : UIView! = {
         
         let filterView = UIView()
@@ -194,6 +205,32 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
         filterView.backgroundColor = UIColor.red
         return filterView
     }()
+    let ManagementLabel: UILabel! = {
+        
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = UIColor.black
+        label.text = "* مدیریت"
+        label.textAlignment = .right
+        label.backgroundColor = UIColor.red
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    let ManagementTextFieald: FloatLabelTextField! = {
+        
+        let NameTextFieald = FloatLabelTextField()
+        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.textColor = UIColor.black
+        NameTextFieald.textAlignment = .center
+        NameTextFieald.placeholder = "امید جلالی"
+        NameTextFieald.textAlignment = .center
+        NameTextFieald.backgroundColor = UIColor.white
+        NameTextFieald.tintColor = UIColor.red
+        NameTextFieald.translatesAutoresizingMaskIntoConstraints = false
+        return NameTextFieald
+    }()
+    
+    
     
     let PhoneContainer : UIView! = {
         
@@ -205,6 +242,69 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
         filterView.backgroundColor = UIColor.red
         return filterView
     }()
+    let PhoneLabel: UILabel! = {
+        
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = UIColor.black
+        label.text = "* موبایل"
+        label.textAlignment = .right
+        label.backgroundColor = UIColor.red
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    let PhoneTextFieald: FloatLabelTextField! = {
+        
+        let NameTextFieald = FloatLabelTextField()
+        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.textColor = UIColor.black
+        NameTextFieald.textAlignment = .center
+        NameTextFieald.placeholder = "شماره موبایل"
+        NameTextFieald.textAlignment = .center
+        NameTextFieald.backgroundColor = UIColor.white
+        NameTextFieald.tintColor = UIColor.red
+        NameTextFieald.keyboardType = .phonePad
+        NameTextFieald.translatesAutoresizingMaskIntoConstraints = false
+        return NameTextFieald
+    }()
+    
+    
+    let TellContainer : UIView! = {
+        
+        let filterView = UIView()
+        filterView.backgroundColor = UIColor.green
+        filterView.translatesAutoresizingMaskIntoConstraints = false
+        filterView.layer.cornerRadius = 3
+        filterView.layer.masksToBounds = true
+        filterView.backgroundColor = UIColor.red
+        return filterView
+    }()
+    let TellLabel: UILabel! = {
+        
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = UIColor.black
+        label.text = "تلفن"
+        label.textAlignment = .right
+        label.backgroundColor = UIColor.red
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    let TellTextFieald: FloatLabelTextField! = {
+        
+        let NameTextFieald = FloatLabelTextField()
+        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.textColor = UIColor.black
+        NameTextFieald.textAlignment = .center
+        NameTextFieald.placeholder = "شماره تلفن"
+        NameTextFieald.textAlignment = .center
+        NameTextFieald.backgroundColor = UIColor.white
+        NameTextFieald.tintColor = UIColor.red
+        NameTextFieald.keyboardType = .phonePad
+        NameTextFieald.translatesAutoresizingMaskIntoConstraints = false
+        return NameTextFieald
+    }()
+    
     
     let DescriptionContainer : UIView! = {
         
@@ -216,6 +316,32 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
         filterView.backgroundColor = UIColor.red
         return filterView
     }()
+    let DescriptionLabel: UILabel! = {
+        
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = UIColor.black
+        label.text = "توضیحات"
+        label.textAlignment = .right
+        label.backgroundColor = UIColor.red
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    let DescriptionTextFieald: FloatLabelTextField! = {
+        
+        let NameTextFieald = FloatLabelTextField()
+        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.textColor = UIColor.black
+        NameTextFieald.textAlignment = .center
+        NameTextFieald.placeholder = "توضیحات فروشگاه من"
+        NameTextFieald.textAlignment = .center
+        NameTextFieald.backgroundColor = UIColor.white
+        NameTextFieald.tintColor = UIColor.red
+        NameTextFieald.translatesAutoresizingMaskIntoConstraints = false
+        return NameTextFieald
+    }()
+    
+    
     
     let AddressContainer : UIView! = {
         
@@ -227,6 +353,30 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
         filterView.backgroundColor = UIColor.red
         return filterView
     }()
+    let AddressLabel: UILabel! = {
+        
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = UIColor.black
+        label.text = "آدرس"
+        label.textAlignment = .right
+        label.backgroundColor = UIColor.red
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    let AddressTextFieald: FloatLabelTextField! = {
+        
+        let NameTextFieald = FloatLabelTextField()
+        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.textColor = UIColor.black
+        NameTextFieald.textAlignment = .center
+        NameTextFieald.placeholder = "طبقه اول،خیابان سوم"
+        NameTextFieald.textAlignment = .center
+        NameTextFieald.backgroundColor = UIColor.white
+        NameTextFieald.tintColor = UIColor.red
+        NameTextFieald.translatesAutoresizingMaskIntoConstraints = false
+        return NameTextFieald
+    }()
     
     
     
@@ -234,10 +384,12 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
         super.viewDidLoad()
 
         openGettingStoreFields = false
+        
         initImagesContainer()
         initNameContainer()
         initManagementContainer()
         initPhoneContainer()
+        initTellContainer()
         initDescriptionContainer()
         initAddressContainer()
     }
@@ -257,6 +409,55 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
         delImage3Btn.clipsToBounds = true
         delImage1Btn.layer.cornerRadius = delLogoImageBtn.frame.size.width/2
         delImage1Btn.clipsToBounds = true
+        
+        NameTextFieald.layer.cornerRadius = 3
+        NameTextFieald.layer.masksToBounds = true
+        //NameTextFieald.hintYPadding = -100
+        NameTextFieald.titleYPadding = -2
+        
+        ManagementTextFieald.layer.cornerRadius = 3
+        ManagementTextFieald.layer.masksToBounds = true
+        //ManagementTextFieald.hintYPadding = -20
+        ManagementTextFieald.titleYPadding = -2
+        
+        PhoneTextFieald.layer.cornerRadius = 3
+        PhoneTextFieald.layer.masksToBounds = true
+        //PhoneTextFieald.hintYPadding = -20
+        PhoneTextFieald.titleYPadding = -2
+        
+        DescriptionTextFieald.layer.cornerRadius = 3
+        DescriptionTextFieald.layer.masksToBounds = true
+        //DescriptionTextFieald.hintYPadding = -20
+        DescriptionTextFieald.titleYPadding = -2
+        
+        AddressTextFieald.layer.cornerRadius = 3
+        AddressTextFieald.layer.masksToBounds = true
+        //AddressTextFieald.hintYPadding = -20
+        AddressTextFieald.titleYPadding = -2
+        
+        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
+        tapGesture1.cancelsTouchesInView = true
+        NameContainer.addGestureRecognizer(tapGesture1)
+        
+        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
+        tapGesture2.cancelsTouchesInView = true
+        ManagementContainer.addGestureRecognizer(tapGesture2)
+        
+        let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
+        tapGesture3.cancelsTouchesInView = true
+        PhoneContainer.addGestureRecognizer(tapGesture3)
+        
+        let tapGesture4 = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
+        tapGesture4.cancelsTouchesInView = true
+        DescriptionContainer.addGestureRecognizer(tapGesture4)
+        
+        let tapGesture5 = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
+        tapGesture5.cancelsTouchesInView = true
+        AddressContainer.addGestureRecognizer(tapGesture5)
+        
+        let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
+        tapGesture6.cancelsTouchesInView = true
+        TellLabel.addGestureRecognizer(tapGesture6)
     }
     
     func setScrollViewContentSize() {
@@ -403,29 +604,29 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
         //w
         var widthConstraint = NSLayoutConstraint(item: NameContainer, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: -10)
         //h
-        var heightConstraint = NSLayoutConstraint(item: NameContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.height, multiplier: 1/6, constant: 0)
+        var heightConstraint = NSLayoutConstraint(item: NameContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 60)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         
         NameContainer.addSubview(NameLabel)
         //x
-        horizontalConstraint = NSLayoutConstraint(item: NameLabel, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: NameContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: 0)
+        horizontalConstraint = NSLayoutConstraint(item: NameLabel, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: NameContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -3)
         //y
         verticalConstraint = NSLayoutConstraint(item: NameLabel, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: NameContainer, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
         //w
         widthConstraint = NSLayoutConstraint(item: NameLabel, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: NameContainer, attribute: NSLayoutAttribute.width, multiplier: 1/2, constant: 0)
         //h
-        heightConstraint = NSLayoutConstraint(item: NameLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: NameContainer, attribute: NSLayoutAttribute.height, multiplier: 2/3, constant: 0)
+        heightConstraint = NSLayoutConstraint(item: NameLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 20)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         
         NameContainer.addSubview(NameTextFieald)
         //x
-        horizontalConstraint = NSLayoutConstraint(item: NameTextFieald, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: NameContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: 0)
+        horizontalConstraint = NSLayoutConstraint(item: NameTextFieald, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: NameContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -3)
         //y
-        verticalConstraint = NSLayoutConstraint(item: NameTextFieald, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: NameLabel, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0)
+        verticalConstraint = NSLayoutConstraint(item: NameTextFieald, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: NameLabel, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
         //w
         widthConstraint = NSLayoutConstraint(item: NameTextFieald, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: NameContainer, attribute: NSLayoutAttribute.width, multiplier: 3/4, constant: 0)
         //h
-        heightConstraint = NSLayoutConstraint(item: NameTextFieald, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: NameContainer, attribute: NSLayoutAttribute.height, multiplier: 1/3, constant: -5)
+        heightConstraint = NSLayoutConstraint(item: NameTextFieald, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute , multiplier: 1, constant: 30)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
     }
     
@@ -433,13 +634,35 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
     {
         scrollView.addSubview(ManagementContainer)
         //x
-        let horizontalConstraint = NSLayoutConstraint(item: ManagementContainer, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: NameContainer, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
+        var horizontalConstraint = NSLayoutConstraint(item: ManagementContainer, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: NameContainer, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
         //y
-        let verticalConstraint = NSLayoutConstraint(item: ManagementContainer, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+        var verticalConstraint = NSLayoutConstraint(item: ManagementContainer, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
         //w
-        let widthConstraint = NSLayoutConstraint(item: ManagementContainer, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: -10)
+        var widthConstraint = NSLayoutConstraint(item: ManagementContainer, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: -10)
         //h
-        let heightConstraint = NSLayoutConstraint(item: ManagementContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.height, multiplier: 1/6, constant: 0)
+        var heightConstraint = NSLayoutConstraint(item: ManagementContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 60)
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
+        ManagementContainer.addSubview(ManagementLabel)
+        //x
+        horizontalConstraint = NSLayoutConstraint(item: ManagementLabel, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: ManagementContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -3)
+        //y
+        verticalConstraint = NSLayoutConstraint(item: ManagementLabel, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: ManagementContainer, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
+        //w
+        widthConstraint = NSLayoutConstraint(item: ManagementLabel, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: ManagementContainer, attribute: NSLayoutAttribute.width, multiplier: 1/2, constant: 0)
+        //h
+        heightConstraint = NSLayoutConstraint(item: ManagementLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 20)
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
+        ManagementContainer.addSubview(ManagementTextFieald)
+        //x
+        horizontalConstraint = NSLayoutConstraint(item: ManagementTextFieald, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: ManagementContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -3)
+        //y
+        verticalConstraint = NSLayoutConstraint(item: ManagementTextFieald, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: ManagementLabel, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
+        //w
+        widthConstraint = NSLayoutConstraint(item: ManagementTextFieald, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: ManagementContainer, attribute: NSLayoutAttribute.width, multiplier: 3/4, constant: 0)
+        //h
+        heightConstraint = NSLayoutConstraint(item: ManagementTextFieald, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute , multiplier: 1, constant: 30)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
     }
     
@@ -447,27 +670,108 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
     {
         scrollView.addSubview(PhoneContainer)
         //x
-        let horizontalConstraint = NSLayoutConstraint(item: PhoneContainer, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: ManagementContainer, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
+        var horizontalConstraint = NSLayoutConstraint(item: PhoneContainer, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: ManagementContainer, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
         //y
-        let verticalConstraint = NSLayoutConstraint(item: PhoneContainer, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+        var verticalConstraint = NSLayoutConstraint(item: PhoneContainer, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
         //w
-        let widthConstraint = NSLayoutConstraint(item: PhoneContainer, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: -10)
+        var widthConstraint = NSLayoutConstraint(item: PhoneContainer, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: -10)
         //h
-        let heightConstraint = NSLayoutConstraint(item: PhoneContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.height, multiplier: 1/6, constant: 0)
+        var heightConstraint = NSLayoutConstraint(item: PhoneContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 60)
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
+        PhoneContainer.addSubview(PhoneLabel)
+        //x
+        horizontalConstraint = NSLayoutConstraint(item: PhoneLabel, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: PhoneContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -3)
+        //y
+        verticalConstraint = NSLayoutConstraint(item: PhoneLabel, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: PhoneContainer, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
+        //w
+        widthConstraint = NSLayoutConstraint(item: PhoneLabel, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: PhoneContainer, attribute: NSLayoutAttribute.width, multiplier: 1/2, constant: 0)
+        //h
+        heightConstraint = NSLayoutConstraint(item: PhoneLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 20)
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
+        PhoneContainer.addSubview(PhoneTextFieald)
+        //x
+        horizontalConstraint = NSLayoutConstraint(item: PhoneTextFieald, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: PhoneContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -3)
+        //y
+        verticalConstraint = NSLayoutConstraint(item: PhoneTextFieald, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: PhoneLabel, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
+        //w
+        widthConstraint = NSLayoutConstraint(item: PhoneTextFieald, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: PhoneContainer, attribute: NSLayoutAttribute.width, multiplier: 3/4, constant: 0)
+        //h
+        heightConstraint = NSLayoutConstraint(item: PhoneTextFieald, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute , multiplier: 1, constant: 30)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
     }
+    
+    func initTellContainer()
+    {
+        scrollView.addSubview(TellContainer)
+        //x
+        var horizontalConstraint = NSLayoutConstraint(item: TellContainer, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: PhoneContainer, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
+        //y
+        var verticalConstraint = NSLayoutConstraint(item: TellContainer, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+        //w
+        var widthConstraint = NSLayoutConstraint(item: TellContainer, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: -10)
+        //h
+        var heightConstraint = NSLayoutConstraint(item: TellContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 60)
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
+        TellContainer.addSubview(TellLabel)
+        //x
+        horizontalConstraint = NSLayoutConstraint(item: TellLabel, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: TellContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -3)
+        //y
+        verticalConstraint = NSLayoutConstraint(item: TellLabel, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: TellContainer, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
+        //w
+        widthConstraint = NSLayoutConstraint(item: TellLabel, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: TellContainer, attribute: NSLayoutAttribute.width, multiplier: 1/2, constant: 0)
+        //h
+        heightConstraint = NSLayoutConstraint(item: TellLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 20)
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
+        TellContainer.addSubview(TellTextFieald)
+        //x
+        horizontalConstraint = NSLayoutConstraint(item: TellTextFieald, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: TellContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -3)
+        //y
+        verticalConstraint = NSLayoutConstraint(item: TellTextFieald, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: TellLabel, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
+        //w
+        widthConstraint = NSLayoutConstraint(item: TellTextFieald, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: TellContainer, attribute: NSLayoutAttribute.width, multiplier: 3/4, constant: 0)
+        //h
+        heightConstraint = NSLayoutConstraint(item: TellTextFieald, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute , multiplier: 1, constant: 30)
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+    }
+
     
     func initDescriptionContainer()
     {
         scrollView.addSubview(DescriptionContainer)
         //x
-        let horizontalConstraint = NSLayoutConstraint(item: DescriptionContainer, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: PhoneContainer, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
+        var horizontalConstraint = NSLayoutConstraint(item: DescriptionContainer, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: TellContainer, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
         //y
-        let verticalConstraint = NSLayoutConstraint(item: DescriptionContainer, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+        var verticalConstraint = NSLayoutConstraint(item: DescriptionContainer, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
         //w
-        let widthConstraint = NSLayoutConstraint(item: DescriptionContainer, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: -10)
+        var widthConstraint = NSLayoutConstraint(item: DescriptionContainer, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: -10)
         //h
-        let heightConstraint = NSLayoutConstraint(item: DescriptionContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.height, multiplier: 1/6, constant: 0)
+        var heightConstraint = NSLayoutConstraint(item: DescriptionContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 60)
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
+        DescriptionContainer.addSubview(DescriptionLabel)
+        //x
+        horizontalConstraint = NSLayoutConstraint(item: DescriptionLabel, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: DescriptionContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -3)
+        //y
+        verticalConstraint = NSLayoutConstraint(item: DescriptionLabel, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: DescriptionContainer, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
+        //w
+        widthConstraint = NSLayoutConstraint(item: DescriptionLabel, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: DescriptionContainer, attribute: NSLayoutAttribute.width, multiplier: 1/2, constant: 0)
+        //h
+        heightConstraint = NSLayoutConstraint(item: DescriptionLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 20)
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
+        DescriptionContainer.addSubview(DescriptionTextFieald)
+        //x
+        horizontalConstraint = NSLayoutConstraint(item: DescriptionTextFieald, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: DescriptionContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -3)
+        //y
+        verticalConstraint = NSLayoutConstraint(item: DescriptionTextFieald, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: DescriptionLabel, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
+        //w
+        widthConstraint = NSLayoutConstraint(item: DescriptionTextFieald, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: DescriptionContainer, attribute: NSLayoutAttribute.width, multiplier: 3/4, constant: 0)
+        //h
+        heightConstraint = NSLayoutConstraint(item: DescriptionTextFieald, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute , multiplier: 1, constant: 30)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
     }
     
@@ -475,13 +779,35 @@ class StoreCreation: UIViewController , UIScrollViewDelegate{
     {
         scrollView.addSubview(AddressContainer)
         //x
-        let horizontalConstraint = NSLayoutConstraint(item: AddressContainer, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: DescriptionContainer, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
+        var horizontalConstraint = NSLayoutConstraint(item: AddressContainer, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: DescriptionContainer, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
         //y
-        let verticalConstraint = NSLayoutConstraint(item: AddressContainer, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+        var verticalConstraint = NSLayoutConstraint(item: AddressContainer, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
         //w
-        let widthConstraint = NSLayoutConstraint(item: AddressContainer, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: -10)
+        var widthConstraint = NSLayoutConstraint(item: AddressContainer, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: -10)
         //h
-        let heightConstraint = NSLayoutConstraint(item: AddressContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.height, multiplier: 1/6, constant: 0)
+        var heightConstraint = NSLayoutConstraint(item: AddressContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 60)
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
+        AddressContainer.addSubview(AddressLabel)
+        //x
+        horizontalConstraint = NSLayoutConstraint(item: AddressLabel, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: AddressContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -3)
+        //y
+        verticalConstraint = NSLayoutConstraint(item: AddressLabel, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: AddressContainer, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
+        //w
+        widthConstraint = NSLayoutConstraint(item: AddressLabel, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: AddressContainer, attribute: NSLayoutAttribute.width, multiplier: 1/2, constant: 0)
+        //h
+        heightConstraint = NSLayoutConstraint(item: AddressLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 20)
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
+        AddressContainer.addSubview(AddressTextFieald)
+        //x
+        horizontalConstraint = NSLayoutConstraint(item: AddressTextFieald, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: AddressContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -3)
+        //y
+        verticalConstraint = NSLayoutConstraint(item: AddressTextFieald, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: AddressLabel, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
+        //w
+        widthConstraint = NSLayoutConstraint(item: AddressTextFieald, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: DescriptionContainer, attribute: NSLayoutAttribute.width, multiplier: 3/4, constant: 0)
+        //h
+        heightConstraint = NSLayoutConstraint(item: AddressTextFieald, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute , multiplier: 1, constant: 30)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
     }
 }
@@ -490,24 +816,166 @@ extension StoreCreation
 {
     func delImage(_ sender: AnyObject)
     {
-        print(sender.tag)
+        if imageSource == .none
+        {
+            return
+        }
+        
+        switch sender.tag! {
+            
+        case 0:
+            filledImageViews["logo"] = false
+            delLogoImageBtn.isHidden = true
+            logo.image = UIImage(named: "nedstark")
+            imageSource = .none
+            break
+            
+        case 1:
+            filledImageViews["image1"] = false
+            delImage1Btn.isHidden = true
+            image1.image = UIImage(named: "nedstark")
+            imageSource = .none
+            break
+            
+        case 2:
+            filledImageViews["image2"] = false
+            delImage2Btn.isHidden = true
+            image2.image = UIImage(named: "nedstark")
+            imageSource = .none
+            break
+            
+        case 3:
+            filledImageViews["image3"] = false
+            delImage3Btn.isHidden = true
+            image3.image = UIImage(named: "nedstark")
+            imageSource = .none
+            break
+            
+        default:
+            break
+        }
     }
     
     func pickLogo(_ sender: AnyObject)
     {
         print("logo")
+        imageSource = .logo
+        chooseSource()
     }
     func pickImage1(_ sender: AnyObject)
     {
         print("here1")
+        imageSource = .image1
+        chooseSource()
     }
     func pickImage2(_ sender: AnyObject)
     {
         print("here2")
+        imageSource = .image2
+        chooseSource()
     }
     func pickImage3(_ sender: AnyObject)
     {
         print("here3")
+        imageSource = .image3
+        chooseSource()
+    }
+    func chooseSource()
+    {
+        let alert:UIAlertController=UIAlertController(title: "انتخاب عکس از :", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        let cameraAction = UIAlertAction(title: "دوربین", style: UIAlertActionStyle.default)
+        {
+            UIAlertAction in
+            self.openCamera()
+        }
+        let gallaryAction = UIAlertAction(title: "گالری", style: UIAlertActionStyle.default)
+        {
+            UIAlertAction in
+            self.openGallary()
+        }
+        let cancelAction = UIAlertAction(title: "لغو", style: UIAlertActionStyle.cancel)
+        {
+            UIAlertAction in
+        }
+        
+        // Add the actions
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        alert.addAction(cameraAction)
+        alert.addAction(gallaryAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    func openCamera()
+    {
+    
+        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera))
+        {
+            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+            self .present(imagePicker, animated: true, completion: nil)
+        }
+        else
+        {
+            let alertWarning = UIAlertView(title:"توجه", message: "دوربین در دسترس نیست!", delegate:nil, cancelButtonTitle:"تایید", otherButtonTitles:"")
+            alertWarning.show()
+            
+        }
+    }
+    func openGallary()
+    {
+        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    //PickerView Delegate Methods
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        var image : UIImage?
+        
+        if let editedImage = info["UIImagePickerControllerEditedImage"]  as? UIImage{
+            
+            image = editedImage
+        }
+        else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage{
+            
+            image = originalImage
+        }
+
+        switch imageSource {
+            
+        case .logo:
+            filledImageViews["logo"] = true
+            logo.image = image
+            delLogoImageBtn.isHidden = false
+            break
+            
+        case .image1:
+            filledImageViews["image1"] = true
+            image1.image = image
+            delImage1Btn.isHidden = false
+            break
+            
+        case .image2:
+            filledImageViews["image2"] = true
+            image2.image = image
+            delImage2Btn.isHidden = false
+            break
+            
+        case .image3:
+            filledImageViews["image3"] = true
+            image3.image = image
+            delImage3Btn.isHidden = false
+            break
+            
+        default:
+            break
+        }
+        //imagePicker.image=info[UIImagePickerControllerOriginalImage] as? UIImage
+        picker.dismiss(animated: true, completion: nil)
+    }
+    func imagePickerControllerDidCancel(picker: UIImagePickerController)
+    {
+        print("picker cancel.")
+        imageSource = .none
     }
     
     
@@ -521,6 +989,32 @@ extension StoreCreation
     
     @IBAction func confirm(_ sender: Any) {//create store
         
+        print(filledImageViews)
         
+        guard let name = NameTextFieald.text, let managagment = ManagementTextFieald.text , let phone = PhoneTextFieald.text, let description = DescriptionTextFieald.text, let address = AddressTextFieald.text , let tell = TellTextFieald.text else {
+            
+            
+            print("Form is not valid")
+            return
+        }
+        
+        if name.isEmpty || managagment.isEmpty || phone.isEmpty
+        {
+            let alertWarning = UIAlertView(title:"توجه", message: "* فیلدهای ضروری را پر کنید!", delegate:nil, cancelButtonTitle:"تایید", otherButtonTitles:"")
+            alertWarning.show()
+            return
+        }
+        
+        //send images and data to server
+    }
+    
+    func hideKeyboard() {
+        
+        self.view.endEditing(true)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        self.view.endEditing(true)
     }
 }
