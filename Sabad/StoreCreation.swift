@@ -22,7 +22,9 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
     }
     var imageSource = chooseImageSource.none
     var filledImageViews:[String:Bool] = ["logo":false , "image1":false , "image2":false , "image3":false]
-    
+    var filledImageViewNames:[String:String] = ["logo":"" , "image1":"" , "image2":"" , "image3":""]
+    let imageKeys:[String] = ["logo" , "image1" , "image2" , "image3"]
+
     
     let ImagesContainer : UIView! = {
         
@@ -1005,7 +1007,24 @@ extension StoreCreation
             return
         }
         
-        //send images and data to server
+        var haveImage = false
+        for (_ , value) in filledImageViews {
+            
+            if value == true {
+                
+                haveImage = true
+                break
+            }
+        }
+        
+        if haveImage
+        {
+            myImageUploadRequest(name: name, managament: managagment, phone: phone, tell: tell, description: description, address: address , imageKeyIndex: 0)
+        }
+        else
+        {
+            sendInfoToServer(name: name, managament: managagment, phone: phone, tell: tell, description: description, address: address)
+        }
     }
     
     func hideKeyboard() {
@@ -1016,5 +1035,277 @@ extension StoreCreation
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         self.view.endEditing(true)
+    }
+    
+}
+
+extension StoreCreation
+{
+    
+    
+    func myImageUploadRequest(name:String , managament:String , phone:String , tell:String , description:String , address:String , imageKeyIndex:Int)
+    {
+        
+        var key = "logo"
+        switch imageKeyIndex {
+            
+        case 0:
+            key = "logo"
+            break
+            
+        case 1:
+            key = "image1"
+            break
+            
+        case 2:
+            key = "image2"
+            break
+            
+        case 3:
+            key = "image3"
+            break
+            
+        default:
+            break
+        }
+        
+        if imageKeyIndex >= filledImageViews.count
+        {
+            sendInfoToServer(name: name, managament: managament, phone: phone, tell: tell, description: description, address: address)
+            return
+        }
+        
+        if filledImageViews[key] == true
+        {
+            
+        }
+        else
+        {
+            myImageUploadRequest(name: name, managament: managament, phone: phone, tell: tell, description: description, address: address , imageKeyIndex: imageKeyIndex + 1)
+            return
+        }
+        
+        let myUrl = NSURL(string: "http://94.182.4.13:8012/SabadPic/Image/Upload.php?num=6")
+        
+        let request = NSMutableURLRequest(url:myUrl! as URL)
+        request.httpMethod = "POST"
+        
+        //let param = [
+            
+            //"firstName"  : "Sergey",
+            //"lastName"    : "Kargopolov",
+            //"userId"    : "9"
+        //]
+        
+        let boundary = generateBoundaryString()
+        
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+    
+        var imageData = Data()
+        
+        switch key {
+            
+        case "logo":
+            imageData = UIImageJPEGRepresentation(logo.image!, 0.4)!
+            break
+            
+        case "image1":
+            imageData = UIImageJPEGRepresentation(image1.image!, 0.4)!
+            break
+            
+        case "image2":
+            imageData = UIImageJPEGRepresentation(image2.image!, 0.4)!
+            break
+            
+        case "image3":
+            imageData = UIImageJPEGRepresentation(image3.image!, 0.4)!
+            break
+            
+        default:
+            break
+        }
+    
+        request.httpBody = createBodyWithParameters(parameters: [:], filePathKey: "uploaded_file", imageDataKey: imageData as NSData, boundary: boundary , imageKey: key) as Data
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            
+            
+            if error != nil {
+                
+                DispatchQueue.main.async {
+                    
+                    
+                }
+                print("error=\(error)")
+                return
+            }
+            let httpResponse = response as? HTTPURLResponse
+            
+            if httpResponse?.statusCode != 200
+            {
+                DispatchQueue.main.async {
+                    
+                    
+                }
+                return
+            }
+            
+            self.myImageUploadRequest(name: name, managament: managament, phone: phone, tell: tell, description: description, address: address , imageKeyIndex: imageKeyIndex + 1)
+        }
+        task.resume()
+    }
+
+    func createBodyWithParameters(parameters: [String: String]?, filePathKey: String?, imageDataKey: NSData, boundary: String , imageKey:String) -> NSData
+    {
+        let body = NSMutableData();
+        
+        if parameters != nil {
+            
+            
+            for (key, value) in parameters! {
+                body.appendString(string: "--\(boundary)\r\n")
+                body.appendString(string: "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+                body.appendString(string: "\(value)\r\n")
+            }
+            
+        }
+        
+        let now = Date()
+        let nowcalendar = Calendar.current
+        
+        let year = nowcalendar.component(.year, from: now)
+        let month = nowcalendar.component(.month, from: now)
+        let day = nowcalendar.component(.day, from: now)
+        let hour = nowcalendar.component(.hour, from: now)
+        let min = nowcalendar.component(.minute, from: now)
+        let sec = nowcalendar.component(.second, from: now)
+        
+        let nowDate = "\(year)\(month)\(day)\(hour)\(min)\(sec)"
+        
+        
+        let filename = "ios_\(nowDate).jpg"
+        
+        filledImageViewNames[imageKey] = filename
+        
+        let mimetype = "image/jpg"
+        
+        body.appendString(string: "--\(boundary)\r\n")
+        body.appendString(string: "Content-Disposition: form-data; name=\"\(filePathKey!)\"; filename=\"\(filename)\"\r\n")
+        body.appendString(string: "Content-Type: \(mimetype)\r\n\r\n")
+        body.append(imageDataKey as Data)
+        body.appendString(string: "\r\n")
+        
+        body.appendString(string: "--\(boundary)--\r\n")
+        return body
+    }
+    
+    func generateBoundaryString() -> String {
+        
+        return "Boundary-\(NSUUID().uuidString)"
+    }
+    
+    func sendInfoToServer(name:String , managament:String , phone:String , tell:String , description:String , address:String)
+    {
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><CreateStore xmlns=\"http://BuyApp.ir/\"><stId>\(0)</stId><stName>\(name)</stName><stCode></stCode><stAddress>\(address)</stAddress><stManager>\(managament)</stManager><stDescription>\(description)</stDescription><stTel>\(tell)</stTel><Mobile>\(phone)</Mobile><MallId>\(storeMall)</MallId><img>\(filledImageViewNames["logo"])</img><img1>\(filledImageViewNames["image1"])</img1><img2>\(filledImageViewNames["image2"])</img2><img3>\(filledImageViewNames["image3"])</img3></CreateStore></soap:Body></soap:Envelope>"
+        
+        let soapLenth = String(soapMessage.characters.count)
+        let theUrlString = Request.webServiceAddress
+        let theURL = NSURL(string: theUrlString)
+        let mutableR = NSMutableURLRequest(url: theURL! as URL)
+        
+        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
+        mutableR.httpMethod = "POST"
+        mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
+        
+        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
+        let session : URLSession = URLSession(configuration: configuration)
+        
+        let dataTask = session.dataTask(with: mutableR as URLRequest) {data,response,error in
+            
+            if error == nil
+            {
+                if let httpResponse = response as? HTTPURLResponse
+                {
+                    print(httpResponse.statusCode)
+                    
+                    var dictionaryData = NSDictionary()
+                    
+                    do
+                    {
+                        dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
+                        
+                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
+                        let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
+                        let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
+                        let mainDict1 = mainDict2.object(forKey: "CreateStoreResponse") as! NSDictionary
+                        let mainDict = mainDict1.object(forKey: "CreateStoreResult") as! NSDictionary
+                        
+                        //print(mainDict1)
+                        //print(mainDict)
+                        
+                        if mainDict.count > 0{
+                            
+                            let mainD = NSDictionary(dictionary: mainDict as [NSObject : AnyObject])
+                            var cont = mainD["text"] as? String
+                            cont = "{ \"content\" : " + cont! + "}"
+                            
+                            let data = (cont)?.data(using: .utf8)!
+                            
+                            guard let _result = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String : AnyObject] else{
+                                
+                                return
+                            }
+                            
+                            if let _ress = _result["content"] as? [AnyObject]{
+                                
+                                for res in _ress
+                                {
+                                    if res["Result"] as! Int == 0
+                                    {
+                                        
+                                    }
+                                    else if res["Result"] as! Int == 1
+                                    {
+                                        DispatchQueue.main.async {
+                                            
+                                            DispatchQueue.main.async {
+                                                
+                                                
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+                        }
+                        else{
+                            
+                        }
+                    }
+                    catch
+                    {
+                        //print("Your Dictionary value nil")
+                    }
+                }
+            }
+            else
+            {
+                print("nil data")
+            }
+        }
+        dataTask.resume()
+    }
+}
+
+extension NSMutableData {
+    
+    func appendString(string: String) {
+        
+        let data = string.data(using: String.Encoding.utf8, allowLossyConversion: true)
+        append(data!)
     }
 }
