@@ -98,7 +98,11 @@ extension TowNandMallBeforStCr
                     }
                 }
             }
-            self.tableView.reloadData()
+            
+            DispatchQueue.main.async {
+                
+                self.tableView.reloadData()
+            }
         }
         else //whichList == 1 || 2
         {
@@ -117,7 +121,10 @@ extension TowNandMallBeforStCr
                     }
                 }
             }
-            self.tableView.reloadData()
+            DispatchQueue.main.async {
+                
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -163,99 +170,105 @@ extension TowNandMallBeforStCr
             townList = townListCopy
             searhFor.text = ""
             
-            let alert = UIAlertController(title: "", message: "آیا فروشگاه شما درون پاساژ ،بازار یا مجتمع قرار دارد؟", preferredStyle: UIAlertControllerStyle.alert)
-            
-            alert.addAction(UIAlertAction(title: "بله", style: UIAlertActionStyle.default, handler: { action in
-                switch action.style{
-                case .default:
-                    
-                    self.whichList = 1
-                    
-                    DispatchQueue.main.async {
-                     
-                        if storeTwon == -1 //remove botton view or add
-                        {
-                            self.changeLayout(removeBottomViewOrAdd: true)
-                        }
-                        else
-                        {
-                            self.topLabel.text = "مکانی که فروشگاه شما در آن قرار دارد را انتخاب کنید"
-                            self.bottomBotton.setTitle("افزودن پاساژ", for: .normal)
-                            self.bottomLabel.text = "اگر پاساژ،بازار یا مجتمع مربوط به فروشگاه شما در لیست بالا نیست،بازار یا مجتمع جدید اضافه کنید"
-                            self.changeLayout(removeBottomViewOrAdd: false)
-                        }
-                    }
-                    
-                    self.GetTownMallList(TwId: storeTwon)
-                    print("default")
-                    break
-                    
-                case .cancel:
-                    
-                    print("cancel")
-                    break
-                    
-                case .destructive:
-                    
-                    print("destructive")
-                    break
-                }
-            }))
+            DispatchQueue.main.async {
                 
-            alert.addAction(UIAlertAction(title: "خیر", style: UIAlertActionStyle.cancel, handler: { action in
-                switch action.style{
-                case .default:
-                    
-                    print("default")
-                    break
-                    
-                case .cancel:
-                    
-                    print("cancel")
-                    
-                    self.whichList = 2
-                    
-                    
-                    DispatchQueue.main.async {
-                     
-                        if storeTwon == -1
-                        {
-                            self.changeLayout(removeBottomViewOrAdd: true)
+                let alert = UIAlertController(title: "", message: "آیا فروشگاه شما درون پاساژ ،بازار یا مجتمع قرار دارد؟", preferredStyle: UIAlertControllerStyle.alert)
+                
+                alert.addAction(UIAlertAction(title: "بله", style: UIAlertActionStyle.default, handler: { action in
+                    switch action.style{
+                    case .default:
+                        
+                        self.whichList = 1
+                        
+                        DispatchQueue.main.async {
+                            
+                            if storeTwon == -1 //remove botton view or add
+                            {
+                                self.changeLayout(removeBottomViewOrAdd: true)
+                            }
+                            else
+                            {
+                                self.topLabel.text = "مکانی که فروشگاه شما در آن قرار دارد را انتخاب کنید"
+                                self.bottomBotton.setTitle("افزودن پاساژ", for: .normal)
+                                self.bottomLabel.text = "اگر پاساژ،بازار یا مجتمع مربوط به فروشگاه شما در لیست بالا نیست،بازار یا مجتمع جدید اضافه کنید"
+                                self.changeLayout(removeBottomViewOrAdd: false)
+                            }
                         }
-                        else
-                        {
-                            self.topLabel.text = "آدرس اصلی که فروشگاه شما در آن قرار دارد را انتخاب کنید"
-                            self.bottomBotton.setTitle("افزودن محل", for: .normal)
-                            self.bottomLabel.text = "چنانچه فروشگاه شما در آدرس های بالا موجود نیست،می توانید نام میدان یا خیابان اصلی را به لیست اضافه کنید"
-                            self.changeLayout(removeBottomViewOrAdd: false)
-                        }
+                        
+                        self.GetTownMallList(TwId: storeTwon)
+                        print("default")
+                        break
+                        
+                    case .cancel:
+                        
+                        print("cancel")
+                        break
+                        
+                    case .destructive:
+                        
+                        print("destructive")
+                        break
                     }
-
-                    
-                    self.GetTownMallList(TwId: storeTwon)
-                    break
-                    
-                case .destructive:
-                    
-                    print("destructive")
-                    break
-                }
-            }))
-            
-            self.present(alert, animated: true, completion: nil)
+                }))
+                
+                alert.addAction(UIAlertAction(title: "خیر", style: UIAlertActionStyle.cancel, handler: { action in
+                    switch action.style{
+                    case .default:
+                        
+                        print("default")
+                        break
+                        
+                    case .cancel:
+                        
+                        print("cancel")
+                        
+                        self.whichList = 2
+                        
+                        
+                        DispatchQueue.main.async {
+                            
+                            if storeTwon == -1
+                            {
+                                self.changeLayout(removeBottomViewOrAdd: true)
+                            }
+                            else
+                            {
+                                self.topLabel.text = "آدرس اصلی که فروشگاه شما در آن قرار دارد را انتخاب کنید"
+                                self.bottomBotton.setTitle("افزودن محل", for: .normal)
+                                self.bottomLabel.text = "چنانچه فروشگاه شما در آدرس های بالا موجود نیست،می توانید نام میدان یا خیابان اصلی را به لیست اضافه کنید"
+                                self.changeLayout(removeBottomViewOrAdd: false)
+                            }
+                        }
+                        
+                        
+                        self.GetTownMallList(TwId: storeTwon)
+                        break
+                        
+                    case .destructive:
+                        
+                        print("destructive")
+                        break
+                    }
+                }))
+                
+                self.present(alert, animated: true, completion: nil)
+            }
         }
         else  //whichList == 1 || 2
         {
-            topLabel.text = "انتخاب کنید"
-            whichList = 0
-            storeMall = townMallList[indexPath.row].Id as! Int
-            townMallList = townMallListCopy
-            searhFor.text = ""
-            openGettingStoreFields = true
-            self.dismiss(animated: true, completion: {
+            DispatchQueue.main.async {
                 
-                
-            })
+                self.topLabel.text = "انتخاب کنید"
+                self.whichList = 0
+                storeMall = townMallList[indexPath.row].Id as! Int
+                townMallList = townMallListCopy
+                self.searhFor.text = ""
+                openGettingStoreFields = true
+                self.dismiss(animated: true, completion: {
+                    
+                    
+                })
+            }
         }
     }
     
@@ -277,12 +290,13 @@ extension TowNandMallBeforStCr
             NSLayoutConstraint.activate([heightConstraint])
             //self.view.bringSubview(toFront: bottomView)
         }
+        //tableView.translatesAutoresizingMaskIntoConstraints = true
     }
     
     
     func GetTownMallList(TwId:Int)
     {
-        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetFollowedGood xmlns=\"http://BuyApp.ir/\"><userId>\(TwId)</userId><Offset>\(TwId)</Offset></GetFollowedGood></soap:Body></soap:Envelope>"
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><MallForFilter xmlns=\"http://BuyApp.ir/\"><twId>\(TwId)</twId></MallForFilter></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
         let theUrlString = Request.webServiceAddress
@@ -315,8 +329,8 @@ extension TowNandMallBeforStCr
                         //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
                         let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
                         let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
-                        let mainDict1 = mainDict2.object(forKey: "GetFollowedGoodResponse") as! NSDictionary
-                        let mainDict = mainDict1.object(forKey: "GetFollowedGoodResult") as! NSDictionary
+                        let mainDict1 = mainDict2.object(forKey: "MallForFilterResponse") as! NSDictionary
+                        let mainDict = mainDict1.object(forKey: "MallForFilterResult") as! NSDictionary
                         
                         //print(mainDict1)
                         //print(mainDict)
@@ -371,7 +385,11 @@ extension TowNandMallBeforStCr
                                         }
                                     }
                                     townMallListCopy = townMallList
-                                    self.tableView.reloadData()
+                                    
+                                    DispatchQueue.main.async {
+                                        
+                                        self.tableView.reloadData()
+                                    }
                                 }
                             }
                         }
@@ -392,80 +410,4 @@ extension TowNandMallBeforStCr
         }
         dataTask.resume()
     }
-
-    /*func GetTownMallList(TwId:Int) //check out all conditions
-    {
-        let soap = SOAPEngine()
-        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
-        soap.userAgent = "SOAPEngine"
-        soap.actionNamespaceSlash = true
-        soap.version = SOAPVersion.VERSION_1_1
-        soap.responseHeader = true
-        
-        soap.setValue(TwId, forKey: "twId")
-        soap.requestURL(Request.webServiceAddress,
-                        soapAction: Request.getTownMallListAction,
-                        completeWithDictionary: { (statusCode : Int,
-                            dict : [AnyHashable : Any]?) -> Void in
-                            
-                            let result:Dictionary = dict! as Dictionary
-                            //print(result)
-                            let result1:NSDictionary = result[Array(result.keys)[0]]! as! NSDictionary
-                            let result2:NSDictionary = result1["MallForFilterResponse"] as! NSDictionary
-                            var result3:String = result2["MallForFilterResult"] as! String
-                            
-                            result3 = "{ \"content\" : " + result3 + "}"
-                            let data = (result3).data(using: .utf8)!
-                            
-                            guard let _result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : AnyObject] else{
-                                
-                                return
-                            }
-                            
-                            if let _malls = _result["content"] as? [AnyObject]{
-                                
-                                townMallList = [Mall]()
-                                var newmall = Mall(Id: -1 as AnyObject, twId: -1 as AnyObject , MallName: "همه پاساژها و محدوده ها" as AnyObject, MallDescription: "" as AnyObject , MallAddress: "" as AnyObject , MallTel: "" as AnyObject , MallLogo: "" as AnyObject , MallActive: false as AnyObject, IsMall: true as AnyObject , Stores:0 as AnyObject)
-                                townMallList.append(newmall)
-                                for mall in _malls{
-                                    
-                                    if let actmall = mall as? [String : AnyObject]{
-                                        
-                                        newmall = Mall(Id: actmall["Id"]!, twId: -1 as AnyObject , MallName: actmall["MallName"]!, MallDescription: "" as AnyObject , MallAddress: "" as AnyObject , MallTel: "" as AnyObject , MallLogo: "" as AnyObject , MallActive: false as AnyObject, IsMall: actmall["IsMall"]!, Stores: 0 as AnyObject)//Stores: actmall["Stores"]!)
-                                        townMallList.append(newmall)
-                                    }
-                                }
-                                if townMallList.count > 0
-                                {
-                                    townMallListCopy = townMallList
-                                    if self.whichList == 1
-                                    {
-                                        //ok-no problem
-                                    }
-                                    else if self.whichList == 2
-                                    {
-                                        //poplulate array form isMall = 0
-                                        var Index = 0
-                                        for item in townMallList
-                                        {
-                                            if item.IsMall as! Bool == true
-                                            {
-                                                townMallList.remove(at: Index)
-                                            }
-                                            else
-                                            {
-                                                Index += 1
-                                            }
-                                        }
-                                    }
-                                    townMallListCopy = townMallList
-                                    self.tableView.reloadData()
-                                }
-                            }
-                            
-        }) { (error : Error?) -> Void in
-            
-            print(error!)
-        }
-    }*/
 }

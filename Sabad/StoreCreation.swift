@@ -1208,7 +1208,7 @@ extension StoreCreation
     
     func sendInfoToServer(name:String , managament:String , phone:String , tell:String , description:String , address:String)
     {
-        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><CreateStore xmlns=\"http://BuyApp.ir/\"><stId>\(0)</stId><stName>\(name)</stName><stCode></stCode><stAddress>\(address)</stAddress><stManager>\(managament)</stManager><stDescription>\(description)</stDescription><stTel>\(tell)</stTel><Mobile>\(phone)</Mobile><MallId>\(storeMall)</MallId><img>\(filledImageViewNames["logo"])</img><img1>\(filledImageViewNames["image1"])</img1><img2>\(filledImageViewNames["image2"])</img2><img3>\(filledImageViewNames["image3"])</img3></CreateStore></soap:Body></soap:Envelope>"
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><CreateStore xmlns=\"http://BuyApp.ir/\"><stId>\(0)</stId><stName>\(name)</stName><stCode></stCode><stAddress>\(address)</stAddress><stManager>\(managament)</stManager><stDescription>\(description)</stDescription><stTel>\(tell)</stTel><Mobile>\(phone)</Mobile><MallId>\(storeMall)</MallId><img>\(filledImageViewNames["logo"]!)</img><img1>\(filledImageViewNames["image1"]!)</img1><img2>\(filledImageViewNames["image2"]!)</img2><img3>\(filledImageViewNames["image3"]!)</img3></CreateStore></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
         let theUrlString = Request.webServiceAddress
@@ -1272,10 +1272,10 @@ extension StoreCreation
                                     {
                                         DispatchQueue.main.async {
                                             
-                                            DispatchQueue.main.async {
+                                            self.dismiss(animated: true, completion: { 
                                                 
                                                 
-                                            }
+                                            })
                                         }
                                     }
                                 }
