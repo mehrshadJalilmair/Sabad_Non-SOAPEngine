@@ -33,6 +33,11 @@
 		21C69C201E37CAFA0030A69F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21C69C1E1E37CAFA0030A69F /* LaunchScreen.storyboard */; };
 		21C69C2B1E37CAFA0030A69F /* SabadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C69C2A1E37CAFA0030A69F /* SabadTests.swift */; };
 		21C69C361E37CAFA0030A69F /* SabadUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C69C351E37CAFA0030A69F /* SabadUITests.swift */; };
+		2F057E591E6C4242003A24C5 /* UserStores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F057E581E6C4242003A24C5 /* UserStores.swift */; };
+		2F057E5B1E6C52DA003A24C5 /* enterCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F057E5A1E6C52D9003A24C5 /* enterCode.swift */; };
+		2F0EAA611E6C91D10078E554 /* support.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F0EAA5F1E6C91D10078E554 /* support.storyboard */; };
+		2F0EAA621E6C91D10078E554 /* support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EAA601E6C91D10078E554 /* support.swift */; };
+		2F0EAA641E6C9D560078E554 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F0EAA631E6C9D550078E554 /* MessageUI.framework */; };
 		2F1349AD1E4C681700319532 /* StoreModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1349AC1E4C681700319532 /* StoreModal.swift */; };
 		2F20962E1E547DE8000CC547 /* follows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F20962D1E547DE8000CC547 /* follows.swift */; };
 		2F43D8C51E4B266B003669F9 /* MallModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F43D8C41E4B266B003669F9 /* MallModal.swift */; };
@@ -112,6 +117,11 @@
 		21C69C351E37CAFA0030A69F /* SabadUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SabadUITests.swift; sourceTree = "<group>"; };
 		21C69C371E37CAFA0030A69F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		26837CF6E136A59085AFCAD9 /* Pods_SabadTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SabadTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F057E581E6C4242003A24C5 /* UserStores.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStores.swift; sourceTree = "<group>"; };
+		2F057E5A1E6C52D9003A24C5 /* enterCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = enterCode.swift; sourceTree = "<group>"; };
+		2F0EAA5F1E6C91D10078E554 /* support.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = support.storyboard; sourceTree = "<group>"; };
+		2F0EAA601E6C91D10078E554 /* support.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = support.swift; sourceTree = "<group>"; };
+		2F0EAA631E6C9D550078E554 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		2F1349AC1E4C681700319532 /* StoreModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreModal.swift; sourceTree = "<group>"; };
 		2F20962D1E547DE8000CC547 /* follows.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = follows.swift; sourceTree = "<group>"; };
 		2F43D8C41E4B266B003669F9 /* MallModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MallModal.swift; sourceTree = "<group>"; };
@@ -146,6 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F0EAA641E6C9D560078E554 /* MessageUI.framework in Frameworks */,
 				831175CDDBD018A07AD4914F /* Pods_Sabad.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -200,6 +211,8 @@
 				2FDA93FB1E544AD500B2C224 /* selectTown.swift */,
 				2FDA93FD1E5466FF00B2C224 /* tageds.swift */,
 				2F20962D1E547DE8000CC547 /* follows.swift */,
+				2F0EAA5E1E6C91B30078E554 /* Supporting */,
+				2F057E571E6C41A6003A24C5 /* UserStores */,
 				2FFB34391E5AECB600E1EFCA /* StoreCreatoin */,
 				2F4F8E171E5595C8005E9D24 /* aboutCanDo */,
 			);
@@ -326,6 +339,24 @@
 			path = SabadUITests;
 			sourceTree = "<group>";
 		};
+		2F057E571E6C41A6003A24C5 /* UserStores */ = {
+			isa = PBXGroup;
+			children = (
+				2F057E581E6C4242003A24C5 /* UserStores.swift */,
+				2F057E5A1E6C52D9003A24C5 /* enterCode.swift */,
+			);
+			name = UserStores;
+			sourceTree = "<group>";
+		};
+		2F0EAA5E1E6C91B30078E554 /* Supporting */ = {
+			isa = PBXGroup;
+			children = (
+				2F0EAA5F1E6C91D10078E554 /* support.storyboard */,
+				2F0EAA601E6C91D10078E554 /* support.swift */,
+			);
+			name = Supporting;
+			sourceTree = "<group>";
+		};
 		2F43D8C31E4B2621003669F9 /* AppInShareModals */ = {
 			isa = PBXGroup;
 			children = (
@@ -394,6 +425,7 @@
 		70BAA2947B44B0033E453485 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2F0EAA631E6C9D550078E554 /* MessageUI.framework */,
 				33E607DCA8143C34B2D4C308 /* Pods_Sabad.framework */,
 				26837CF6E136A59085AFCAD9 /* Pods_SabadTests.framework */,
 				92CCAA377094980FA506AC28 /* Pods_SabadUITests.framework */,
@@ -491,8 +523,8 @@
 				TargetAttributes = {
 					21C69C0E1E37CAF90030A69F = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = BJ9VCS422A;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = GZTYPK66JG;
+						ProvisioningStyle = Manual;
 					};
 					21C69C251E37CAFA0030A69F = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -537,6 +569,7 @@
 				2F57DDC91E4DE27700538108 /* setAbuseController.storyboard in Resources */,
 				21C69C201E37CAFA0030A69F /* LaunchScreen.storyboard in Resources */,
 				21C69C1D1E37CAFA0030A69F /* Assets.xcassets in Resources */,
+				2F0EAA611E6C91D10078E554 /* support.storyboard in Resources */,
 				2FC83E061E4F7C0200300635 /* GoodAddress.storyboard in Resources */,
 				21C69C181E37CAF90030A69F /* Main.storyboard in Resources */,
 				2F4F8E1A1E559615005E9D24 /* aboutCanDo.storyboard in Resources */,
@@ -708,6 +741,7 @@
 				21C69C1B1E37CAFA0030A69F /* Sabad.xcdatamodeld in Sources */,
 				2FFB34361E5AE48200E1EFCA /* StoreCreation.swift in Sources */,
 				2F1349AD1E4C681700319532 /* StoreModal.swift in Sources */,
+				2F057E5B1E6C52DA003A24C5 /* enterCode.swift in Sources */,
 				217952F61E3A1A950077C113 /* LIHSliderViewController.swift in Sources */,
 				21A48CC41E3A9C9E009E4D61 /* FloatLabelTextField.swift in Sources */,
 				216E54FF1E380E1C00D6C957 /* profileCell.swift in Sources */,
@@ -716,11 +750,13 @@
 				2F43D8C51E4B266B003669F9 /* MallModal.swift in Sources */,
 				2F57DDCC1E4E152D00538108 /* GoodModal.swift in Sources */,
 				2FFEC37B1E433E6800E91E5F /* TopCollView.swift in Sources */,
+				2F057E591E6C4242003A24C5 /* UserStores.swift in Sources */,
 				2127B5561E3BF7B000031E2F /* Request.swift in Sources */,
 				217952F21E3A1A020077C113 /* Goods.swift in Sources */,
 				2F20962E1E547DE8000CC547 /* follows.swift in Sources */,
 				2108126F1E3D06F500CDC9A7 /* Town.swift in Sources */,
 				2FDA93FC1E544AD500B2C224 /* selectTown.swift in Sources */,
+				2F0EAA621E6C91D10078E554 /* support.swift in Sources */,
 				216E54FD1E3808CE00D6C957 /* Profile.swift in Sources */,
 				217952F71E3A1A950077C113 /* LIHSlider.swift in Sources */,
 				217952FD1E3A55770077C113 /* Extensions.swift in Sources */,
@@ -891,12 +927,15 @@
 			baseConfigurationReference = 08374233AFBCEAB2F6788D78 /* Pods-Sabad.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = BJ9VCS422A;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = GZTYPK66JG;
 				INFOPLIST_FILE = Sabad/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ir.cando.Sabad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "fdbb3d58-5054-485d-bac1-b9333f517c75";
+				PROVISIONING_PROFILE_SPECIFIER = Sabad1;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mehrshad/Desktop/Sabad Project/Sabad Versions/Sabad_Non-SOAPEngine/Sabad/Sabad-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -907,12 +946,15 @@
 			baseConfigurationReference = AE4EF2074773C4A5E2FF6BA6 /* Pods-Sabad.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = BJ9VCS422A;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = GZTYPK66JG;
 				INFOPLIST_FILE = Sabad/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ir.cando.Sabad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "fdbb3d58-5054-485d-bac1-b9333f517c75";
+				PROVISIONING_PROFILE_SPECIFIER = Sabad1;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mehrshad/Desktop/Sabad Project/Sabad Versions/Sabad_Non-SOAPEngine/Sabad/Sabad-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

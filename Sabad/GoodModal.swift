@@ -617,8 +617,8 @@ extension GoodModal
                                                     [
                                                         .layout(.top),
                                                         .animation(.slideDown),
-                                                        .scrollable(false),
-                                                        .dismissWhenTaps(false),
+                                                        .scrollable(true),
+                                                        .dismissWhenTaps(true),
                                                         .backgroundStyle(.blackFilter(alpha: 0))
                                                     ]
                                                 )

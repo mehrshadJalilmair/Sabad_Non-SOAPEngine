@@ -12,8 +12,6 @@ class Profile: UIViewController , UITableViewDelegate , UITableViewDataSource{
 
     @IBOutlet weak var tableView: UITableView!
     
-    //let container: UIView = UIView()
-    
     var numberOfSections:Int = 3
     var rowsTexts:[[String]] = [["همه شهرها" , "نشان شده ها" , "پیگیری های من"] , ["ثبت فروشگاه" , "فروشگاه های من"] , ["پشتیبانی سبد" , "درباره سبد"]]
     var rowsIcons:[[UIImage]] = [[#imageLiteral(resourceName: "ic_refresh") , #imageLiteral(resourceName: "ic_refresh") , #imageLiteral(resourceName: "ic_refresh")] , [#imageLiteral(resourceName: "ic_refresh") , #imageLiteral(resourceName: "ic_refresh")] , [#imageLiteral(resourceName: "ic_refresh") , #imageLiteral(resourceName: "ic_refresh")]]
@@ -120,9 +118,19 @@ class Profile: UIViewController , UITableViewDelegate , UITableViewDataSource{
                 
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 
-                //let mvc = storyboard.instantiateViewController(withIdentifier: "TowNandMallBeforStCr") as! TowNandMallBeforStCr
-                
                 let mvc = storyboard.instantiateViewController(withIdentifier: "TowNandMallBeforStCr") as! TowNandMallBeforStCr
+                
+                mvc.isModalInPopover = true
+                mvc.modalTransitionStyle = .coverVertical
+                openGettingStoreFields = false
+                self.present(mvc, animated: true, completion: nil)
+            }
+            else if indexPath.row == 1{
+             
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                
+                
+                let mvc = storyboard.instantiateViewController(withIdentifier: "UserStores") as! UserStores
                 
                 mvc.isModalInPopover = true
                 mvc.modalTransitionStyle = .coverVertical
@@ -155,6 +163,32 @@ class Profile: UIViewController , UITableViewDelegate , UITableViewDataSource{
                 }
                 
                 let container = aboutCanDo.instance()
+                container.closeHandler = { _ in
+                    popup.dismiss()
+                }
+                popup.show(container)
+            }
+            else
+            {
+                let popup = PopupController
+                    .create(self)
+                    .customize(
+                        [
+                            .layout(.center),
+                            .animation(.fadeIn),
+                            .backgroundStyle(.blackFilter(alpha: 0.8)),
+                            .dismissWhenTaps(true),
+                            .scrollable(true)
+                        ]
+                    )
+                    .didShowHandler { popup in
+                        print("showed popup!")
+                    }
+                    .didCloseHandler { popup in
+                        
+                }
+                
+                let container = support.instance()
                 container.closeHandler = { _ in
                     popup.dismiss()
                 }

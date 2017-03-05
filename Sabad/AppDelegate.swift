@@ -23,6 +23,10 @@ var twIdIndex:Int = 1
 var changeBannerAndList = false // when town is changed
 
 
+
+//UserStores
+var userStores:[Store] = [Store]()
+
 //StoreCreatoin
 var openGettingStoreFields = false
 var storeTwon = -1
