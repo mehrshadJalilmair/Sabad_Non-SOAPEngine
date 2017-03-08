@@ -788,10 +788,10 @@ extension UpdateStore
 {
     func delImage(_ sender: AnyObject)
     {
-        if imageSource == .none
-        {
-            return
-        }
+        ///if imageSource == .none
+        //{
+            //return
+        //}
         
         switch sender.tag! {
             
