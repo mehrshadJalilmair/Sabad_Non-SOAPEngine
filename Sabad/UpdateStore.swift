@@ -1,15 +1,17 @@
 //
-//  StoreCreation.swift
+//  UpdateStore.swift
 //  Sabad
 //
-//  Created by Mehrshad JM on 2/20/17.
+//  Created by Mehrshad JM on 3/8/17.
 //  Copyright © 2017 Mehrshad Jalilmasir. All rights reserved.
 //
 
 import UIKit
 
-class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate , UITextFieldDelegate{
-
+class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate , UITextFieldDelegate{
+    
+    var store:Store!
+    
     @IBOutlet var scrollView: UIScrollView!
     
     let imagePicker = UIImagePickerController()
@@ -20,11 +22,12 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         case image2
         case image3
     }
+    
+    var ImagesURLS:[String] = [""]
     var imageSource = chooseImageSource.none
     var filledImageViews:[String:Bool] = ["logo":false , "image1":false , "image2":false , "image3":false]
     var filledImageViewNames:[String:String] = ["logo":"" , "image1":"" , "image2":"" , "image3":""]
     let imageKeys:[String] = ["logo" , "image1" , "image2" , "image3"]
-
     
     let ImagesContainer : UIView! = {
         
@@ -232,45 +235,6 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         return NameTextFieald
     }()
     
-    
-    
-    let PhoneContainer : UIView! = {
-        
-        let filterView = UIView()
-        filterView.backgroundColor = UIColor.green
-        filterView.translatesAutoresizingMaskIntoConstraints = false
-        filterView.layer.cornerRadius = 3
-        filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
-        return filterView
-    }()
-    let PhoneLabel: UILabel! = {
-        
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
-        label.text = "* موبایل"
-        label.textAlignment = .right
-        label.backgroundColor = UIColor.red
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    let PhoneTextFieald: FloatLabelTextField! = {
-        
-        let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
-        NameTextFieald.textColor = UIColor.black
-        NameTextFieald.textAlignment = .center
-        NameTextFieald.placeholder = "شماره موبایل"
-        NameTextFieald.textAlignment = .center
-        NameTextFieald.backgroundColor = UIColor.white
-        NameTextFieald.tintColor = UIColor.red
-        NameTextFieald.keyboardType = .phonePad
-        NameTextFieald.translatesAutoresizingMaskIntoConstraints = false
-        return NameTextFieald
-    }()
-    
-    
     let TellContainer : UIView! = {
         
         let filterView = UIView()
@@ -384,16 +348,16 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         openGettingStoreFields = false
         
         initImagesContainer()
         initNameContainer()
         initManagementContainer()
-        initPhoneContainer()
         initTellContainer()
         initDescriptionContainer()
         initAddressContainer()
+        myInit()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -422,11 +386,6 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         //ManagementTextFieald.hintYPadding = -20
         ManagementTextFieald.titleYPadding = -2
         
-        PhoneTextFieald.layer.cornerRadius = 3
-        PhoneTextFieald.layer.masksToBounds = true
-        //PhoneTextFieald.hintYPadding = -20
-        PhoneTextFieald.titleYPadding = -2
-        
         DescriptionTextFieald.layer.cornerRadius = 3
         DescriptionTextFieald.layer.masksToBounds = true
         //DescriptionTextFieald.hintYPadding = -20
@@ -444,10 +403,6 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
         tapGesture2.cancelsTouchesInView = true
         ManagementContainer.addGestureRecognizer(tapGesture2)
-        
-        let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
-        tapGesture3.cancelsTouchesInView = true
-        PhoneContainer.addGestureRecognizer(tapGesture3)
         
         let tapGesture4 = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
         tapGesture4.cancelsTouchesInView = true
@@ -470,7 +425,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         let lastViewHeight = self.AddressContainer.frame.size.height
         
         height = lastViewYPos + lastViewHeight + 5
-    
+        
         scrollView.contentSize.height = height
         
         scrollView.isUserInteractionEnabled = true
@@ -668,47 +623,11 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
     }
     
-    func initPhoneContainer()
-    {
-        scrollView.addSubview(PhoneContainer)
-        //x
-        var horizontalConstraint = NSLayoutConstraint(item: PhoneContainer, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: ManagementContainer, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
-        //y
-        var verticalConstraint = NSLayoutConstraint(item: PhoneContainer, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
-        //w
-        var widthConstraint = NSLayoutConstraint(item: PhoneContainer, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: -10)
-        //h
-        var heightConstraint = NSLayoutConstraint(item: PhoneContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 60)
-        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        
-        PhoneContainer.addSubview(PhoneLabel)
-        //x
-        horizontalConstraint = NSLayoutConstraint(item: PhoneLabel, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: PhoneContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -3)
-        //y
-        verticalConstraint = NSLayoutConstraint(item: PhoneLabel, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: PhoneContainer, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
-        //w
-        widthConstraint = NSLayoutConstraint(item: PhoneLabel, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: PhoneContainer, attribute: NSLayoutAttribute.width, multiplier: 1/2, constant: 0)
-        //h
-        heightConstraint = NSLayoutConstraint(item: PhoneLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 20)
-        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        
-        PhoneContainer.addSubview(PhoneTextFieald)
-        //x
-        horizontalConstraint = NSLayoutConstraint(item: PhoneTextFieald, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: PhoneContainer, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -3)
-        //y
-        verticalConstraint = NSLayoutConstraint(item: PhoneTextFieald, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: PhoneLabel, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
-        //w
-        widthConstraint = NSLayoutConstraint(item: PhoneTextFieald, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: PhoneContainer, attribute: NSLayoutAttribute.width, multiplier: 3/4, constant: 0)
-        //h
-        heightConstraint = NSLayoutConstraint(item: PhoneTextFieald, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute , multiplier: 1, constant: 30)
-        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-    }
-    
     func initTellContainer()
     {
         scrollView.addSubview(TellContainer)
         //x
-        var horizontalConstraint = NSLayoutConstraint(item: TellContainer, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: PhoneContainer, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
+        var horizontalConstraint = NSLayoutConstraint(item: TellContainer, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: ManagementContainer, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +5)
         //y
         var verticalConstraint = NSLayoutConstraint(item: TellContainer, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
         //w
@@ -739,7 +658,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         heightConstraint = NSLayoutConstraint(item: TellTextFieald, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute , multiplier: 1, constant: 30)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
     }
-
+    
     
     func initDescriptionContainer()
     {
@@ -812,9 +731,60 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         heightConstraint = NSLayoutConstraint(item: AddressTextFieald, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute , multiplier: 1, constant: 30)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
     }
+    
+    func myInit()
+    {
+        self.NameTextFieald.text = (self.store.stName as! String)
+        self.ManagementTextFieald.text = (self.store.stManager as! String)
+        self.TellTextFieald.text = (self.store.stTel as! String)
+        self.DescriptionTextFieald.text = (self.store.stDescription as! String)
+        self.AddressTextFieald.text = (self.store.stAddress as! String)
+    
+        if(!(self.store.urlImage as! String).contains("http") || self.store.urlImage as! String == "" || self.store.urlImage is NSNull)
+        {
+            
+        }
+        else
+        {
+            self.logo.loadImageUsingCacheWithUrlString(urlString: self.store.urlImage as! String)
+            self.delLogoImageBtn.isHidden = false
+            var i = 0
+            for url in self.ImagesURLS {
+                
+                if url == (self.store.urlImage as! String)
+                {
+                    self.ImagesURLS.remove(at: i)
+                    break
+                }
+                i += 1
+            }
+        }
+        
+        if ImagesURLS.count == 1 {
+            
+            self.image1.loadImageUsingCacheWithUrlString(urlString: ImagesURLS[0])
+            self.delImage1Btn.isHidden = false
+        }
+        else if ImagesURLS.count == 2 {
+            
+            self.image1.loadImageUsingCacheWithUrlString(urlString: ImagesURLS[0])
+            self.image2.loadImageUsingCacheWithUrlString(urlString: ImagesURLS[1])
+            self.delImage1Btn.isHidden = false
+            self.delImage2Btn.isHidden = false
+        }
+        else if ImagesURLS.count == 3 {
+            
+            self.image1.loadImageUsingCacheWithUrlString(urlString: ImagesURLS[0])
+            self.image2.loadImageUsingCacheWithUrlString(urlString: ImagesURLS[1])
+            self.image3.loadImageUsingCacheWithUrlString(urlString: ImagesURLS[2])
+            self.delImage1Btn.isHidden = false
+            self.delImage2Btn.isHidden = false
+            self.delImage3Btn.isHidden = false
+        }
+    }
 }
 
-extension StoreCreation
+extension UpdateStore
 {
     func delImage(_ sender: AnyObject)
     {
@@ -830,7 +800,6 @@ extension StoreCreation
             delLogoImageBtn.isHidden = true
             logo.image = UIImage(named: "nedstark")
             imageSource = .none
-            filledImageViewNames["logo"] = ""
             break
             
         case 1:
@@ -838,7 +807,6 @@ extension StoreCreation
             delImage1Btn.isHidden = true
             image1.image = UIImage(named: "nedstark")
             imageSource = .none
-            filledImageViewNames["image1"] = ""
             break
             
         case 2:
@@ -846,7 +814,6 @@ extension StoreCreation
             delImage2Btn.isHidden = true
             image2.image = UIImage(named: "nedstark")
             imageSource = .none
-            filledImageViewNames["image2"] = ""
             break
             
         case 3:
@@ -854,7 +821,6 @@ extension StoreCreation
             delImage3Btn.isHidden = true
             image3.image = UIImage(named: "nedstark")
             imageSource = .none
-            filledImageViewNames["image3"] = ""
             break
             
         default:
@@ -914,7 +880,7 @@ extension StoreCreation
     }
     func openCamera()
     {
-    
+        
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera))
         {
             imagePicker.sourceType = UIImagePickerControllerSourceType.camera
@@ -945,7 +911,7 @@ extension StoreCreation
             
             image = originalImage
         }
-
+        
         switch imageSource {
             
         case .logo:
@@ -997,14 +963,14 @@ extension StoreCreation
         
         print(filledImageViews)
         
-        guard let name = NameTextFieald.text, let managagment = ManagementTextFieald.text , let phone = PhoneTextFieald.text, let description = DescriptionTextFieald.text, let address = AddressTextFieald.text , let tell = TellTextFieald.text else {
+        guard let name = NameTextFieald.text, let managagment = ManagementTextFieald.text, let description = DescriptionTextFieald.text, let address = AddressTextFieald.text , let tell = TellTextFieald.text else {
             
             
             print("Form is not valid")
             return
         }
         
-        if name.isEmpty || managagment.isEmpty || phone.isEmpty
+        if name.isEmpty || managagment.isEmpty
         {
             let alertWarning = UIAlertView(title:"توجه", message: "* فیلدهای ضروری را پر کنید!", delegate:nil, cancelButtonTitle:"تایید", otherButtonTitles:"")
             alertWarning.show()
@@ -1023,11 +989,11 @@ extension StoreCreation
         
         if haveImage
         {
-            myImageUploadRequest(name: name, managament: managagment, phone: phone, tell: tell, description: description, address: address , imageKeyIndex: 0)
+            myImageUploadRequest(name: name, managament: managagment , tell: tell, description: description, address: address , imageKeyIndex: 0)
         }
         else
         {
-            sendInfoToServer(name: name, managament: managagment, phone: phone, tell: tell, description: description, address: address)
+            sendInfoToServer(name: name, managament: managagment , tell: tell, description: description, address: address)
         }
     }
     
@@ -1043,11 +1009,11 @@ extension StoreCreation
     
 }
 
-extension StoreCreation
+extension UpdateStore
 {
     
     
-    func myImageUploadRequest(name:String , managament:String , phone:String , tell:String , description:String , address:String , imageKeyIndex:Int)
+    func myImageUploadRequest(name:String , managament:String , tell:String , description:String , address:String , imageKeyIndex:Int)
     {
         
         var key = "logo"
@@ -1075,7 +1041,7 @@ extension StoreCreation
         
         if imageKeyIndex >= filledImageViews.count
         {
-            sendInfoToServer(name: name, managament: managament, phone: phone, tell: tell, description: description, address: address)
+            sendInfoToServer(name: name, managament: managament , tell: tell, description: description, address: address)
             return
         }
         
@@ -1085,7 +1051,7 @@ extension StoreCreation
         }
         else
         {
-            myImageUploadRequest(name: name, managament: managament, phone: phone, tell: tell, description: description, address: address , imageKeyIndex: imageKeyIndex + 1)
+            myImageUploadRequest(name: name, managament: managament, tell: tell, description: description, address: address , imageKeyIndex: imageKeyIndex + 1)
             return
         }
         
@@ -1095,17 +1061,17 @@ extension StoreCreation
         request.httpMethod = "POST"
         
         //let param = [
-            
-            //"firstName"  : "Sergey",
-            //"lastName"    : "Kargopolov",
-            //"userId"    : "9"
+        
+        //"firstName"  : "Sergey",
+        //"lastName"    : "Kargopolov",
+        //"userId"    : "9"
         //]
         
         let boundary = generateBoundaryString()
         
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
-    
+        
         var imageData = Data()
         
         switch key {
@@ -1129,7 +1095,7 @@ extension StoreCreation
         default:
             break
         }
-    
+        
         request.httpBody = createBodyWithParameters(parameters: [:], filePathKey: "uploaded_file", imageDataKey: imageData as NSData, boundary: boundary , imageKey: key) as Data
         
         let task = URLSession.shared.dataTask(with: request as URLRequest) {
@@ -1156,11 +1122,11 @@ extension StoreCreation
                 return
             }
             
-            self.myImageUploadRequest(name: name, managament: managament, phone: phone, tell: tell, description: description, address: address , imageKeyIndex: imageKeyIndex + 1)
+            self.myImageUploadRequest(name: name, managament: managament, tell: tell, description: description, address: address , imageKeyIndex: imageKeyIndex + 1)
         }
         task.resume()
     }
-
+    
     func createBodyWithParameters(parameters: [String: String]?, filePathKey: String?, imageDataKey: NSData, boundary: String , imageKey:String) -> NSData
     {
         let body = NSMutableData();
@@ -1210,9 +1176,9 @@ extension StoreCreation
         return "Boundary-\(NSUUID().uuidString)"
     }
     
-    func sendInfoToServer(name:String , managament:String , phone:String , tell:String , description:String , address:String)
+    func sendInfoToServer(name:String , managament:String , tell:String , description:String , address:String)
     {
-        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><CreateStore xmlns=\"http://BuyApp.ir/\"><stId>\(0)</stId><stName>\(name)</stName><stCode></stCode><stAddress>\(address)</stAddress><stManager>\(managament)</stManager><stDescription>\(description)</stDescription><stTel>\(tell)</stTel><Mobile>\(phone)</Mobile><MallId>\(storeMall)</MallId><img>http://94.182.4.13:8012/SabadPic/Image/Store/\(filledImageViewNames["logo"]!)</img><img1>http://94.182.4.13:8012/SabadPic/Image/Store/\(filledImageViewNames["image1"]!)</img1><img2>http://94.182.4.13:8012/SabadPic/Image/Store/\(filledImageViewNames["image2"]!)</img2><img3>http://94.182.4.13:8012/SabadPic/Image/Store/\(filledImageViewNames["image3"]!)</img3></CreateStore></soap:Body></soap:Envelope>"
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><CreateStore xmlns=\"http://BuyApp.ir/\"><stId>\(0)</stId><stName>\(name)</stName><stCode></stCode><stAddress>\(address)</stAddress><stManager>\(managament)</stManager><stDescription>\(description)</stDescription><stTel>\(tell)</stTel><MallId>\(storeMall)</MallId><img>\(filledImageViewNames["logo"]!)</img><img1>\(filledImageViewNames["image1"]!)</img1><img2>\(filledImageViewNames["image2"]!)</img2><img3>\(filledImageViewNames["image3"]!)</img3></CreateStore></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
         let theUrlString = Request.webServiceAddress
@@ -1241,7 +1207,7 @@ extension StoreCreation
                     do
                     {
                         dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
-
+                        
                         let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
                         let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
                         let mainDict1 = mainDict2.object(forKey: "CreateStoreResponse") as! NSDictionary
@@ -1272,7 +1238,7 @@ extension StoreCreation
                                     {
                                         DispatchQueue.main.async {
                                             
-                                            self.dismiss(animated: true, completion: { 
+                                            self.dismiss(animated: true, completion: {
                                                 
                                                 
                                             })
@@ -1298,6 +1264,15 @@ extension StoreCreation
             }
         }
         dataTask.resume()
+    }
+}
+
+extension NSMutableData {
+    
+    func appendString(string: String) {
+        
+        let data = string.data(using: String.Encoding.utf8, allowLossyConversion: true)
+        append(data!)
     }
 }
 

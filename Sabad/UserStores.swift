@@ -132,20 +132,16 @@ extension UserStores
         cell.tellLabel.text = tell
         cell.addLabel.text = address
         
-        /*if(userStores.count - 1 == indexPath.row)
-        {
-            print("s12")
-            DispatchQueue.main.async {
-                
-                if self.getMoreStore
-                {
-                    self.Offset = storesInMall.count
-                    self.QueryOnDB(MallId: self.mall.Id as! Int, Offset: self.Offset)
-                }
-            }
-        }*/
-        
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let mvc = storyboard.instantiateViewController(withIdentifier: "UserStore") as! UserStore
+        mvc.isModalInPopover = true
+        mvc.modalTransitionStyle = .coverVertical
+        mvc.store = userStores[indexPath.row]
+        self.present(mvc, animated: true, completion: nil)
     }
     
     func myStores(phone:String)

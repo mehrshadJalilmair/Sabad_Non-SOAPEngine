@@ -39,6 +39,8 @@
 		2F0EAA621E6C91D10078E554 /* support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EAA601E6C91D10078E554 /* support.swift */; };
 		2F0EAA641E6C9D560078E554 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F0EAA631E6C9D550078E554 /* MessageUI.framework */; };
 		2F1349AD1E4C681700319532 /* StoreModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1349AC1E4C681700319532 /* StoreModal.swift */; };
+		2F1C42C11E7016B3008F464B /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1C42C01E7016B3008F464B /* UserStore.swift */; };
+		2F1C42C31E702A18008F464B /* UpdateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1C42C21E702A18008F464B /* UpdateStore.swift */; };
 		2F20962E1E547DE8000CC547 /* follows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F20962D1E547DE8000CC547 /* follows.swift */; };
 		2F43D8C51E4B266B003669F9 /* MallModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F43D8C41E4B266B003669F9 /* MallModal.swift */; };
 		2F4F8E1A1E559615005E9D24 /* aboutCanDo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F4F8E181E559615005E9D24 /* aboutCanDo.storyboard */; };
@@ -123,6 +125,8 @@
 		2F0EAA601E6C91D10078E554 /* support.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = support.swift; sourceTree = "<group>"; };
 		2F0EAA631E6C9D550078E554 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		2F1349AC1E4C681700319532 /* StoreModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreModal.swift; sourceTree = "<group>"; };
+		2F1C42C01E7016B3008F464B /* UserStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
+		2F1C42C21E702A18008F464B /* UpdateStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateStore.swift; sourceTree = "<group>"; };
 		2F20962D1E547DE8000CC547 /* follows.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = follows.swift; sourceTree = "<group>"; };
 		2F43D8C41E4B266B003669F9 /* MallModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MallModal.swift; sourceTree = "<group>"; };
 		2F4F8E181E559615005E9D24 /* aboutCanDo.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = aboutCanDo.storyboard; sourceTree = "<group>"; };
@@ -344,6 +348,8 @@
 			children = (
 				2F057E581E6C4242003A24C5 /* UserStores.swift */,
 				2F057E5A1E6C52D9003A24C5 /* enterCode.swift */,
+				2F1C42C01E7016B3008F464B /* UserStore.swift */,
+				2F1C42C21E702A18008F464B /* UpdateStore.swift */,
 			);
 			name = UserStores;
 			sourceTree = "<group>";
@@ -740,6 +746,7 @@
 				21A48CC61E3AA1A0009E4D61 /* SearchCell.swift in Sources */,
 				21C69C1B1E37CAFA0030A69F /* Sabad.xcdatamodeld in Sources */,
 				2FFB34361E5AE48200E1EFCA /* StoreCreation.swift in Sources */,
+				2F1C42C11E7016B3008F464B /* UserStore.swift in Sources */,
 				2F1349AD1E4C681700319532 /* StoreModal.swift in Sources */,
 				2F057E5B1E6C52DA003A24C5 /* enterCode.swift in Sources */,
 				217952F61E3A1A950077C113 /* LIHSliderViewController.swift in Sources */,
@@ -774,6 +781,7 @@
 				21A48CC11E3A9C39009E4D61 /* Search.swift in Sources */,
 				2FFB34381E5AECAD00E1EFCA /* TowNandMallBeforStCr.swift in Sources */,
 				210812711E3D09FE00CDC9A7 /* Mall.swift in Sources */,
+				2F1C42C31E702A18008F464B /* UpdateStore.swift in Sources */,
 				2FDA93FE1E5466FF00B2C224 /* tageds.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

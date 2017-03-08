@@ -27,6 +27,8 @@ var changeBannerAndList = false // when town is changed
 //UserStores
 var userStores:[Store] = [Store]()
 
+//var userStoreGoods:[Good] = [Good]()
+
 //StoreCreatoin
 var openGettingStoreFields = false
 var storeTwon = -1
