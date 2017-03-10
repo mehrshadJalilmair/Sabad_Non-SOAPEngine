@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>DatePickerDialog.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Sabad.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,7 +42,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>222087A44995F40071CF2A02C53B2884</key>
+		<key>184A1650DC0B648BD756068E60BF2C59</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>46B4085ECFA43CBD290DFDD7963E50A7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>764FA93F13ABA2258C94686BDA6F10E1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -48,11 +63,6 @@
 			<true/>
 		</dict>
 		<key>CF671F7E57B92905F1CC91D036D6B4A7</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DEA9E606A1C439E798F85BF2A65EA284</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -747,6 +747,7 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         else
         {
             self.logo.loadImageUsingCacheWithUrlString(urlString: self.store.urlImage as! String)
+            filledImageViewNames["logo"] = (self.store.urlImage as! String)
             self.delLogoImageBtn.isHidden = false
             var i = 0
             for url in self.ImagesURLS {
@@ -763,12 +764,15 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         if ImagesURLS.count == 1 {
             
             self.image1.loadImageUsingCacheWithUrlString(urlString: ImagesURLS[0])
+            filledImageViewNames["image1"] = ImagesURLS[0]
             self.delImage1Btn.isHidden = false
         }
         else if ImagesURLS.count == 2 {
             
             self.image1.loadImageUsingCacheWithUrlString(urlString: ImagesURLS[0])
             self.image2.loadImageUsingCacheWithUrlString(urlString: ImagesURLS[1])
+            filledImageViewNames["image1"] = ImagesURLS[0]
+            filledImageViewNames["image2"] = ImagesURLS[1]
             self.delImage1Btn.isHidden = false
             self.delImage2Btn.isHidden = false
         }
@@ -777,6 +781,9 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
             self.image1.loadImageUsingCacheWithUrlString(urlString: ImagesURLS[0])
             self.image2.loadImageUsingCacheWithUrlString(urlString: ImagesURLS[1])
             self.image3.loadImageUsingCacheWithUrlString(urlString: ImagesURLS[2])
+            filledImageViewNames["image1"] = ImagesURLS[0]
+            filledImageViewNames["image2"] = ImagesURLS[1]
+            filledImageViewNames["image3"] = ImagesURLS[2]
             self.delImage1Btn.isHidden = false
             self.delImage2Btn.isHidden = false
             self.delImage3Btn.isHidden = false
@@ -800,6 +807,7 @@ extension UpdateStore
             delLogoImageBtn.isHidden = true
             logo.image = UIImage(named: "nedstark")
             imageSource = .none
+            filledImageViewNames["logo"] = ""
             break
             
         case 1:
@@ -807,6 +815,7 @@ extension UpdateStore
             delImage1Btn.isHidden = true
             image1.image = UIImage(named: "nedstark")
             imageSource = .none
+            filledImageViewNames["image1"] = ""
             break
             
         case 2:
@@ -814,6 +823,7 @@ extension UpdateStore
             delImage2Btn.isHidden = true
             image2.image = UIImage(named: "nedstark")
             imageSource = .none
+            filledImageViewNames["image2"] = ""
             break
             
         case 3:
@@ -821,6 +831,7 @@ extension UpdateStore
             delImage3Btn.isHidden = true
             image3.image = UIImage(named: "nedstark")
             imageSource = .none
+            filledImageViewNames["image3"] = ""
             break
             
         default:
@@ -1157,7 +1168,7 @@ extension UpdateStore
         
         let filename = "ios_\(nowDate).jpg"
         
-        filledImageViewNames[imageKey] = filename
+        filledImageViewNames[imageKey] = "http://94.182.4.13:8012/SabadPic/Image/Store/\(filename)"
         
         let mimetype = "image/jpg"
         

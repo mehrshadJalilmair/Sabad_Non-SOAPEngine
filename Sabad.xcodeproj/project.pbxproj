@@ -43,6 +43,9 @@
 		2F1C42C31E702A18008F464B /* UpdateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1C42C21E702A18008F464B /* UpdateStore.swift */; };
 		2F20962E1E547DE8000CC547 /* follows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F20962D1E547DE8000CC547 /* follows.swift */; };
 		2F43D8C51E4B266B003669F9 /* MallModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F43D8C41E4B266B003669F9 /* MallModal.swift */; };
+		2F4581421E72E12300A7F472 /* addGood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4581411E72E12300A7F472 /* addGood.swift */; };
+		2F4581441E72E14E00A7F472 /* addOff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4581431E72E14E00A7F472 /* addOff.swift */; };
+		2F4581481E730EE500A7F472 /* StoreGoodModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4581471E730EE500A7F472 /* StoreGoodModal.swift */; };
 		2F4F8E1A1E559615005E9D24 /* aboutCanDo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F4F8E181E559615005E9D24 /* aboutCanDo.storyboard */; };
 		2F4F8E1B1E559615005E9D24 /* aboutCanDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4F8E191E559615005E9D24 /* aboutCanDo.swift */; };
 		2F53C5961E41F4E000475CD5 /* PopupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F53C5951E41F4E000475CD5 /* PopupController.swift */; };
@@ -129,6 +132,9 @@
 		2F1C42C21E702A18008F464B /* UpdateStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateStore.swift; sourceTree = "<group>"; };
 		2F20962D1E547DE8000CC547 /* follows.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = follows.swift; sourceTree = "<group>"; };
 		2F43D8C41E4B266B003669F9 /* MallModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MallModal.swift; sourceTree = "<group>"; };
+		2F4581411E72E12300A7F472 /* addGood.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = addGood.swift; sourceTree = "<group>"; };
+		2F4581431E72E14E00A7F472 /* addOff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = addOff.swift; sourceTree = "<group>"; };
+		2F4581471E730EE500A7F472 /* StoreGoodModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreGoodModal.swift; sourceTree = "<group>"; };
 		2F4F8E181E559615005E9D24 /* aboutCanDo.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = aboutCanDo.storyboard; sourceTree = "<group>"; };
 		2F4F8E191E559615005E9D24 /* aboutCanDo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = aboutCanDo.swift; sourceTree = "<group>"; };
 		2F53C5951E41F4E000475CD5 /* PopupController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupController.swift; sourceTree = "<group>"; };
@@ -350,6 +356,9 @@
 				2F057E5A1E6C52D9003A24C5 /* enterCode.swift */,
 				2F1C42C01E7016B3008F464B /* UserStore.swift */,
 				2F1C42C21E702A18008F464B /* UpdateStore.swift */,
+				2F4581411E72E12300A7F472 /* addGood.swift */,
+				2F4581431E72E14E00A7F472 /* addOff.swift */,
+				2F4581471E730EE500A7F472 /* StoreGoodModal.swift */,
 			);
 			name = UserStores;
 			sourceTree = "<group>";
@@ -641,7 +650,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		562811689C87010D888DF29F /* [CP] Embed Pods Frameworks */ = {
@@ -686,7 +695,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		7249E8C442893D0E75C11482 /* [CP] Check Pods Manifest.lock */ = {
@@ -701,7 +710,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		839FC407FA322A9E7F259ECF /* [CP] Copy Pods Resources */ = {
@@ -744,6 +753,8 @@
 				210812731E3D320300CDC9A7 /* Store.swift in Sources */,
 				217952F81E3A1A950077C113 /* LIHSliderItemViewController.swift in Sources */,
 				21A48CC61E3AA1A0009E4D61 /* SearchCell.swift in Sources */,
+				2F4581441E72E14E00A7F472 /* addOff.swift in Sources */,
+				2F4581481E730EE500A7F472 /* StoreGoodModal.swift in Sources */,
 				21C69C1B1E37CAFA0030A69F /* Sabad.xcdatamodeld in Sources */,
 				2FFB34361E5AE48200E1EFCA /* StoreCreation.swift in Sources */,
 				2F1C42C11E7016B3008F464B /* UserStore.swift in Sources */,
@@ -778,6 +789,7 @@
 				21C69C151E37CAF90030A69F /* Host.swift in Sources */,
 				2F4F8E1B1E559615005E9D24 /* aboutCanDo.swift in Sources */,
 				21C69C131E37CAF90030A69F /* AppDelegate.swift in Sources */,
+				2F4581421E72E12300A7F472 /* addGood.swift in Sources */,
 				21A48CC11E3A9C39009E4D61 /* Search.swift in Sources */,
 				2FFB34381E5AECAD00E1EFCA /* TowNandMallBeforStCr.swift in Sources */,
 				210812711E3D09FE00CDC9A7 /* Mall.swift in Sources */,

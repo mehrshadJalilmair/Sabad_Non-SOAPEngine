@@ -14,16 +14,19 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - DatePickerDialog (1.1.7)
   - SlidingTabBar (0.2.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
+  - DatePickerDialog
   - SlidingTabBar
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  DatePickerDialog: bd5e7e92e4da2c6a8966b28d5f5d8f335d6c2c63
   SlidingTabBar: 027224f312efeb1a76de93e1d9a108b8318d6494
 
-PODFILE CHECKSUM: 63964fb1497c9a4883921ce6a5ef597c73d15965
+PODFILE CHECKSUM: 5279009b95b00d64b5a58260f819d5f335c3905d
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1.beta.1

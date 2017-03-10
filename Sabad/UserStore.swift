@@ -453,12 +453,22 @@ extension UserStore
     
     @IBAction func addOff(_ sender: Any) {
         
-        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let mvc = storyboard.instantiateViewController(withIdentifier: "addOff") as! addOff
+        mvc.isModalInPopover = true
+        mvc.modalTransitionStyle = .coverVertical
+        mvc.store = self.store
+        self.present(mvc, animated: true, completion: nil)
     }
     
     @IBAction func addGood(_ sender: Any) {
         
-        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let mvc = storyboard.instantiateViewController(withIdentifier: "addGood") as! addGood
+        mvc.isModalInPopover = true
+        mvc.modalTransitionStyle = .coverVertical
+        mvc.store = self.store
+        self.present(mvc, animated: true, completion: nil)
     }
     
     func setAbuse()
@@ -470,6 +480,7 @@ extension UserStore
             case .default:
                 
                 print("default")
+                self.deleteStore()
                 break
                 
             case .cancel:
@@ -504,6 +515,11 @@ extension UserStore
         }))
         
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func deleteStore()
+    {
+        
     }
     
     @IBAction func dismiss_(_ sender: Any) {
@@ -586,11 +602,12 @@ extension UserStore
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        let good  = self.storeGoods[indexPath.row]
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let mvc = storyboard.instantiateViewController(withIdentifier: "GoodModal") as! GoodModal
+        let mvc = storyboard.instantiateViewController(withIdentifier: "StoreGoodModal") as! StoreGoodModal
         mvc.isModalInPopover = true
         mvc.modalTransitionStyle = .coverVertical
-        mvc.good = storeGoods[indexPath.row]
+        mvc.good = good
         self.present(mvc, animated: true, completion: nil)
     }
     

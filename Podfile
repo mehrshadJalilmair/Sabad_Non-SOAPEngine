@@ -8,6 +8,8 @@ target 'Sabad' do
   # Pods for Sabad
   pod "SlidingTabBar"
   pod 'AFNetworking', '~> 3.0'
+  pod 'DatePickerDialog'
+
 
   target 'SabadTests' do
     inherit! :search_paths

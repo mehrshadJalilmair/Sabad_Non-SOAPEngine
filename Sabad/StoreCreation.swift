@@ -427,6 +427,11 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         //PhoneTextFieald.hintYPadding = -20
         PhoneTextFieald.titleYPadding = -2
         
+        TellTextFieald.layer.cornerRadius = 3
+        TellTextFieald.layer.masksToBounds = true
+        //DescriptionTextFieald.hintYPadding = -20
+        TellTextFieald.titleYPadding = -2
+        
         DescriptionTextFieald.layer.cornerRadius = 3
         DescriptionTextFieald.layer.masksToBounds = true
         //DescriptionTextFieald.hintYPadding = -20
@@ -1191,7 +1196,7 @@ extension StoreCreation
         
         let filename = "ios_\(nowDate).jpg"
         
-        filledImageViewNames[imageKey] = filename
+        filledImageViewNames[imageKey] = "http://94.182.4.13:8012/SabadPic/Image/Store/\(filename)"
         
         let mimetype = "image/jpg"
         
@@ -1212,7 +1217,7 @@ extension StoreCreation
     
     func sendInfoToServer(name:String , managament:String , phone:String , tell:String , description:String , address:String)
     {
-        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><CreateStore xmlns=\"http://BuyApp.ir/\"><stId>\(0)</stId><stName>\(name)</stName><stCode></stCode><stAddress>\(address)</stAddress><stManager>\(managament)</stManager><stDescription>\(description)</stDescription><stTel>\(tell)</stTel><Mobile>\(phone)</Mobile><MallId>\(storeMall)</MallId><img>http://94.182.4.13:8012/SabadPic/Image/Store/\(filledImageViewNames["logo"]!)</img><img1>http://94.182.4.13:8012/SabadPic/Image/Store/\(filledImageViewNames["image1"]!)</img1><img2>http://94.182.4.13:8012/SabadPic/Image/Store/\(filledImageViewNames["image2"]!)</img2><img3>http://94.182.4.13:8012/SabadPic/Image/Store/\(filledImageViewNames["image3"]!)</img3></CreateStore></soap:Body></soap:Envelope>"
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><CreateStore xmlns=\"http://BuyApp.ir/\"><stId>\(0)</stId><stName>\(name)</stName><stCode></stCode><stAddress>\(address)</stAddress><stManager>\(managament)</stManager><stDescription>\(description)</stDescription><stTel>\(tell)</stTel><Mobile>\(phone)</Mobile><MallId>\(storeMall)</MallId><img>http://94.182.4.13:8012/SabadPic/Image/Store/\(filledImageViewNames["logo"]!)</img><img1>\(filledImageViewNames["image1"]!)</img1><img2>\(filledImageViewNames["image2"]!)</img2><img3>\(filledImageViewNames["image3"]!)</img3></CreateStore></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
         let theUrlString = Request.webServiceAddress

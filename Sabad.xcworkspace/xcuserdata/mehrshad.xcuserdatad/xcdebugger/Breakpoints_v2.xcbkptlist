@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sabad/UpdateStore.swift"
-            timestampString = "510671572.071546"
+            timestampString = "510843755.48568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1229"
-            endingLineNumber = "1229"
+            startingLineNumber = "1194"
+            endingLineNumber = "1194"
             landmarkName = "sendInfoToServer(name:managament:tell:description:address:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Sabad/UpdateStore.swift"
-            timestampString = "510671642.423378"
+            filePath = "Sabad/StoreCreation.swift"
+            timestampString = "510846517.436288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "791"
-            endingLineNumber = "791"
-            landmarkName = "delImage(_:)"
+            startingLineNumber = "1222"
+            endingLineNumber = "1222"
+            landmarkName = "sendInfoToServer(name:managament:phone:tell:description:address:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
