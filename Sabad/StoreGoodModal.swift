@@ -13,6 +13,10 @@ class StoreGoodModal: UIViewController {
     //views
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var topBarView: UIView!
+    @IBOutlet var btnsView: UIView!
+    
+    @IBOutlet var editGoodBtn: UIButton!
+    @IBOutlet var deleteGoodBtn: UIButton!
     
     let Image : UIImageView! = {
         
@@ -122,11 +126,11 @@ class StoreGoodModal: UIViewController {
         
         if haveOff {
             
-            height = (self.Image.frame.height + self.offTitleLabel.frame.height + self.offMainTimeLabel.frame.height + 10.0 + self.priceContainer.frame.height)
+            height = (self.Image.frame.height + self.offTitleLabel.frame.height + self.offMainTimeLabel.frame.height + 10.0 + self.priceContainer.frame.height + self.btnsView.frame.height)
         }
         else
         {
-            height = (self.Image.frame.height + self.offTitleLabel.frame.height +  10.0 + self.priceContainer.frame.height)
+            height = (self.Image.frame.height + self.offTitleLabel.frame.height +  10.0 + self.priceContainer.frame.height + self.btnsView.frame.height)
         }
         
         self.scrollView.contentSize = CGSize(self.view.frame.width , height)
@@ -134,6 +138,18 @@ class StoreGoodModal: UIViewController {
     
     func initViews()
     {
+        btnsView.backgroundColor = UIColor.darkGray
+        
+        editGoodBtn.backgroundColor = UIColor(r: 80, g: 101, b: 161)
+        editGoodBtn.tintColor = UIColor.white
+        editGoodBtn.layer.cornerRadius = 1
+        editGoodBtn.layer.masksToBounds = true
+        
+        deleteGoodBtn.backgroundColor = UIColor(r: 80, g: 101, b: 161)
+        deleteGoodBtn.tintColor = UIColor.white
+        deleteGoodBtn.layer.cornerRadius = 1
+        deleteGoodBtn.layer.masksToBounds = true
+        
         scrollView.addSubview(Image)
         //x
         var horizontalConstraint = NSLayoutConstraint(item: Image, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
@@ -308,6 +324,33 @@ extension StoreGoodModal
         self.dismiss(animated: true) {
             
             
+        }
+    }
+    
+    @IBAction func deleteGood(_ sender: Any) {
+        
+        print("deleteGood")
+    }
+    
+    @IBAction func editGood(_ sender: Any) {
+        
+        if ((good.offPercent as! Int == 0) || (good.mainTime! < 0)) //edit off
+        {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let mvc = storyboard.instantiateViewController(withIdentifier: "EditGood") as! EditGood
+            mvc.isModalInPopover = true
+            mvc.modalTransitionStyle = .coverVertical
+            mvc.good = self.good
+            self.present(mvc, animated: true, completion: nil)
+        }
+        else //edit good
+        {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let mvc = storyboard.instantiateViewController(withIdentifier: "EditOff") as! EditOff
+            mvc.isModalInPopover = true
+            mvc.modalTransitionStyle = .coverVertical
+            mvc.good = self.good
+            self.present(mvc, animated: true, completion: nil)
         }
     }
 }

@@ -54,6 +54,8 @@
 		2F57DDC51E4DE1ED00538108 /* setAbuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F57DDC41E4DE1ED00538108 /* setAbuse.swift */; };
 		2F57DDC91E4DE27700538108 /* setAbuseController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F57DDC81E4DE27700538108 /* setAbuseController.storyboard */; };
 		2F57DDCC1E4E152D00538108 /* GoodModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F57DDCB1E4E152C00538108 /* GoodModal.swift */; };
+		2FBA23331E734930002E9C32 /* EditGood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBA23321E734930002E9C32 /* EditGood.swift */; };
+		2FBA23351E734945002E9C32 /* EditOff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBA23341E734945002E9C32 /* EditOff.swift */; };
 		2FC83E051E4F7C0200300635 /* GoodAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC83E031E4F7C0200300635 /* GoodAddress.swift */; };
 		2FC83E061E4F7C0200300635 /* GoodAddress.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FC83E041E4F7C0200300635 /* GoodAddress.storyboard */; };
 		2FDA93FC1E544AD500B2C224 /* selectTown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA93FB1E544AD500B2C224 /* selectTown.swift */; };
@@ -143,6 +145,8 @@
 		2F57DDC41E4DE1ED00538108 /* setAbuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = setAbuse.swift; sourceTree = "<group>"; };
 		2F57DDC81E4DE27700538108 /* setAbuseController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = setAbuseController.storyboard; sourceTree = "<group>"; };
 		2F57DDCB1E4E152C00538108 /* GoodModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoodModal.swift; sourceTree = "<group>"; };
+		2FBA23321E734930002E9C32 /* EditGood.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditGood.swift; sourceTree = "<group>"; };
+		2FBA23341E734945002E9C32 /* EditOff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditOff.swift; sourceTree = "<group>"; };
 		2FC83E031E4F7C0200300635 /* GoodAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoodAddress.swift; sourceTree = "<group>"; };
 		2FC83E041E4F7C0200300635 /* GoodAddress.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = GoodAddress.storyboard; sourceTree = "<group>"; };
 		2FDA93FB1E544AD500B2C224 /* selectTown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = selectTown.swift; sourceTree = "<group>"; };
@@ -359,6 +363,8 @@
 				2F4581411E72E12300A7F472 /* addGood.swift */,
 				2F4581431E72E14E00A7F472 /* addOff.swift */,
 				2F4581471E730EE500A7F472 /* StoreGoodModal.swift */,
+				2FBA23321E734930002E9C32 /* EditGood.swift */,
+				2FBA23341E734945002E9C32 /* EditOff.swift */,
 			);
 			name = UserStores;
 			sourceTree = "<group>";
@@ -778,6 +784,7 @@
 				216E54FD1E3808CE00D6C957 /* Profile.swift in Sources */,
 				217952F71E3A1A950077C113 /* LIHSlider.swift in Sources */,
 				217952FD1E3A55770077C113 /* Extensions.swift in Sources */,
+				2FBA23331E734930002E9C32 /* EditGood.swift in Sources */,
 				2F53C5961E41F4E000475CD5 /* PopupController.swift in Sources */,
 				217952FB1E3A2DD50077C113 /* GoodCell.swift in Sources */,
 				210812751E3D4A6C00CDC9A7 /* Good.swift in Sources */,
@@ -786,6 +793,7 @@
 				2F53C59A1E41F53600475CD5 /* Filter.swift in Sources */,
 				2FFF2C741E55F82C0051D495 /* XMLReader.m in Sources */,
 				2FC83E051E4F7C0200300635 /* GoodAddress.swift in Sources */,
+				2FBA23351E734945002E9C32 /* EditOff.swift in Sources */,
 				21C69C151E37CAF90030A69F /* Host.swift in Sources */,
 				2F4F8E1B1E559615005E9D24 /* aboutCanDo.swift in Sources */,
 				21C69C131E37CAF90030A69F /* AppDelegate.swift in Sources */,
