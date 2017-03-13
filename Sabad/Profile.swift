@@ -14,7 +14,7 @@ class Profile: UIViewController , UITableViewDelegate , UITableViewDataSource{
     
     var numberOfSections:Int = 3
     var rowsTexts:[[String]] = [["همه شهرها" , "نشان شده ها" , "پیگیری های من"] , ["ثبت فروشگاه" , "فروشگاه های من"] , ["پشتیبانی سبد" , "درباره سبد"]]
-    var rowsIcons:[[UIImage]] = [[#imageLiteral(resourceName: "ic_refresh") , #imageLiteral(resourceName: "ic_refresh") , #imageLiteral(resourceName: "ic_refresh")] , [#imageLiteral(resourceName: "ic_refresh") , #imageLiteral(resourceName: "ic_refresh")] , [#imageLiteral(resourceName: "ic_refresh") , #imageLiteral(resourceName: "ic_refresh")]]
+    var rowsIcons:[[UIImage]] = [[#imageLiteral(resourceName: "ic_room_36pt") , #imageLiteral(resourceName: "ic_bookmark_36pt") , #imageLiteral(resourceName: "ic_event_36pt")] , [#imageLiteral(resourceName: "ic_store_36pt") , #imageLiteral(resourceName: "ic_lock_36pt")] , [#imageLiteral(resourceName: "ic_supervisor_account_36pt") , #imageLiteral(resourceName: "ic_info_36pt")]]
     
     override func viewDidLoad() {
         super.viewDidLoad()

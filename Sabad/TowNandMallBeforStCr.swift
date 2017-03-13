@@ -147,15 +147,15 @@ extension TowNandMallBeforStCr
         if whichList == 0 {
             
             cell.label.text = townList[indexPath.row].twName
-            cell.rightIcon.image = UIImage(named: "ic_refresh")
-            cell.leftIcon.image = UIImage(named: "ic_refresh")
+            cell.rightIcon.image = UIImage(named: "ic_room_36pt")
+            cell.leftIcon.image = UIImage(named: "moreinfo")
         }
         else //whichList == 1 || 2
         {
             //fatal error: Index out of range
             cell.label.text = townMallList[indexPath.row].MallName as! String?
-            cell.rightIcon.image = UIImage(named: "ic_refresh")
-            cell.leftIcon.image = UIImage(named: "ic_refresh")
+            cell.rightIcon.image = UIImage(named: "ic_room_36pt")
+            cell.leftIcon.image = UIImage(named: "moreinfo")
         }
         
         return cell

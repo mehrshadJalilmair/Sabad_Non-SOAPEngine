@@ -40,7 +40,7 @@ class Filter: UIViewController, PopupContentViewController, UITableViewDataSourc
     }()
     lazy var AllGoodsButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor(red: 39/255, green: 43/255, blue: 78/255 , alpha: 1)
+        button.backgroundColor = UIColor(red: 80/255, green: 101/255, blue: 161/255 , alpha: 1)
         button.setTitle("همه اجناس", for: .normal)
         //button.setImage(UIImage(named: "ic_refresh"), for: .normal)
         button.tintColor = UIColor.white
@@ -54,7 +54,7 @@ class Filter: UIViewController, PopupContentViewController, UITableViewDataSourc
     }()
     lazy var NewGoodsButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor(red: 39/255, green: 43/255, blue: 78/255 , alpha: 1)
+        button.backgroundColor = UIColor(red: 80/255, green: 101/255, blue: 161/255 , alpha: 1)
         button.setTitle("اجناس جدید", for: .normal)
         //button.setImage(UIImage(named: "ic_refresh"), for: .normal)
         button.tintColor = UIColor.white
@@ -68,7 +68,7 @@ class Filter: UIViewController, PopupContentViewController, UITableViewDataSourc
     }()
     lazy var OffsButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor(red: 39/255, green: 43/255, blue: 78/255 , alpha: 1)
+        button.backgroundColor = UIColor(red: 80/255, green: 101/255, blue: 161/255 , alpha: 1)
         button.setTitle("تخفیف ها", for: .normal)
         //button.setImage(UIImage(named: "ic_refresh"), for: .normal)
         button.tintColor = UIColor.white
@@ -142,7 +142,7 @@ class Filter: UIViewController, PopupContentViewController, UITableViewDataSourc
     
     func sizeForPopup(_ popupController: PopupController, size: CGSize, showingKeyboard: Bool) -> CGSize {
         
-        return CGSize(width: SCREEN_SIZE.width - 20, height: SCREEN_SIZE.height - 2 * (self.parent?.tabBarController?.tabBar.frame.height)!)
+        return CGSize(width: SCREEN_SIZE.width - 4, height: SCREEN_SIZE.height - 2 * (self.parent?.tabBarController?.tabBar.frame.height)!)
     }
     
     func configTypeDialog()
@@ -268,14 +268,14 @@ extension Filter
         if !whichList {
             
             cell.label.text = townList[indexPath.row].twName
-            cell.rightIcon.image = UIImage(named: "ic_refresh")
-            cell.leftIcon.image = UIImage(named: "ic_refresh")
+            cell.rightIcon.image = UIImage(named: "ic_room_36pt")
+            cell.leftIcon.image = UIImage(named: "moreinfo")
         }
         else
         {
             cell.label.text = townMallList[indexPath.row].MallName as! String?
-            cell.rightIcon.image = UIImage(named: "ic_refresh")
-            cell.leftIcon.image = UIImage(named: "ic_refresh")
+            cell.rightIcon.image = UIImage(named: "ic_room_36pt")
+            cell.leftIcon.image = UIImage(named: "moreinfo")
         }
 
         return cell
@@ -449,62 +449,6 @@ extension Filter
         }
         dataTask.resume()
     }
-    
-    /*func GetTownMallList(TwId:Int) //check out all conditions
-    {
-        let soap = SOAPEngine()
-        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
-        soap.userAgent = "SOAPEngine"
-        soap.actionNamespaceSlash = true
-        soap.version = SOAPVersion.VERSION_1_1
-        soap.responseHeader = true
-        
-        soap.setValue(TwId, forKey: "twId")
-        soap.requestURL(Request.webServiceAddress,
-                        soapAction: Request.getTownMallListAction,
-                        completeWithDictionary: { (statusCode : Int,
-                            dict : [AnyHashable : Any]?) -> Void in
-                            
-                            let result:Dictionary = dict! as Dictionary
-                            //print(result)
-                            let result1:NSDictionary = result[Array(result.keys)[0]]! as! NSDictionary
-                            let result2:NSDictionary = result1["MallForFilterResponse"] as! NSDictionary
-                            var result3:String = result2["MallForFilterResult"] as! String
-                            
-                            result3 = "{ \"content\" : " + result3 + "}"
-                            let data = (result3).data(using: .utf8)!
-                            
-                            guard let _result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : AnyObject] else{
-                                
-                                return
-                            }
-                            
-                            if let _malls = _result["content"] as? [AnyObject]{
-                                
-                                townMallList = [Mall]()
-                                var newmall = Mall(Id: -1 as AnyObject, twId: -1 as AnyObject , MallName: "همه پاساژها و محدوده ها" as AnyObject, MallDescription: "" as AnyObject , MallAddress: "" as AnyObject , MallTel: "" as AnyObject , MallLogo: "" as AnyObject , MallActive: false as AnyObject, IsMall: true as AnyObject , Stores:0 as AnyObject)
-                                townMallList.append(newmall)
-                                for mall in _malls{
-                        
-                                    if let actmall = mall as? [String : AnyObject]{
-                                        
-                                        newmall = Mall(Id: actmall["Id"]!, twId: -1 as AnyObject , MallName: actmall["MallName"]!, MallDescription: "" as AnyObject , MallAddress: "" as AnyObject , MallTel: "" as AnyObject , MallLogo: "" as AnyObject , MallActive: false as AnyObject, IsMall: actmall["IsMall"]!, Stores: 0 as AnyObject)//Stores: actmall["Stores"]!)
-                                        townMallList.append(newmall)
-                                    }
-                                }
-                                if townMallList.count > 0
-                                {
-                                    self.whichList = true
-                                    townMallListCopy = townMallList
-                                    self.tableView.reloadData()
-                                }
-                            }
-                            
-        }) { (error : Error?) -> Void in
-            
-            print(error!)
-        }
-    }*/
     
     //search dialog funcs
     func AllGoodsType()

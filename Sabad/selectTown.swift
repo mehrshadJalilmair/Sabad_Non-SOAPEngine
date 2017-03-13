@@ -73,8 +73,8 @@ class selectTown: UIViewController , UITableViewDataSource , UITableViewDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! selecTownTableViewCell
         
         cell.label.text = townList[indexPath.row].twName!
-        cell.rightIcon.image = UIImage(named: "ic_refresh")
-        cell.leftIcon.image = UIImage(named: "ic_refresh")
+        cell.rightIcon.image = UIImage(named: "ic_room_36pt")
+        cell.leftIcon.image = UIImage(named: "moreinfo")
         
         return cell
     }

@@ -76,7 +76,7 @@ class Search: UIViewController , UICollectionViewDelegateFlowLayout , UICollecti
     }()
     lazy var inMallsButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor(red: 39/255, green: 43/255, blue: 78/255 , alpha: 1)
+        button.backgroundColor = UIColor(red: 80/255, green: 101/255, blue: 161/255 , alpha: 1)
         button.setTitle("در پاساژ و محدوده ها", for: .normal)
         //button.setImage(UIImage(named: "ic_refresh"), for: .normal)
         button.tintColor = UIColor.white
@@ -90,7 +90,7 @@ class Search: UIViewController , UICollectionViewDelegateFlowLayout , UICollecti
     }()
     lazy var inStoresButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor(red: 39/255, green: 43/255, blue: 78/255 , alpha: 1)
+        button.backgroundColor = UIColor(red: 80/255, green: 101/255, blue: 161/255 , alpha: 1)
         button.setTitle("در فروشگاه ها", for: .normal)
         //button.setImage(UIImage(named: "ic_refresh"), for: .normal)
         button.tintColor = UIColor.white
@@ -104,7 +104,7 @@ class Search: UIViewController , UICollectionViewDelegateFlowLayout , UICollecti
     }()
     lazy var inGoodButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor(red: 39/255, green: 43/255, blue: 78/255 , alpha: 1)
+        button.backgroundColor = UIColor(red: 80/255, green: 101/255, blue: 161/255 , alpha: 1)
         button.setTitle("در کالاها", for: .normal)
         //button.setImage(UIImage(named: "ic_refresh"), for: .normal)
         button.tintColor = UIColor.white

@@ -542,6 +542,7 @@ extension Home
         
         icon.setImage(UIImage(named :"moreinfo"), for: UIControlState.normal)
         icon.addTarget(self, action: #selector(moreItemClicked(sender:)), for: UIControlEvents.touchUpInside)
+        icon.tintColor = UIColor.black
         icon.tag = section
         
         headerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.6)

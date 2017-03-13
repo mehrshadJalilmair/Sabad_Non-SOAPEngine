@@ -42,7 +42,7 @@ class Goods: UIViewController  , LIHSliderDelegate , UICollectionViewDelegateFlo
     }()
     lazy var filterButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor(r: 80, g: 101, b: 161)
+        button.backgroundColor = UIColor(r: 35, g: 35, b: 35)
         button.setTitle("فیلتر", for: .normal)
         //button.setImage(UIImage(named: "ic_refresh"), for: .normal)
         button.tintColor = UIColor.white

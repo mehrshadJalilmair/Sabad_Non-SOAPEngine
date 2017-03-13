@@ -24,7 +24,7 @@ class Host: UITabBarController, SlidingTabBarDataSource, SlidingTabBarDelegate, 
         self.selectedIndex = 3
         
         tabBarView = SlidingTabBar(frame: tabBarFrame, initialTabBarItemIndex: 3)
-        tabBarView.tabBarBackgroundColor = UIColor(red: 39/255, green: 43/255, blue: 78/255 , alpha: 1)
+        tabBarView.tabBarBackgroundColor = UIColor(red: 31/255, green: 31/255, blue: 31/255 , alpha: 1)
         tabBarView.tabBarItemTintColor = UIColor(red: 111/255, green: 85/255, blue: 95/255 , alpha: 1)
         tabBarView.selectedTabBarItemTintColor = UIColor(red: 253/255, green: 252/255, blue: 251/255 , alpha: 1)
         tabBarView.selectedTabBarItemColors = [UIColor(red: 80/255, green: 101/255, blue: 161/255 , alpha: 1) , UIColor(red: 80/255, green: 101/255, blue: 161/255 , alpha: 1) , UIColor(red: 80/255, green: 101/255, blue: 161/255 , alpha: 1) , UIColor(red: 80/255, green: 101/255, blue: 161/255 , alpha: 1)]

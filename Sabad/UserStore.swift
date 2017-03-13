@@ -175,10 +175,11 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
     lazy var setAbuseButton:UIButton! = {
         
         let icon = UIButton(type: .system)
-        icon.setImage(UIImage(named :"errorImage"), for: UIControlState.normal)
+        icon.setImage(UIImage(named :"ic_delete_forever_white"), for: UIControlState.normal)
         icon.addTarget(self, action: #selector(setAbuse), for: UIControlEvents.touchUpInside)
         icon.translatesAutoresizingMaskIntoConstraints = false
         icon.backgroundColor = UIColor.lightGray
+        icon.tintColor = UIColor.black
         icon.tag = self.store.Id as! Int
         return icon
     }()
@@ -541,7 +542,7 @@ extension UserStore
         
         let good  = self.storeGoods[indexPath.row]
         
-        cell.iconInTopRightView.image = UIImage(named: "ic_refresh")
+        cell.iconInTopRightView.image = UIImage(named: "ic_visibility_36pt")
         cell.labelInTopRightView.text =  "\(good.Views!) بازدید"
         
         if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))

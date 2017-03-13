@@ -60,6 +60,7 @@
 		2FC83E061E4F7C0200300635 /* GoodAddress.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FC83E041E4F7C0200300635 /* GoodAddress.storyboard */; };
 		2FDA93FC1E544AD500B2C224 /* selectTown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA93FB1E544AD500B2C224 /* selectTown.swift */; };
 		2FDA93FE1E5466FF00B2C224 /* tageds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA93FD1E5466FF00B2C224 /* tageds.swift */; };
+		2FE5CAE01E76A2FF0030DC4D /* logo_sana_app.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FE5CADF1E76A2FF0030DC4D /* logo_sana_app.png */; };
 		2FFB34361E5AE48200E1EFCA /* StoreCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFB34351E5AE48200E1EFCA /* StoreCreation.swift */; };
 		2FFB34381E5AECAD00E1EFCA /* TowNandMallBeforStCr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFB34371E5AECAD00E1EFCA /* TowNandMallBeforStCr.swift */; };
 		2FFEC37B1E433E6800E91E5F /* TopCollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFEC37A1E433E6800E91E5F /* TopCollView.swift */; };
@@ -151,6 +152,7 @@
 		2FC83E041E4F7C0200300635 /* GoodAddress.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = GoodAddress.storyboard; sourceTree = "<group>"; };
 		2FDA93FB1E544AD500B2C224 /* selectTown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = selectTown.swift; sourceTree = "<group>"; };
 		2FDA93FD1E5466FF00B2C224 /* tageds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tageds.swift; sourceTree = "<group>"; };
+		2FE5CADF1E76A2FF0030DC4D /* logo_sana_app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_sana_app.png; sourceTree = "<group>"; };
 		2FFB34351E5AE48200E1EFCA /* StoreCreation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreCreation.swift; sourceTree = "<group>"; };
 		2FFB34371E5AECAD00E1EFCA /* TowNandMallBeforStCr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TowNandMallBeforStCr.swift; sourceTree = "<group>"; };
 		2FFEC37A1E433E6800E91E5F /* TopCollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopCollView.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 		21C69C061E37CAF90030A69F = {
 			isa = PBXGroup;
 			children = (
+				2FE5CADF1E76A2FF0030DC4D /* logo_sana_app.png */,
 				21C69C111E37CAF90030A69F /* Sabad */,
 				21C69C291E37CAFA0030A69F /* SabadTests */,
 				21C69C341E37CAFA0030A69F /* SabadUITests */,
@@ -594,6 +597,7 @@
 				2FC83E061E4F7C0200300635 /* GoodAddress.storyboard in Resources */,
 				21C69C181E37CAF90030A69F /* Main.storyboard in Resources */,
 				2F4F8E1A1E559615005E9D24 /* aboutCanDo.storyboard in Resources */,
+				2FE5CAE01E76A2FF0030DC4D /* logo_sana_app.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -955,15 +959,15 @@
 			baseConfigurationReference = 08374233AFBCEAB2F6788D78 /* Pods-Sabad.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = GZTYPK66JG;
 				INFOPLIST_FILE = Sabad/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ir.cando.Sabad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "fdbb3d58-5054-485d-bac1-b9333f517c75";
-				PROVISIONING_PROFILE_SPECIFIER = Sabad1;
+				PROVISIONING_PROFILE = "56d2a501-27f3-4a00-b4e5-82cb7b9e2664";
+				PROVISIONING_PROFILE_SPECIFIER = Sabad;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mehrshad/Desktop/Sabad Project/Sabad Versions/Sabad_Non-SOAPEngine/Sabad/Sabad-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -974,15 +978,15 @@
 			baseConfigurationReference = AE4EF2074773C4A5E2FF6BA6 /* Pods-Sabad.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = GZTYPK66JG;
 				INFOPLIST_FILE = Sabad/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ir.cando.Sabad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "fdbb3d58-5054-485d-bac1-b9333f517c75";
-				PROVISIONING_PROFILE_SPECIFIER = Sabad1;
+				PROVISIONING_PROFILE = "56d2a501-27f3-4a00-b4e5-82cb7b9e2664";
+				PROVISIONING_PROFILE_SPECIFIER = Sabad;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mehrshad/Desktop/Sabad Project/Sabad Versions/Sabad_Non-SOAPEngine/Sabad/Sabad-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

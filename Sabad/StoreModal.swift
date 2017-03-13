@@ -110,7 +110,7 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
     
     lazy var followingButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor(r: 80, g: 101, b: 161)
+        button.backgroundColor = UIColor(r: 35, g: 35, b: 35)
         button.setTitle("پیگیری", for: .normal)
         //button.setImage(UIImage(named: "ic_refresh"), for: .normal)
         button.tintColor = UIColor.white
@@ -152,12 +152,14 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
     lazy var followerIcon:UIButton! = {
         
         let followerIcon = UIButton(type: .system)
-        followerIcon.setImage(UIImage(named :"ic_refresh"), for: UIControlState.normal)
+        followerIcon.setImage(UIImage(named :"ic_touch_app_36pt"), for: UIControlState.normal)
         //followerIcon.addTarget(self, action: #selector(setAbusesetAbuse), for: UIControlEvents.touchUpInside)
         followerIcon.translatesAutoresizingMaskIntoConstraints = false
         followerIcon.backgroundColor = UIColor.lightGray
         followerIcon.isUserInteractionEnabled = false
         followerIcon.tag = self.store.Id as! Int
+        followerIcon.tintColor = UIColor.black
+        
         return followerIcon
     }()
     
@@ -184,10 +186,11 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
     lazy var setAbuseButton:UIButton! = {
         
         let icon = UIButton(type: .system)
-        icon.setImage(UIImage(named :"errorImage"), for: UIControlState.normal)
+        icon.setImage(UIImage(named :"ic_info_36pt"), for: UIControlState.normal)
         icon.addTarget(self, action: #selector(setAbuse), for: UIControlEvents.touchUpInside)
         icon.translatesAutoresizingMaskIntoConstraints = false
         icon.backgroundColor = UIColor.lightGray
+        icon.tintColor = UIColor.black
         icon.tag = self.store.Id as! Int
         return icon
     }()
@@ -230,7 +233,7 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
         
         if defaults.object(forKey: "follow\(self.store.Id!)") == nil
         {
-            followingButton.backgroundColor = UIColor(r: 80, g: 101, b: 161)
+            followingButton.backgroundColor = UIColor(r: 35, g: 35, b: 35)
         }
         else
         {
@@ -596,7 +599,7 @@ extension StoreModal
         
         let good  = storeGoods[indexPath.row]
         
-        cell.iconInTopRightView.image = UIImage(named: "ic_refresh")
+        cell.iconInTopRightView.image = UIImage(named: "ic_visibility_36pt")
         cell.labelInTopRightView.text =  "\(good.Views!) بازدید"
         
         if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))
@@ -1100,7 +1103,7 @@ extension StoreModal
                                         {
                                             DispatchQueue.main.async {
                                                 
-                                                self.followingButton.backgroundColor = UIColor(r: 80, g: 101, b: 161)
+                                                self.followingButton.backgroundColor = UIColor(r: 35, g: 35, b: 35)
                                                 defaults.removeObject(forKey: "follow\(self.store.Id!)") //unfollow
                                                 self.store.Followers = ((self.store.Followers as! Int) - 1) as AnyObject
                                                 self.followerLabel.text = "\(self.store.Followers!) دنبال کننده"

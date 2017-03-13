@@ -95,7 +95,7 @@ extension TopCollView
             
             let mall  = homeMallList[indexPath.row]
             
-            cell.iconInTopRightView.image = UIImage(named: "ic_refresh")
+            cell.iconInTopRightView.image = UIImage(named: "ic_store_36pt")
             cell.labelInTopRightView.text =  "\(mall.Stores!) فروشگاه"
             
             cell.offLabel.isHidden = true
@@ -143,7 +143,7 @@ extension TopCollView
             
             let store  = homeStoreList[indexPath.row]
             
-            cell.iconInTopRightView.image = UIImage(named: "ic_refresh")
+            cell.iconInTopRightView.image = UIImage(named: "ic_touch_app_36pt")
             cell.labelInTopRightView.text =  "\(store.Followers!) دنبال کننده"
             
             cell.offLabel.isHidden = true
@@ -191,7 +191,7 @@ extension TopCollView
             
             let good  = homeGoodsList[indexPath.row]
             
-            cell.iconInTopRightView.image = UIImage(named: "ic_refresh")
+            cell.iconInTopRightView.image = UIImage(named: "ic_visibility_36pt")
             cell.labelInTopRightView.text =  "\(good.Views!) بازدید" 
             
             if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))

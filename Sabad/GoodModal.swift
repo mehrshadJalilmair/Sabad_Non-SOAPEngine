@@ -59,7 +59,7 @@ class GoodModal: UIViewController {
     
     lazy var storeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor(r: 80, g: 101, b: 161)
+        button.backgroundColor = UIColor(r: 35, g: 35, b: 35)
         button.setTitle("رفتن به فروشگاه", for: .normal)
         //button.setImage(UIImage(named: "ic_refresh"), for: .normal)
         button.tintColor = UIColor.white
@@ -101,11 +101,12 @@ class GoodModal: UIViewController {
     lazy var visitIcon:UIButton! = {
         
         let followerIcon = UIButton(type: .system)
-        followerIcon.setImage(UIImage(named :"ic_refresh"), for: UIControlState.normal)
+        followerIcon.setImage(UIImage(named :"ic_visibility_36pt"), for: UIControlState.normal)
         //followerIcon.addTarget(self, action: #selector(setAbusesetAbuse), for: UIControlEvents.touchUpInside)
         followerIcon.translatesAutoresizingMaskIntoConstraints = false
         followerIcon.backgroundColor = UIColor.lightGray
         followerIcon.isUserInteractionEnabled = false
+        followerIcon.tintColor = UIColor.black
         return followerIcon
     }()
     
@@ -132,10 +133,11 @@ class GoodModal: UIViewController {
     lazy var setAbuseButton:UIButton! = {
         
         let icon = UIButton(type: .system)
-        icon.setImage(UIImage(named :"errorImage"), for: UIControlState.normal)
+        icon.setImage(UIImage(named :"ic_info_36pt"), for: UIControlState.normal)
         icon.addTarget(self, action: #selector(setAbuse), for: UIControlEvents.touchUpInside)
         icon.translatesAutoresizingMaskIntoConstraints = false
         icon.backgroundColor = UIColor.lightGray
+        icon.tintColor = UIColor.black
         return icon
     }()
     
