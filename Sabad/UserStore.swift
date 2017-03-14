@@ -6,16 +6,13 @@
 //  Copyright © 2017 Mehrshad Jalilmasir. All rights reserved.
 //
 
-
 import UIKit
 
 class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
-    
     let cellId = "Item"
     
     //views
-    
     @IBOutlet var btnsView: UIView!
     @IBOutlet var addGoodBtn: UIButton!
     @IBOutlet var editBtn: UIButton!
@@ -147,7 +144,7 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
         followerIcon.translatesAutoresizingMaskIntoConstraints = false
         followerIcon.backgroundColor = UIColor.lightGray
         followerIcon.isUserInteractionEnabled = false
-        followerIcon.tag = self.store.Id as! Int
+        followerIcon.tag = selectedStore.Id as! Int
         
         return followerIcon
     }()
@@ -167,7 +164,7 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
         label.text = "حذف فروشگاه"
         label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.tag = self.store.Id as! Int
+        label.tag = selectedStore.Id as! Int
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setAbuse)))
         return label
@@ -180,13 +177,12 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
         icon.translatesAutoresizingMaskIntoConstraints = false
         icon.backgroundColor = UIColor.lightGray
         icon.tintColor = UIColor.black
-        icon.tag = self.store.Id as! Int
+        icon.tag = selectedStore.Id as! Int
         return icon
     }()
     
     
     //vars
-    var store:Store!
     var sliderImages:[Ad] = [Ad]()
     var sliderImagesURLS:[String] = [""]
     var storeGoods:[Good] = [Good]()
@@ -195,10 +191,22 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
         super.viewDidLoad()
         
         initSlider()
-        GetImagesAndSet(stId: self.store.Id as! Int)
         initOtherViews()
         initCollectionView()
-        QueryOnDB(stId: self.store.Id as! Int)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        GetImagesAndSet(stId: selectedStore.Id as! Int)
+        QueryOnDB(stId: selectedStore.Id as! Int)
+        slider1ContainerSupportImageView.isHidden = false
+        self.scrollView.bringSubview(toFront: slider1ContainerSupportImageView)
+        slider1ContainerSupportImageView.loadImageUsingCacheWithUrlString(urlString: selectedStore.urlImage as! String)
+        desc.text = selectedStore.stDescription as? String
+        tell.text = selectedStore.stTel as? String
+        manager.text = selectedStore.stManager as? String
+        followerLabel.text = "\(selectedStore.Followers!) دنبال کننده"
+        name.text = selectedStore.stName as? String
     }
     
     override func viewDidLayoutSubviews() {
@@ -241,10 +249,6 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
         heightConstraint = NSLayoutConstraint(item: slider1ContainerSupportImageView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        
-        slider1ContainerSupportImageView.isHidden = false
-        self.scrollView.bringSubview(toFront: slider1ContainerSupportImageView)
-        slider1ContainerSupportImageView.loadImageUsingCacheWithUrlString(urlString: self.store.urlImage as! String)
     }
     
     func initOtherViews()
@@ -297,7 +301,7 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
         heightConstraint = NSLayoutConstraint(item: followerLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: followersCountContainer, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 0)
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        followerLabel.text = "\(self.store.Followers!) دنبال کننده"
+        
         
         
         followersCountContainer.addSubview(followerIcon)
@@ -349,7 +353,7 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
         heightConstraint = NSLayoutConstraint(item: name, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 15)
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        name.text = self.store.stName as? String
+        
         
         
         scrollView.addSubview(manager)
@@ -363,7 +367,7 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
         heightConstraint = NSLayoutConstraint(item: manager, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 15)
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        manager.text = self.store.stManager as? String
+        
         
         
         scrollView.addSubview(tell)
@@ -377,7 +381,7 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
         heightConstraint = NSLayoutConstraint(item: tell, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 15)
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        tell.text = self.store.stTel as? String
+        
         
         
         scrollView.addSubview(desc)
@@ -391,7 +395,6 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
         heightConstraint = NSLayoutConstraint(item: desc, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 15)
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        desc.text = self.store.stDescription as? String
         
         
         btnsView.backgroundColor = UIColor.darkGray
@@ -447,7 +450,7 @@ extension UserStore
         let mvc = storyboard.instantiateViewController(withIdentifier: "UpdateStore") as! UpdateStore
         mvc.isModalInPopover = true
         mvc.modalTransitionStyle = .coverVertical
-        mvc.store = self.store
+        //mvc.store = self.store
         mvc.ImagesURLS = self.sliderImagesURLS
         self.present(mvc, animated: true, completion: nil)
     }
@@ -458,7 +461,7 @@ extension UserStore
         let mvc = storyboard.instantiateViewController(withIdentifier: "addOff") as! addOff
         mvc.isModalInPopover = true
         mvc.modalTransitionStyle = .coverVertical
-        mvc.store = self.store
+        //mvc.store = self.store
         self.present(mvc, animated: true, completion: nil)
     }
     
@@ -468,7 +471,7 @@ extension UserStore
         let mvc = storyboard.instantiateViewController(withIdentifier: "addGood") as! addGood
         mvc.isModalInPopover = true
         mvc.modalTransitionStyle = .coverVertical
-        mvc.store = self.store
+        //mvc.store = self.store
         self.present(mvc, animated: true, completion: nil)
     }
     
@@ -608,7 +611,8 @@ extension UserStore
         let mvc = storyboard.instantiateViewController(withIdentifier: "StoreGoodModal") as! StoreGoodModal
         mvc.isModalInPopover = true
         mvc.modalTransitionStyle = .coverVertical
-        mvc.good = good
+        //mvc.good = good
+        selectedGood = good
         self.present(mvc, animated: true, completion: nil)
     }
     
@@ -685,7 +689,7 @@ extension UserStore
                                     {
                                         //self.slider1Container.isHidden = false
                                         
-                                        self.sliderImagesURLS.insert(self.store.urlImage as! String, at: 0)
+                                        self.sliderImagesURLS.insert(selectedStore.urlImage as! String, at: 0)
                                         self.slider1ContainerSupportImageView.isHidden = true
                                         self.sliderVc1.slider.sliderImages = self.sliderImagesURLS
                                         self.sliderVc1.pageControl.numberOfPages = self.sliderImagesURLS.count

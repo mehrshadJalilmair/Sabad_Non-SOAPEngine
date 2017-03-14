@@ -11,7 +11,6 @@ import DatePickerDialog
 
 class EditGood: UIViewController , UIScrollViewDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate , UITextFieldDelegate{
     
-    var good:Good!
     var haveImage = false
     var imageAddress = ""
     @IBOutlet var scrollView: UIScrollView!
@@ -25,7 +24,7 @@ class EditGood: UIViewController , UIScrollViewDelegate , UIImagePickerControlle
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     lazy var logo: UIImageView! = {
@@ -65,7 +64,7 @@ class EditGood: UIViewController , UIScrollViewDelegate , UIImagePickerControlle
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     let NameLabel: UILabel! = {
@@ -75,7 +74,7 @@ class EditGood: UIViewController , UIScrollViewDelegate , UIImagePickerControlle
         label.textColor = UIColor.black
         label.text = "* عنوان کالا"
         label.textAlignment = .right
-        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -102,7 +101,7 @@ class EditGood: UIViewController , UIScrollViewDelegate , UIImagePickerControlle
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     let PriceLabel: UILabel! = {
@@ -112,7 +111,7 @@ class EditGood: UIViewController , UIScrollViewDelegate , UIImagePickerControlle
         label.textColor = UIColor.black
         label.text = "* قیمت کالا"
         label.textAlignment = .right
-        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -139,7 +138,7 @@ class EditGood: UIViewController , UIScrollViewDelegate , UIImagePickerControlle
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     let DescriptionLabel: UILabel! = {
@@ -149,7 +148,7 @@ class EditGood: UIViewController , UIScrollViewDelegate , UIImagePickerControlle
         label.textColor = UIColor.black
         label.text = "توضیحات"
         label.textAlignment = .right
-        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -178,12 +177,22 @@ class EditGood: UIViewController , UIScrollViewDelegate , UIImagePickerControlle
         initNameContainer()
         initPriceContainer()
         initDescriptionContainer()
-        myInit()
+        
+        if(!(selectedGood.offPrImage as! String).contains("http") || selectedGood.offPrImage as! String == "" || selectedGood.offPrImage is NSNull)
+        {
+            
+        }
+        else
+        {
+            self.logo.loadImageUsingCacheWithUrlString(urlString: selectedGood.offPrImage as! String)
+            self.delLogoImageBtn.isHidden = false
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
         setScrollViewContentSize()
+        myInit()
     }
     
     override func viewDidLayoutSubviews() {
@@ -385,11 +394,11 @@ class EditGood: UIViewController , UIScrollViewDelegate , UIImagePickerControlle
     
     func myInit()
     {
-        self.NameTextFieald.text = self.good.offTitle as! String?
-        self.DescriptionTextField.text = self.good.offDescription as! String?
-        self.PriceTextField.text = "\(self.good.offBeforePrice!)"
+        self.NameTextFieald.text = selectedGood.offTitle as! String?
+        self.DescriptionTextField.text = selectedGood.offDescription as! String?
+        self.PriceTextField.text = "\(selectedGood.offBeforePrice!)"
         
-        self.logo.loadImageUsingCacheWithUrlString(urlString: self.good.offPrImage as! String)
+        self.imageAddress = selectedGood.offPrImage as! String
     }
 }
 
@@ -620,7 +629,100 @@ extension EditGood
     
     func sendInfoToServer(name:String , price:String ,description:String)
     {
-        print("here")
+        let phone:String = defaults.value(forKey: "phone") as! String
+        
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><AddOff xmlns=\"http://BuyApp.ir/\"><Id>\(selectedGood.Id!)</Id><Title>\(name)</Title><EndDate></EndDate><BeforePrice>\(price)</BeforePrice><Percent>\(0)</Percent><Description>\(description)</Description><MallId>\(selectedStore.MallId!)</MallId><stId>\(selectedStore.Id!)</stId><imgUrl>\(self.imageAddress)</imgUrl><Mobile>\(phone)</Mobile><TransactionNum></TransactionNum><Paytime></Paytime></AddOff></soap:Body></soap:Envelope>"
+        
+        let soapLenth = String(soapMessage.characters.count)
+        let theUrlString = Request.webServiceAddress
+        let theURL = NSURL(string: theUrlString)
+        let mutableR = NSMutableURLRequest(url: theURL! as URL)
+        
+        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        //mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
+        mutableR.httpMethod = "POST"
+        mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
+        
+        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
+        let session : URLSession = URLSession(configuration: configuration)
+        
+        let dataTask = session.dataTask(with: mutableR as URLRequest) {data,response,error in
+            
+            if error == nil
+            {
+                if let httpResponse = response as? HTTPURLResponse
+                {
+                    print(httpResponse.statusCode)
+                    
+                    var dictionaryData = NSDictionary()
+                    
+                    do
+                    {
+                        dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
+                        
+                        let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
+                        let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
+                        let mainDict1 = mainDict2.object(forKey: "AddOffResponse") as! NSDictionary
+                        let mainDict = mainDict1.object(forKey: "AddOffResult") as! NSDictionary
+                        
+                        if mainDict.count > 0{
+                            
+                            let mainD = NSDictionary(dictionary: mainDict as [NSObject : AnyObject])
+                            var cont = mainD["text"] as? String
+                            cont = "{ \"content\" : " + cont! + "}"
+                            
+                            let data = (cont)?.data(using: .utf8)!
+                            
+                            guard let _result = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String : AnyObject] else{
+                                
+                                return
+                            }
+                            
+                            if let _ress = _result["content"] as? [AnyObject]{
+                                
+                                for res in _ress
+                                {
+                                    if res["Result"] as! Int == 0
+                                    {
+                                        
+                                    }
+                                    else if res["Result"] as! Int == 1
+                                    {
+                                        DispatchQueue.main.async {
+                                            
+                                            
+                                            selectedGood.offTitle = (name as AnyObject)
+                                            selectedGood.offDescription = (description as AnyObject)
+                                            selectedGood.offBeforePrice = ((Int(price) as AnyObject))
+                                            selectedGood.offPrImage = (self.imageAddress as AnyObject)
+                                            
+                                            self.dismiss(animated: true, completion: {
+                                                
+                                                
+                                            })
+                                        }
+                                    }
+                                }
+                            }
+                            
+                        }
+                        else{
+                            
+                        }
+                    }
+                    catch
+                    {
+                        
+                    }
+                }
+            }
+            else
+            {
+                print("nil data")
+            }
+        }
+        dataTask.resume()
     }
 }
 

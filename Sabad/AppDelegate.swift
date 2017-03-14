@@ -26,6 +26,8 @@ var changeBannerAndList = false // when town is changed
 
 //UserStores
 var userStores:[Store] = [Store]()
+var selectedStore:Store!
+var selectedGood:Good!
 
 //var userStoreGoods:[Good] = [Good]()
 

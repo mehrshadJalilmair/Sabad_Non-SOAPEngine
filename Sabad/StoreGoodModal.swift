@@ -111,13 +111,73 @@ class StoreGoodModal: UIViewController {
     }()
     
     //vars
-    var good:Good!
     var haveOff = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        haveOff = true
+        if ((selectedGood.offPercent as! Int == 0) || (selectedGood.mainTime! < 0))
+        {
+            haveOff = false
+        }
         initViews()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        myInit()
+    }
+    
+    func myInit()
+    {
+        offLabel.text = "\(selectedGood.offPercent!) درصد تخفیف"
+        if !haveOff
+        {
+            offLabel.isHidden = true
+        }
+        else
+        {
+            offLabel.isHidden = false
+        }
+        offTitleLabel.text = "\(selectedGood.offTitle!)"
+        offMainTimeLabel.text = "\(selectedGood.mainTime!) روز دیگر"
+        if !haveOff
+        {
+            offMainTimeLabel.isHidden = true
+        }
+        else
+        {
+            offMainTimeLabel.isHidden = false
+        }
+        
+        
+        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(selectedGood.offBeforePrice!)")
+        attributeString.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, attributeString.length))
+        
+        var newPrice = (selectedGood.offBeforePrice as! Int)
+        if haveOff {
+            
+            newPrice = (selectedGood.offBeforePrice as! Int)  - ((selectedGood.offBeforePrice as! Int) * (selectedGood.offPercent  as! Int) / 100)
+        }
+        
+        if haveOff {
+            
+            AlPriceNumberLabel.attributedText = attributeString
+        }
+        else
+        {
+            //AlPriceLabel.text = "قیمت    "
+            AlPriceNumberLabel.text =  "\(selectedGood.offBeforePrice!)"
+        }
+        newPriceNumberLabel.text = "\(newPrice)"
+        if !haveOff
+        {
+            newPriceNumberLabel.isHidden = true
+            newPriceLabel.isHidden = true
+        }
+        
+        Image.loadImageUsingCacheWithUrlString(urlString: selectedGood.offPrImage as! String)
     }
     
     override func viewDidLayoutSubviews() {
@@ -161,14 +221,6 @@ class StoreGoodModal: UIViewController {
         var heightConstraint = NSLayoutConstraint(item: Image, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        Image.loadImageUsingCacheWithUrlString(urlString: self.good.offPrImage as! String)
-        
-        
-        haveOff = true
-        if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))
-        {
-            haveOff = false
-        }
         
         scrollView.addSubview(offLabel)
         //x
@@ -181,16 +233,6 @@ class StoreGoodModal: UIViewController {
         heightConstraint = NSLayoutConstraint(item: offLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 20)
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        offLabel.text = "\(self.good.offPercent!) درصد تخفیف"
-        if !haveOff
-        {
-            offLabel.isHidden = true
-        }
-        else
-        {
-            offLabel.isHidden = false
-        }
-        
         
         scrollView.addSubview(offTitleLabel)
         //x
@@ -203,8 +245,6 @@ class StoreGoodModal: UIViewController {
         heightConstraint = NSLayoutConstraint(item: offTitleLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 30)
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        offTitleLabel.text = "\(self.good.offTitle!)"
-        
         
         scrollView.addSubview(offMainTimeLabel)
         //x
@@ -217,25 +257,7 @@ class StoreGoodModal: UIViewController {
         heightConstraint = NSLayoutConstraint(item: offMainTimeLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 30)
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        offMainTimeLabel.text = "\(self.good.mainTime!) روز دیگر"
-        if !haveOff
-        {
-            offMainTimeLabel.isHidden = true
-        }
-        else
-        {
-            offMainTimeLabel.isHidden = false
-        }
         
-        
-        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!)")
-        attributeString.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, attributeString.length))
-        
-        var newPrice = (good.offBeforePrice as! Int)
-        if haveOff {
-            
-            newPrice = (good.offBeforePrice as! Int)  - ((good.offBeforePrice as! Int) * (good.offPercent  as! Int) / 100)
-        }
         
         scrollView.addSubview(priceContainer)
         //x
@@ -261,17 +283,6 @@ class StoreGoodModal: UIViewController {
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         
-        if haveOff {
-            
-            AlPriceNumberLabel.attributedText = attributeString
-        }
-        else
-        {
-            //AlPriceLabel.text = "قیمت    "
-            AlPriceNumberLabel.text =  "\(good.offBeforePrice!)"
-        }
-        
-        
         priceContainer.addSubview(AlPriceLabel)
         //x
         horizontalConstraint = NSLayoutConstraint(item: AlPriceLabel, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: priceContainer, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
@@ -295,7 +306,8 @@ class StoreGoodModal: UIViewController {
         heightConstraint = NSLayoutConstraint(item: newPriceNumberLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: priceContainer, attribute: NSLayoutAttribute.height, multiplier: 1/2, constant: 0)
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        newPriceNumberLabel.text = "\(newPrice)"
+        
+
         
         priceContainer.addSubview(newPriceLabel)
         //x
@@ -308,12 +320,6 @@ class StoreGoodModal: UIViewController {
         heightConstraint = NSLayoutConstraint(item: newPriceLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: priceContainer, attribute: NSLayoutAttribute.height, multiplier: 1/2, constant: 0)
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        
-        if !haveOff
-        {
-            newPriceNumberLabel.isHidden = true
-            newPriceLabel.isHidden = true
-        }
     }
 }
 
@@ -334,13 +340,13 @@ extension StoreGoodModal
     
     @IBAction func editGood(_ sender: Any) {
         
-        if ((good.offPercent as! Int == 0) || (good.mainTime! < 0)) //edit off
+        if ((selectedGood.offPercent as! Int == 0) || (selectedGood.mainTime! < 0)) //edit off
         {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let mvc = storyboard.instantiateViewController(withIdentifier: "EditGood") as! EditGood
             mvc.isModalInPopover = true
             mvc.modalTransitionStyle = .coverVertical
-            mvc.good = self.good
+            //mvc.good = selectedGood
             self.present(mvc, animated: true, completion: nil)
         }
         else //edit good
@@ -349,7 +355,7 @@ extension StoreGoodModal
             let mvc = storyboard.instantiateViewController(withIdentifier: "EditOff") as! EditOff
             mvc.isModalInPopover = true
             mvc.modalTransitionStyle = .coverVertical
-            mvc.good = self.good
+            //mvc.good = selectedGood
             self.present(mvc, animated: true, completion: nil)
         }
     }

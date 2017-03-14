@@ -140,7 +140,7 @@ extension UserStores
         let mvc = storyboard.instantiateViewController(withIdentifier: "UserStore") as! UserStore
         mvc.isModalInPopover = true
         mvc.modalTransitionStyle = .coverVertical
-        mvc.store = userStores[indexPath.row]
+        selectedStore = userStores[indexPath.row]
         self.present(mvc, animated: true, completion: nil)
     }
     

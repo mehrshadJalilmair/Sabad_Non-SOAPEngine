@@ -461,20 +461,7 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
         let heightConstraint = NSLayoutConstraint(item: collectionView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: height + 2)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         
-        /*scrollView.addSubview(collectionViewSupporterLabel)
-        //x
-        horizontalConstraint = NSLayoutConstraint(item: collectionViewSupporterLabel, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: 0)
-        //y
-        verticalConstraint = NSLayoutConstraint(item: collectionViewSupporterLabel, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.desc, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0)
-        //w
-        widthConstraint = NSLayoutConstraint(item: collectionViewSupporterLabel, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
-        //h
-        heightConstraint = NSLayoutConstraint(item: collectionViewSupporterLabel, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0)
-        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])*/
-        
         collectionView.backgroundColor = UIColor.white
-        //collectionViewSupporterLabel.isHidden = false
-        //scrollView.bringSubview(toFront: collectionViewSupporterLabel)
     }
 }
 

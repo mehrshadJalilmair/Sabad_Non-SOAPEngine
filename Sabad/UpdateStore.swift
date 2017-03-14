@@ -10,7 +10,7 @@ import UIKit
 
 class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate , UITextFieldDelegate{
     
-    var store:Store!
+    var mobile:String!
     
     @IBOutlet var scrollView: UIScrollView!
     
@@ -36,7 +36,7 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     lazy var logo: UIImageView! = {
@@ -170,7 +170,7 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     let NameLabel: UILabel! = {
@@ -180,7 +180,7 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         label.textColor = UIColor.black
         label.text = "* نام فروشگاه"
         label.textAlignment = .right
-        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -207,7 +207,7 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     let ManagementLabel: UILabel! = {
@@ -217,7 +217,7 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         label.textColor = UIColor.black
         label.text = "* مدیریت"
         label.textAlignment = .right
-        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -242,7 +242,7 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     let TellLabel: UILabel! = {
@@ -252,7 +252,7 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         label.textColor = UIColor.black
         label.text = "تلفن"
         label.textAlignment = .right
-        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -279,7 +279,7 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     let DescriptionLabel: UILabel! = {
@@ -289,7 +289,7 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         label.textColor = UIColor.black
         label.text = "توضیحات"
         label.textAlignment = .right
-        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -316,7 +316,7 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     let AddressLabel: UILabel! = {
@@ -326,7 +326,7 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         label.textColor = UIColor.black
         label.text = "آدرس"
         label.textAlignment = .right
-        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -357,11 +357,11 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         initTellContainer()
         initDescriptionContainer()
         initAddressContainer()
-        myInit()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
+        myInit()
         setScrollViewContentSize()
     }
     
@@ -734,25 +734,36 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
     
     func myInit()
     {
-        self.NameTextFieald.text = (self.store.stName as! String)
-        self.ManagementTextFieald.text = (self.store.stManager as! String)
-        self.TellTextFieald.text = (self.store.stTel as! String)
-        self.DescriptionTextFieald.text = (self.store.stDescription as! String)
-        self.AddressTextFieald.text = (self.store.stAddress as! String)
+        if defaults.value(forKey: "isLogin") == nil {
+            
+            //loginView.isHidden = false
+            self.mobile = ""
+        }
+        else
+        {
+            let phone:String = defaults.value(forKey: "phone") as! String
+            mobile = phone
+        }
+        
+        self.NameTextFieald.text = (selectedStore.stName as! String)
+        self.ManagementTextFieald.text = (selectedStore.stManager as! String)
+        self.TellTextFieald.text = (selectedStore.stTel as! String)
+        self.DescriptionTextFieald.text = (selectedStore.stDescription as! String)
+        self.AddressTextFieald.text = (selectedStore.stAddress as! String)
     
-        if(!(self.store.urlImage as! String).contains("http") || self.store.urlImage as! String == "" || self.store.urlImage is NSNull)
+        if(!(selectedStore.urlImage as! String).contains("http") || selectedStore.urlImage as! String == "" || selectedStore.urlImage is NSNull)
         {
             
         }
         else
         {
-            self.logo.loadImageUsingCacheWithUrlString(urlString: self.store.urlImage as! String)
-            filledImageViewNames["logo"] = (self.store.urlImage as! String)
+            self.logo.loadImageUsingCacheWithUrlString(urlString: selectedStore.urlImage as! String)
+            filledImageViewNames["logo"] = (selectedStore.urlImage as! String)
             self.delLogoImageBtn.isHidden = false
             var i = 0
             for url in self.ImagesURLS {
                 
-                if url == (self.store.urlImage as! String)
+                if url == (selectedStore.urlImage as! String)
                 {
                     self.ImagesURLS.remove(at: i)
                     break
@@ -1189,8 +1200,8 @@ extension UpdateStore
     
     func sendInfoToServer(name:String , managament:String , tell:String , description:String , address:String)
     {
-        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><CreateStore xmlns=\"http://BuyApp.ir/\"><stId>\(self.store.Id!)</stId><stName>\(name)</stName><stCode></stCode><stAddress>\(address)</stAddress><stManager>\(managament)</stManager><stDescription>\(description)</stDescription><stTel>\(tell)</stTel><MallId>\(storeMall)</MallId><img>\(filledImageViewNames["logo"]!)</img><img1>\(filledImageViewNames["image1"]!)</img1><img2>\(filledImageViewNames["image2"]!)</img2><img3>\(filledImageViewNames["image3"]!)</img3></CreateStore></soap:Body></soap:Envelope>"
-        print(soapMessage)
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><CreateStore xmlns=\"http://BuyApp.ir/\"><stId>\(selectedStore.Id!)</stId><stName>\(name)</stName><stCode></stCode><stAddress>\(address)</stAddress><stManager>\(managament)</stManager><stDescription>\(description)</stDescription><stTel>\(tell)</stTel><Mobile>\(self.mobile)</Mobile><MallId>\(selectedStore.MallId!)</MallId><img>\(filledImageViewNames["logo"]!)</img><img1>\(filledImageViewNames["image1"]!)</img1><img2>\(filledImageViewNames["image2"]!)</img2><img3>\(filledImageViewNames["image3"]!)</img3></CreateStore></soap:Body></soap:Envelope>"
+        //print(soapMessage)
         
         let soapLenth = String(soapMessage.characters.count)
         let theUrlString = Request.webServiceAddress
@@ -1252,6 +1263,13 @@ extension UpdateStore
                                     {
                                         DispatchQueue.main.async {
                                             
+                                            
+                                            selectedStore.stName = (name as AnyObject)
+                                            selectedStore.stManager = (managament as AnyObject)
+                                            selectedStore.stTel = (tell as AnyObject)
+                                            selectedStore.stAddress = (address as AnyObject)
+                                            selectedStore.stDescription = (description as AnyObject)
+                                            selectedStore.urlImage = (self.filledImageViewNames["logo"] as AnyObject)
                                             self.dismiss(animated: true, completion: {
                                                 
                                                 
