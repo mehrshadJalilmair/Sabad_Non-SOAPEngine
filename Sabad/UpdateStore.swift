@@ -1189,7 +1189,8 @@ extension UpdateStore
     
     func sendInfoToServer(name:String , managament:String , tell:String , description:String , address:String)
     {
-        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><CreateStore xmlns=\"http://BuyApp.ir/\"><stId>\(0)</stId><stName>\(name)</stName><stCode></stCode><stAddress>\(address)</stAddress><stManager>\(managament)</stManager><stDescription>\(description)</stDescription><stTel>\(tell)</stTel><MallId>\(storeMall)</MallId><img>\(filledImageViewNames["logo"]!)</img><img1>\(filledImageViewNames["image1"]!)</img1><img2>\(filledImageViewNames["image2"]!)</img2><img3>\(filledImageViewNames["image3"]!)</img3></CreateStore></soap:Body></soap:Envelope>"
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><CreateStore xmlns=\"http://BuyApp.ir/\"><stId>\(self.store.Id!)</stId><stName>\(name)</stName><stCode></stCode><stAddress>\(address)</stAddress><stManager>\(managament)</stManager><stDescription>\(description)</stDescription><stTel>\(tell)</stTel><MallId>\(storeMall)</MallId><img>\(filledImageViewNames["logo"]!)</img><img1>\(filledImageViewNames["image1"]!)</img1><img2>\(filledImageViewNames["image2"]!)</img2><img3>\(filledImageViewNames["image3"]!)</img3></CreateStore></soap:Body></soap:Envelope>"
+        print(soapMessage)
         
         let soapLenth = String(soapMessage.characters.count)
         let theUrlString = Request.webServiceAddress
@@ -1197,7 +1198,7 @@ extension UpdateStore
         let mutableR = NSMutableURLRequest(url: theURL! as URL)
         
         mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        //mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
         mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
         mutableR.httpMethod = "POST"
         mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
@@ -1229,6 +1230,8 @@ extension UpdateStore
                             let mainD = NSDictionary(dictionary: mainDict as [NSObject : AnyObject])
                             var cont = mainD["text"] as? String
                             cont = "{ \"content\" : " + cont! + "}"
+                            
+                            //print(cont as Any)
                             
                             let data = (cont)?.data(using: .utf8)!
                             

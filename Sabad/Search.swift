@@ -8,7 +8,8 @@
 
 import UIKit
 
-class Search: UIViewController , UICollectionViewDelegateFlowLayout , UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource , UIScrollViewDelegate , UITextFieldDelegate{
+class Search: UIViewController , UICollectionViewDelegateFlowLayout , UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource , UIScrollViewDelegate , UITextFieldDelegate
+{
 
     var tapGesture:UITapGestureRecognizer!
     
@@ -278,7 +279,7 @@ extension Search
         let mutableR = NSMutableURLRequest(url: theURL! as URL)
         
         mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        //mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
         mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
         mutableR.httpMethod = "POST"
         mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
@@ -443,145 +444,12 @@ extension Search
             
             DispatchQueue.main.async {
                 
-                //self.tableView.reloadData()
-                //self.collectionView.reloadData()
+                
             }
         }
         dataTask.resume()
     }
 
-    
-    //get from web service
-    /*func QueryOnDB(type:Int , TxtSearch:String , Offset:Int) //check out all conditions
-    {
-        let soap = SOAPEngine()
-        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
-        soap.userAgent = "SOAPEngine"
-        soap.actionNamespaceSlash = true
-        soap.version = SOAPVersion.VERSION_1_1
-        soap.responseHeader = true
-        
-        soap.setValue(type, forKey: "type")
-        soap.setValue(TxtSearch, forKey: "text")
-        soap.setValue(Offset, forKey: "Offset")
-        soap.setValue(twId, forKey: "twId")
-        
-        soap.requestURL(Request.webServiceAddress,
-                        soapAction: Request.searchAction,
-                        completeWithDictionary: { (statusCode : Int,
-                            dict : [AnyHashable : Any]?) -> Void in
-                            
-                            let result:Dictionary = dict! as Dictionary
-                            //print(result)
-                            let result1:NSDictionary = result[Array(result.keys)[0]]! as! NSDictionary
-                            let result2:NSDictionary = result1["SearchResponse"] as! NSDictionary
-                            var result3:String = result2["SearchResult"] as! String
-
-                            result3 = "{ \"content\" : " + result3 + "}"
-                            let data = (result3).data(using: .utf8)!
-                            
-                            guard let _result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : AnyObject] else{
-                                
-                                return
-                            }
-                            
-                            if(type == 1)
-                            {
-                                if let _malls = _result["content"] as? [AnyObject]{
-                                    
-                                    Offset == 0 ? searchMallList = [Mall]() : () //load more or not
-                                    
-                                    if _malls.count == 0
-                                    {
-                                        self.getMoreMall = false
-                                    }
-                                    else
-                                    {
-                                        self.getMoreMall = true
-                                    }
-                                    
-                                    for mall in _malls{
-                                        
-                                        if let actmall = mall as? [String : AnyObject]{
-                                            
-                                            let newmall = Mall(Id: actmall["Id"]!, twId: actmall["twId"]!, MallName: actmall["MallName"]!, MallDescription: actmall["MallDescription"]!, MallAddress: actmall["MallAddress"]!, MallTel: actmall["MallTel"]!, MallLogo: actmall["MallLogo"]!, MallActive: actmall["MallActive"]!, IsMall: actmall["IsMall"]! , Stores: actmall["Stores"]! as AnyObject)
-                                            //print(actmall)
-                                            searchMallList.append(newmall)
-                                        }
-                                    }
-                                    self.collectionView.isHidden = true
-                                    self.tableView.isHidden = false
-                                    self.tableView.reloadData()
-                                }
-                                
-                            }
-                            else if(type == 2)
-                            {
-                                if let _stores = _result["content"] as? [AnyObject]{
-                                    
-                                    Offset == 0 ? searchStoreList = [Store]() : () //load more or not
-                                    
-                                    if _stores.count == 0
-                                    {
-                                        self.getMoreStore = false
-                                    }
-                                    else
-                                    {
-                                        self.getMoreStore = true
-                                    }
-                                    
-                                    for store in _stores{
-                                        
-                                        if let actstore = store as? [String : AnyObject]{
-                                            
-                                            let newstore = Store(Id: actstore["Id"]!, stCode: actstore["stCode"]!, MallId: actstore["MallId"]!, stName: actstore["stName"]!, stAddress: actstore["stAddress"]!, stManager: actstore["stManager"]!, stDescription: actstore["stDescription"]!, stTel: actstore["stTel"]!, stActive: actstore["stActive"]!, Mobile: actstore["Mobile"]!, urlImage: actstore["urlImage"]!, pm: actstore["pm"]!, Followers: actstore["Followers"]!)
-                                            searchStoreList.append(newstore)
-                                            
-                                        }
-                                    }
-                                    self.collectionView.isHidden = true
-                                    self.tableView.isHidden = false
-                                    self.tableView.reloadData()
-                                }
-
-                            }
-                            else if(type == 3)
-                            {
-                                if let _goods = _result["content"] as? [AnyObject]{
-                                    
-                                    Offset == 0 ? searchGoodList = [Good]() : () //load more or not
-                                    
-                                    if _goods.count == 0
-                                    {
-                                        self.getMoreGood = false
-                                    }
-                                    else
-                                    {
-                                        self.getMoreGood = true
-                                    }
-                                    
-                                    for good in _goods{
-                                        
-                                        if let actgood = good as? [String : AnyObject]{
-                                            
-                                            let newgood = Good(Id: actgood["Id"]!, servicesId: actgood["servicesId"]!, offTitle: actgood["offTitle"]!, offPrImage: actgood["offPrImage"]!, offBeforePrice: actgood["offBeforePrice"]!, offPercent: actgood["offPercent"]!, offActive: actgood["offActive"]!, offDescription: actgood["offDescription"]!, offStartDate: actgood["offStartDate"]!, offEndDate: actgood["offEndDate"]!, offStartTime: actgood["offStartTime"]!, offEndTime: actgood["offEndTime"]!, Views: actgood["Views"]!)
-                                            searchGoodList.append(newgood)
-                                            
-                                        }
-                                    }
-                                    
-                                    self.collectionView.isHidden = false
-                                    self.tableView.isHidden = true
-                                    self.collectionView.reloadData()
-                                }
-                            }
-                            
-        }) { (error : Error?) -> Void in
-            
-            print(error!)
-        }
-    }*/
-    
     //collView funcs
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
         

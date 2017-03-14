@@ -15,7 +15,6 @@ class support: UIViewController, MFMailComposeViewControllerDelegate, PopupConte
     @IBOutlet var phone: UITextField!
     @IBOutlet var message: UITextField!
     
-    
     var closeHandler: (() -> Void)?
     
     @IBOutlet weak var button: UIButton! {
@@ -60,6 +59,27 @@ class support: UIViewController, MFMailComposeViewControllerDelegate, PopupConte
         
         if phone.characters.count < 11
         {
+            let alert = UIAlertController(title: "", message: "شماره موبایل را به صورت صحیح وارد کنید!", preferredStyle: UIAlertControllerStyle.alert)
+            
+            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                switch action.style{
+                case .default:
+                    
+                    break
+                    
+                case .cancel:
+                    
+                    print("cancel")
+                    break
+                    
+                case .destructive:
+                    
+                    print("destructive")
+                    break
+                }
+            }))
+            
+            self.present(alert, animated: true, completion: nil)
             return
         }
         
@@ -75,13 +95,85 @@ class support: UIViewController, MFMailComposeViewControllerDelegate, PopupConte
             
         } else {
             
-            print("cant send email")
+            let alert = UIAlertController(title: "", message: "امکان ارسال ایمیل وجود ندارد", preferredStyle: UIAlertControllerStyle.alert)
+            
+            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                switch action.style{
+                case .default:
+                    
+                    self.closeHandler?()
+                    break
+                    
+                case .cancel:
+                    
+                    print("cancel")
+                    break
+                    
+                case .destructive:
+                    
+                    print("destructive")
+                    break
+                }
+            }))
+            
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         
-        print(result)
+        switch(result.rawValue) { // <-- Here, note .value is being used
+            
+        case MFMailComposeResult.cancelled.rawValue: // <-- And here as well!
+            
+            print("Cancelled")
+            break
+            
+        case MFMailComposeResult.saved.rawValue:
+            
+            self.dismiss_(controller: controller)
+            print("sent")
+            break
+            
+        case MFMailComposeResult.sent.rawValue:
+            
+            self.dismiss_(controller: controller)
+            print("saved")
+            break
+            
+        default:
+            print("Default")
+        }
+    }
+    
+    func dismiss_(controller: MFMailComposeViewController)
+    {
+        
+        controller.dismiss(animated: true) {
+            
+            let alert = UIAlertController(title: "", message: "ایمیل به پشتیبانی ارسال شد.", preferredStyle: UIAlertControllerStyle.alert)
+            
+            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                switch action.style{
+                case .default:
+                    
+                    self.closeHandler?()
+                    break
+                    
+                case .cancel:
+                    
+                    print("cancel")
+                    break
+                    
+                case .destructive:
+                    
+                    print("destructive")
+                    break
+                }
+            }))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     @IBAction func back(_ sender: Any) {

@@ -33,7 +33,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     lazy var logo: UIImageView! = {
@@ -167,7 +167,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     let NameLabel: UILabel! = {
@@ -177,7 +177,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         label.textColor = UIColor.black
         label.text = "* نام فروشگاه"
         label.textAlignment = .right
-        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -204,7 +204,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     let ManagementLabel: UILabel! = {
@@ -214,7 +214,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         label.textColor = UIColor.black
         label.text = "* مدیریت"
         label.textAlignment = .right
-        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -241,7 +241,8 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.isUserInteractionEnabled = true
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     let PhoneLabel: UILabel! = {
@@ -251,7 +252,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         label.textColor = UIColor.black
         label.text = "* موبایل"
         label.textAlignment = .right
-        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -278,7 +279,8 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.isUserInteractionEnabled = true
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     let TellLabel: UILabel! = {
@@ -288,7 +290,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         label.textColor = UIColor.black
         label.text = "تلفن"
         label.textAlignment = .right
-        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -315,7 +317,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     let DescriptionLabel: UILabel! = {
@@ -325,7 +327,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         label.textColor = UIColor.black
         label.text = "توضیحات"
         label.textAlignment = .right
-        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -352,7 +354,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.layer.cornerRadius = 3
         filterView.layer.masksToBounds = true
-        filterView.backgroundColor = UIColor.red
+        filterView.backgroundColor = UIColor.lightGray
         return filterView
     }()
     let AddressLabel: UILabel! = {
@@ -362,7 +364,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         label.textColor = UIColor.black
         label.text = "آدرس"
         label.textAlignment = .right
-        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -464,7 +466,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         
         let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
         tapGesture6.cancelsTouchesInView = true
-        TellLabel.addGestureRecognizer(tapGesture6)
+        TellContainer.addGestureRecognizer(tapGesture6)
     }
     
     func setScrollViewContentSize() {
@@ -707,6 +709,18 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         //h
         heightConstraint = NSLayoutConstraint(item: PhoneTextFieald, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute , multiplier: 1, constant: 30)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
+        if defaults.value(forKey: "isLogin") == nil {
+            
+            //loginView.isHidden = false
+        }
+        else
+        {
+            let phone:String = defaults.value(forKey: "phone") as! String
+            PhoneTextFieald.text = phone
+            PhoneTextFieald.isUserInteractionEnabled = false
+            PhoneTextFieald.isEnabled = false
+        }
     }
     
     func initTellContainer()
@@ -1217,7 +1231,7 @@ extension StoreCreation
     
     func sendInfoToServer(name:String , managament:String , phone:String , tell:String , description:String , address:String)
     {
-        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><CreateStore xmlns=\"http://BuyApp.ir/\"><stId>\(0)</stId><stName>\(name)</stName><stCode></stCode><stAddress>\(address)</stAddress><stManager>\(managament)</stManager><stDescription>\(description)</stDescription><stTel>\(tell)</stTel><Mobile>\(phone)</Mobile><MallId>\(storeMall)</MallId><img>http://94.182.4.13:8012/SabadPic/Image/Store/\(filledImageViewNames["logo"]!)</img><img1>\(filledImageViewNames["image1"]!)</img1><img2>\(filledImageViewNames["image2"]!)</img2><img3>\(filledImageViewNames["image3"]!)</img3></CreateStore></soap:Body></soap:Envelope>"
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><CreateStore xmlns=\"http://BuyApp.ir/\"><stId>\(0)</stId><stName>\(name)</stName><stCode></stCode><stAddress>\(address)</stAddress><stManager>\(managament)</stManager><stDescription>\(description)</stDescription><stTel>\(tell)</stTel><Mobile>\(phone)</Mobile><MallId>\(storeMall)</MallId><img>\(filledImageViewNames["logo"]!)</img><img1>\(filledImageViewNames["image1"]!)</img1><img2>\(filledImageViewNames["image2"]!)</img2><img3>\(filledImageViewNames["image3"]!)</img3></CreateStore></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
         let theUrlString = Request.webServiceAddress
@@ -1225,7 +1239,7 @@ extension StoreCreation
         let mutableR = NSMutableURLRequest(url: theURL! as URL)
         
         mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        //mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
         mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
         mutableR.httpMethod = "POST"
         mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)

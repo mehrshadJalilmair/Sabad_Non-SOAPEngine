@@ -9,7 +9,6 @@
 import UIKit
 
 class TowNandMallBeforStCr: UIViewController , UITableViewDelegate , UITableViewDataSource{
-
     
     @IBOutlet var searhFor: UITextField!
     @IBOutlet var topLabel: UILabel!
@@ -17,7 +16,6 @@ class TowNandMallBeforStCr: UIViewController , UITableViewDelegate , UITableView
     @IBOutlet var bottomView: UIView!
     @IBOutlet var bottomLabel: UILabel!
     @IBOutlet var bottomBotton: UIButton!
-    
     
     var whichList = 0 //0 == town list && 1 == mall list && 2 == arealist
     
@@ -351,13 +349,13 @@ extension TowNandMallBeforStCr
                             if let _malls = _result["content"] as? [AnyObject]{
                                 
                                 townMallList = [Mall]()
-                                var newmall = Mall(Id: -1 as AnyObject, twId: -1 as AnyObject , MallName: "همه پاساژها و محدوده ها" as AnyObject, MallDescription: "" as AnyObject , MallAddress: "" as AnyObject , MallTel: "" as AnyObject , MallLogo: "" as AnyObject , MallActive: false as AnyObject, IsMall: true as AnyObject , Stores:0 as AnyObject)
-                                townMallList.append(newmall)
+                                //var newmall = Mall(Id: -1 as AnyObject, twId: -1 as AnyObject , MallName: "همه پاساژها و محدوده ها" as AnyObject, MallDescription: "" as AnyObject , MallAddress: "" as AnyObject , MallTel: "" as AnyObject , MallLogo: "" as AnyObject , MallActive: false as AnyObject, IsMall: true as AnyObject , Stores:0 as AnyObject)
+                                //townMallList.append(newmall)
                                 for mall in _malls{
                                     
                                     if let actmall = mall as? [String : AnyObject]{
                                         
-                                        newmall = Mall(Id: actmall["Id"]!, twId: -1 as AnyObject , MallName: actmall["MallName"]!, MallDescription: "" as AnyObject , MallAddress: "" as AnyObject , MallTel: "" as AnyObject , MallLogo: "" as AnyObject , MallActive: false as AnyObject, IsMall: actmall["IsMall"]!, Stores: 0 as AnyObject)//Stores: actmall["Stores"]!)
+                                        let newmall = Mall(Id: actmall["Id"]!, twId: -1 as AnyObject , MallName: actmall["MallName"]!, MallDescription: "" as AnyObject , MallAddress: "" as AnyObject , MallTel: "" as AnyObject , MallLogo: "" as AnyObject , MallActive: false as AnyObject, IsMall: actmall["IsMall"]!, Stores: 0 as AnyObject)//Stores: actmall["Stores"]!)
                                         townMallList.append(newmall)
                                     }
                                 }
