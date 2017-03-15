@@ -162,7 +162,7 @@ class addGood: UIViewController , UIScrollViewDelegate , UIImagePickerController
         NameTextFieald.textAlignment = .center
         NameTextFieald.backgroundColor = UIColor.white
         NameTextFieald.tintColor = UIColor.red
-        NameTextFieald.keyboardType = .phonePad
+        NameTextFieald.keyboardType = .namePhonePad
         NameTextFieald.translatesAutoresizingMaskIntoConstraints = false
         return NameTextFieald
     }()
@@ -651,7 +651,7 @@ extension addGood
                             let mainD = NSDictionary(dictionary: mainDict as [NSObject : AnyObject])
                             var cont = mainD["text"] as? String
                             cont = "{ \"content\" : " + cont! + "}"
-                            
+                                                    
                             let data = (cont)?.data(using: .utf8)!
                             
                             guard let _result = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String : AnyObject] else{
@@ -663,9 +663,33 @@ extension addGood
                                 
                                 for res in _ress
                                 {
-                                    if res["Result"] as! Int == 0
+                                    if res["Result"] as! Int == -2
                                     {
-                                        
+                                        DispatchQueue.main.async {
+                                            
+                                            let alert = UIAlertController(title: "", message: "محدودیت افزودن کالا برای شما پایان یافت!", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    print("default")
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    print("cancel")
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    print("destructive")
+                                                    break
+                                                }
+                                            }))
+                                            
+                                            self.present(alert, animated: true, completion: nil)
+                                        }
                                     }
                                     else if res["Result"] as! Int == 1
                                     {

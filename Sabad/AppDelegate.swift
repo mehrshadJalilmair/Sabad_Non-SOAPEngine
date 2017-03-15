@@ -23,7 +23,6 @@ var twIdIndex:Int = 1
 var changeBannerAndList = false // when town is changed
 
 
-
 //UserStores
 var userStores:[Store] = [Store]()
 var selectedStore:Store!
@@ -36,6 +35,9 @@ var openGettingStoreFields = false
 var storeTwon = -1
 var storeTwonIndex = -1
 var storeMall = -1
+var closeAfterAddMallArea = false
+var inputAddress = ""
+var inputName = ""
 
 //follows
 var followGoods:[Good] = [Good]()

@@ -203,7 +203,7 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
         NameTextFieald.textAlignment = .center
         NameTextFieald.backgroundColor = UIColor.white
         NameTextFieald.tintColor = UIColor.red
-        NameTextFieald.keyboardType = .phonePad
+        NameTextFieald.keyboardType = .namePhonePad
         NameTextFieald.translatesAutoresizingMaskIntoConstraints = false
         return NameTextFieald
     }()

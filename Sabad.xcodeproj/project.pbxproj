@@ -58,6 +58,7 @@
 		2FBA23351E734945002E9C32 /* EditOff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBA23341E734945002E9C32 /* EditOff.swift */; };
 		2FC83E051E4F7C0200300635 /* GoodAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC83E031E4F7C0200300635 /* GoodAddress.swift */; };
 		2FC83E061E4F7C0200300635 /* GoodAddress.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FC83E041E4F7C0200300635 /* GoodAddress.storyboard */; };
+		2FCBFC861E79368100A0BA7A /* AddMallArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCBFC851E79368000A0BA7A /* AddMallArea.swift */; };
 		2FDA93FC1E544AD500B2C224 /* selectTown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA93FB1E544AD500B2C224 /* selectTown.swift */; };
 		2FDA93FE1E5466FF00B2C224 /* tageds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA93FD1E5466FF00B2C224 /* tageds.swift */; };
 		2FE5CAE01E76A2FF0030DC4D /* logo_sana_app.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FE5CADF1E76A2FF0030DC4D /* logo_sana_app.png */; };
@@ -150,6 +151,7 @@
 		2FBA23341E734945002E9C32 /* EditOff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditOff.swift; sourceTree = "<group>"; };
 		2FC83E031E4F7C0200300635 /* GoodAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoodAddress.swift; sourceTree = "<group>"; };
 		2FC83E041E4F7C0200300635 /* GoodAddress.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = GoodAddress.storyboard; sourceTree = "<group>"; };
+		2FCBFC851E79368000A0BA7A /* AddMallArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMallArea.swift; sourceTree = "<group>"; };
 		2FDA93FB1E544AD500B2C224 /* selectTown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = selectTown.swift; sourceTree = "<group>"; };
 		2FDA93FD1E5466FF00B2C224 /* tageds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tageds.swift; sourceTree = "<group>"; };
 		2FE5CADF1E76A2FF0030DC4D /* logo_sana_app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_sana_app.png; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 			children = (
 				2FFB34351E5AE48200E1EFCA /* StoreCreation.swift */,
 				2FFB34371E5AECAD00E1EFCA /* TowNandMallBeforStCr.swift */,
+				2FCBFC851E79368000A0BA7A /* AddMallArea.swift */,
 			);
 			name = StoreCreatoin;
 			sourceTree = "<group>";
@@ -796,6 +799,7 @@
 				216E54F91E38030A00D6C957 /* AvatarImageView.swift in Sources */,
 				2F53C59A1E41F53600475CD5 /* Filter.swift in Sources */,
 				2FFF2C741E55F82C0051D495 /* XMLReader.m in Sources */,
+				2FCBFC861E79368100A0BA7A /* AddMallArea.swift in Sources */,
 				2FC83E051E4F7C0200300635 /* GoodAddress.swift in Sources */,
 				2FBA23351E734945002E9C32 /* EditOff.swift in Sources */,
 				21C69C151E37CAF90030A69F /* Host.swift in Sources */,

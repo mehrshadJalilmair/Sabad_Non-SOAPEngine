@@ -206,10 +206,11 @@ extension UserStores
                                     self.getMoreStore = true
                                 }*/
                                 
-                                if _stores.count > 0
-                                {
-                                    userStores = [Store]()
-                                }
+                                //if _stores.count > 0
+                                //{
+                                    //userStores = [Store]()
+                                //}
+                                userStores = [Store]()
                                 
                                 for store in _stores{
                                     

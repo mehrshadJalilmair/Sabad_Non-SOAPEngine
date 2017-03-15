@@ -162,7 +162,7 @@ class EditGood: UIViewController , UIScrollViewDelegate , UIImagePickerControlle
         NameTextFieald.textAlignment = .center
         NameTextFieald.backgroundColor = UIColor.white
         NameTextFieald.tintColor = UIColor.red
-        NameTextFieald.keyboardType = .phonePad
+        NameTextFieald.keyboardType = .namePhonePad
         NameTextFieald.translatesAutoresizingMaskIntoConstraints = false
         return NameTextFieald
     }()

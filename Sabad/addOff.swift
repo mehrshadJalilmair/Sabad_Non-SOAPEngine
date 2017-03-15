@@ -202,7 +202,7 @@ class addOff: UIViewController , UIScrollViewDelegate , UIImagePickerControllerD
         NameTextFieald.textAlignment = .center
         NameTextFieald.backgroundColor = UIColor.white
         NameTextFieald.tintColor = UIColor.red
-        NameTextFieald.keyboardType = .phonePad
+        NameTextFieald.keyboardType = .namePhonePad
         NameTextFieald.translatesAutoresizingMaskIntoConstraints = false
         return NameTextFieald
     }()
@@ -937,9 +937,33 @@ extension addOff
                                 
                                 for res in _ress
                                 {
-                                    if res["Result"] as! Int == 0
+                                    if res["Result"] as! Int == -2
                                     {
-                                        
+                                        DispatchQueue.main.async {
+                                            
+                                            let alert = UIAlertController(title: "", message: "محدودیت افزودن کالا برای شما پایان یافت!", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    print("default")
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    print("cancel")
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    print("destructive")
+                                                    break
+                                                }
+                                            }))
+                                            
+                                            self.present(alert, animated: true, completion: nil)
+                                        }
                                     }
                                     else if res["Result"] as! Int == 1
                                     {

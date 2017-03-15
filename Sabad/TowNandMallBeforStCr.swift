@@ -24,6 +24,12 @@ class TowNandMallBeforStCr: UIViewController , UITableViewDelegate , UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        storeTwon = -1
+        storeMall = -1
+        storeTwonIndex = -1
+        inputName = ""
+        inputAddress = ""
+        
         self.view.bringSubview(toFront: tableView)
         
         self.tableView.keyboardDismissMode = .onDrag
@@ -36,20 +42,27 @@ class TowNandMallBeforStCr: UIViewController , UITableViewDelegate , UITableView
         bottomBotton.setTitleColor(UIColor.white, for: .normal)
         bottomBotton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         
-        storeTwon = -1
-        storeMall = -1
-        storeTwonIndex = -1
-        
         whichList = 0
         openGettingStoreFields = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTownList), name: NSNotification.Name(rawValue: "townListRecieved"), object: nil)
         
         searhFor.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-
+        
         if townList.count == 0
         {
             request.GetTownList()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if closeAfterAddMallArea
+        {
+            self.dismiss(animated: true, completion: {
+                
+                closeAfterAddMallArea = false
+            })
         }
     }
 }
@@ -66,7 +79,14 @@ extension TowNandMallBeforStCr
     
     @IBAction func addAreaOrMall(_ sender: Any) {
         
-        
+
+        print("here \(whichList)")
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let mvc = storyboard.instantiateViewController(withIdentifier: "AddMallArea") as! AddMallArea
+        mvc.isModalInPopover = true
+        mvc.modalTransitionStyle = .coverVertical
+        mvc.whichType = self.whichList
+        self.present(mvc, animated: true, completion: nil)
     }
     
     func reloadTownList()
@@ -191,6 +211,9 @@ extension TowNandMallBeforStCr
                                 self.bottomLabel.text = "اگر پاساژ،بازار یا مجتمع مربوط به فروشگاه شما در لیست بالا نیست،بازار یا مجتمع جدید اضافه کنید"
                                 self.changeLayout(removeBottomViewOrAdd: false)
                             }
+                            
+                            townMallList.removeAll()
+                            self.tableView.reloadData()
                         }
                         
                         self.GetTownMallList(TwId: storeTwon)
@@ -236,8 +259,10 @@ extension TowNandMallBeforStCr
                                 self.bottomLabel.text = "چنانچه فروشگاه شما در آدرس های بالا موجود نیست،می توانید نام میدان یا خیابان اصلی را به لیست اضافه کنید"
                                 self.changeLayout(removeBottomViewOrAdd: false)
                             }
+                            
+                            townMallList.removeAll()
+                            self.tableView.reloadData()
                         }
-                        
                         
                         self.GetTownMallList(TwId: storeTwon)
                         break
@@ -273,22 +298,18 @@ extension TowNandMallBeforStCr
     func changeLayout(removeBottomViewOrAdd:Bool)// add area 1 == AddMallOrArea
     {
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        //bottomView.translatesAutoresizingMaskIntoConstraints = false
         
         if removeBottomViewOrAdd /// we dont need to add because twId = -1
         {
             let heightConstraint = NSLayoutConstraint(item: self.tableView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0)
             NSLayoutConstraint.activate([heightConstraint])
-            //self.view.bringSubview(toFront: tableView)
         }
         else
         {
             //h
             let heightConstraint = NSLayoutConstraint(item: self.tableView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: -self.bottomView.frame.size.height)
             NSLayoutConstraint.activate([heightConstraint])
-            //self.view.bringSubview(toFront: bottomView)
         }
-        //tableView.translatesAutoresizingMaskIntoConstraints = true
     }
     
     
@@ -324,14 +345,10 @@ extension TowNandMallBeforStCr
                     {
                         dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
                         
-                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
                         let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
                         let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
                         let mainDict1 = mainDict2.object(forKey: "MallForFilterResponse") as! NSDictionary
                         let mainDict = mainDict1.object(forKey: "MallForFilterResult") as! NSDictionary
-                        
-                        //print(mainDict1)
-                        //print(mainDict)
                         
                         if mainDict.count > 0{
                             
@@ -349,8 +366,7 @@ extension TowNandMallBeforStCr
                             if let _malls = _result["content"] as? [AnyObject]{
                                 
                                 townMallList = [Mall]()
-                                //var newmall = Mall(Id: -1 as AnyObject, twId: -1 as AnyObject , MallName: "همه پاساژها و محدوده ها" as AnyObject, MallDescription: "" as AnyObject , MallAddress: "" as AnyObject , MallTel: "" as AnyObject , MallLogo: "" as AnyObject , MallActive: false as AnyObject, IsMall: true as AnyObject , Stores:0 as AnyObject)
-                                //townMallList.append(newmall)
+
                                 for mall in _malls{
                                     
                                     if let actmall = mall as? [String : AnyObject]{
@@ -397,7 +413,7 @@ extension TowNandMallBeforStCr
                     }
                     catch
                     {
-                        //print("Your Dictionary value nil")
+
                     }
                 }
             }

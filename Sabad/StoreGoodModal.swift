@@ -335,7 +335,138 @@ extension StoreGoodModal
     
     @IBAction func deleteGood(_ sender: Any) {
         
-        print("deleteGood")
+        let alert = UIAlertController(title: "", message: "کالا حذف شود؟", preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "بله", style: UIAlertActionStyle.default, handler: { action in
+            switch action.style{
+            case .default:
+                
+                print("default")
+                self.deleteGood()
+                break
+                
+            case .cancel:
+                
+                print("cancel")
+                break
+                
+            case .destructive:
+                
+                print("destructive")
+                break
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "خیر", style: UIAlertActionStyle.cancel, handler: { action in
+            switch action.style{
+            case .default:
+                
+                print("default")
+                break
+                
+            case .cancel:
+                
+                print("cancel")
+                break
+                
+            case .destructive:
+                
+                print("destructive")
+                break
+            }
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func deleteGood()
+    {
+        let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><DeleteGood xmlns=\"http://BuyApp.ir/\"><OffId>\(selectedGood.Id!)</OffId></DeleteGood></soap:Body></soap:Envelope>"
+        
+        let soapLenth = String(soapMessage.characters.count)
+        let theUrlString = Request.webServiceAddress
+        let theURL = NSURL(string: theUrlString)
+        let mutableR = NSMutableURLRequest(url: theURL! as URL)
+        
+        mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        //mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
+        mutableR.httpMethod = "POST"
+        mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
+        
+        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
+        let session : URLSession = URLSession(configuration: configuration)
+        
+        let dataTask = session.dataTask(with: mutableR as URLRequest) {data,response,error in
+            
+            if error == nil
+            {
+                if let httpResponse = response as? HTTPURLResponse
+                {
+                    print(httpResponse.statusCode)
+                    
+                    var dictionaryData = NSDictionary()
+                    
+                    do
+                    {
+                        dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
+                        
+                        let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
+                        let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
+                        let mainDict1 = mainDict2.object(forKey: "DeleteGoodResponse") as! NSDictionary
+                        let mainDict = mainDict1.object(forKey: "DeleteGoodResult") as! NSDictionary
+                        
+                        if mainDict.count > 0{
+                            
+                            let mainD = NSDictionary(dictionary: mainDict as [NSObject : AnyObject])
+                            var cont = mainD["text"] as? String
+                            cont = "{ \"content\" : " + cont! + "}"
+                                                        
+                            let data = (cont)?.data(using: .utf8)!
+                            
+                            guard let _result = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String : AnyObject] else{
+                                
+                                return
+                            }
+                            
+                            if let _ress = _result["content"] as? [AnyObject]{
+                                
+                                for res in _ress
+                                {
+                                    if res["Result"] as! Int == 0
+                                    {
+                                        
+                                    }
+                                    else if res["Result"] as! Int == 1
+                                    {
+                                        DispatchQueue.main.async {
+                                            
+                                            self.dismiss(animated: true, completion: {
+                                                
+                                                
+                                            })
+                                        }
+                                    }
+                                }
+                            }
+                            
+                        }
+                        else{
+                            
+                        }
+                    }
+                    catch
+                    {
+                        
+                    }
+                }
+            }
+            else
+            {
+                print("nil data")
+            }
+        }
+        dataTask.resume()
     }
     
     @IBAction func editGood(_ sender: Any) {

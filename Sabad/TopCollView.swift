@@ -102,8 +102,9 @@ extension TopCollView
             cell.mainTimeLabel.isHidden = true
             
             cell.titleLabel.text = mall.MallName as! String?
-            cell.alreadyPriceLabel.text =  "\(mall.MallDescription!)"
-            cell.newPriceLabel.text = mall.MallAddress as! String?
+            //cell.alreadyPriceLabel.text =  "\(mall.MallDescription!)"
+            //cell.newPriceLabel.text = mall.MallAddress as! String?
+            cell.alreadyPriceLabel.text = mall.MallAddress as! String?
             
             var image = ""
             if let nimage = mall.MallLogo

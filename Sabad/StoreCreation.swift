@@ -396,6 +396,8 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         initTellContainer()
         initDescriptionContainer()
         initAddressContainer()
+        
+        print("\(inputName)   \(inputAddress)  \(storeMall)   \(storeTwonIndex)   \(storeTwon)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -830,6 +832,11 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         //h
         heightConstraint = NSLayoutConstraint(item: AddressTextFieald, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute , multiplier: 1, constant: 30)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
+        if inputAddress.characters.count > 0
+        {
+            AddressTextFieald.text = inputAddress
+        }
     }
 }
 
