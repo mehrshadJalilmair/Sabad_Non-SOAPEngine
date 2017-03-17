@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class UserStores: UIViewController , UITableViewDelegate , UITableViewDataSource{
 
@@ -146,6 +147,8 @@ extension UserStores
     
     func myStores(phone:String)
     {
+        globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
+        
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><MyStores xmlns=\"http://BuyApp.ir/\"><Mobile>\(phone)</Mobile></MyStores></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
@@ -166,9 +169,8 @@ extension UserStores
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -195,21 +197,7 @@ extension UserStores
                             }
                             if let _stores = _result["content"] as? [AnyObject]{
                                 
-                                //Offset == 0 ? searchStoreList = [Store]() : () //load more or not
-                                
-                                /*if _stores.count == 0
-                                {
-                                    self.getMoreStore = false
-                                }
-                                else
-                                {
-                                    self.getMoreStore = true
-                                }*/
-                                
-                                //if _stores.count > 0
-                                //{
-                                    //userStores = [Store]()
-                                //}
+ 
                                 userStores = [Store]()
                                 
                                 for store in _stores{
@@ -240,7 +228,32 @@ extension UserStores
             }
             else
             {
-                print("nil data")
+                DispatchQueue.main.async {
+                    
+                    let alert = UIAlertController(title: "خطا در دریافت", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            
+                            break
+                            
+                        case .cancel:
+                            
+                            break
+                            
+                        case .destructive:
+                            
+                            break
+                        }
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                
+                globalAlert.hideView()
             }
         }
         dataTask.resume()

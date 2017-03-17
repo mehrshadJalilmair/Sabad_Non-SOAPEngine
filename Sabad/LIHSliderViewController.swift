@@ -15,7 +15,6 @@ import UIKit
 
 open class LIHSliderViewController: UIViewController, LIHSliderItemDelegate {
 
-    //@IBOutlet weak var pageControl: UIPageControl!
     var pageControl: UIPageControl!
     fileprivate var pageController: UIPageViewController!
     fileprivate var currentIndex: Int = 0 {
@@ -121,7 +120,6 @@ open class LIHSliderViewController: UIViewController, LIHSliderItemDelegate {
             })
         } else {
             
-            print("slider fatal error : \(self.currentIndex+1)")
             guard let _ = self.contentViewController(atIndex: self.currentIndex+1) else
             {
                 self.currentIndex = 0

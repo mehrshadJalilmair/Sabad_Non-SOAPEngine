@@ -46,7 +46,7 @@ class Filter: UIViewController, PopupContentViewController, UITableViewDataSourc
         button.tintColor = UIColor.white
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+        button.titleLabel?.font = UIFont(name:"Vazir-Bold" , size:12)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.textColor = UIColor.white
         button.addTarget(self, action: #selector(AllGoodsType), for: .touchUpInside)
@@ -60,7 +60,7 @@ class Filter: UIViewController, PopupContentViewController, UITableViewDataSourc
         button.tintColor = UIColor.white
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+        button.titleLabel?.font = UIFont(name:"Vazir-Bold" , size:12)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.textColor = UIColor.white
         button.addTarget(self, action: #selector(NewGoodsType), for: .touchUpInside)
@@ -74,7 +74,7 @@ class Filter: UIViewController, PopupContentViewController, UITableViewDataSourc
         button.tintColor = UIColor.white
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+        button.titleLabel?.font = UIFont(name:"Vazir-Bold" , size:12)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.textColor = UIColor.white
         button.addTarget(self, action: #selector(OffsType), for: .touchUpInside)
@@ -130,7 +130,6 @@ class Filter: UIViewController, PopupContentViewController, UITableViewDataSourc
     override func viewDidDisappear(_ animated: Bool) {
         
         closeHandler?()
-        print("here")
     }
     
     
@@ -375,9 +374,8 @@ extension Filter
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -385,14 +383,12 @@ extension Filter
                     {
                         dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
                         
-                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
                         let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
                         let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
                         let mainDict1 = mainDict2.object(forKey: "MallForFilterResponse") as! NSDictionary
                         let mainDict = mainDict1.object(forKey: "MallForFilterResult") as! NSDictionary
+
                         
-                        //print(mainDict1)
-                        //print(mainDict)
                         
                         if mainDict.count > 0{
                             
@@ -438,13 +434,11 @@ extension Filter
                     }
                     catch
                     {
-                        //print("Your Dictionary value nil")
                     }
                 }
             }
             else
             {
-                print("nil data")
             }
         }
         dataTask.resume()

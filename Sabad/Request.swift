@@ -46,14 +46,14 @@ class Request: NSObject {
         let configuration: URLSessionConfiguration = URLSessionConfiguration.default
         let session : URLSession = URLSession(configuration: configuration)
         
-        print("start")
+
         let dataTask = session.dataTask(with: mutableR as URLRequest) {data,response,error in
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
+
                     
                     var dictionaryData = NSDictionary()
                     
@@ -66,9 +66,6 @@ class Request: NSObject {
                         let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
                         let mainDict1 = mainDict2.object(forKey: "TownListResponse") as! NSDictionary
                         let mainDict = mainDict1.object(forKey: "TownListResult") as! NSDictionary
-                        
-                        //print(mainDict1)
-                        //print(mainDict)
                         
                         if mainDict.count > 0{
                             
@@ -110,17 +107,14 @@ class Request: NSObject {
                     }
                     catch
                     {
-                        print("Your Dictionary value nil")
                     }
                 }
             }
             else
             {
-                print("nil data")
             }
         }
         dataTask.resume()
         
-        print("end")
     }
 }

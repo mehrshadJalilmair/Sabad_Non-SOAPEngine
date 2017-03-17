@@ -9,9 +9,11 @@
 import UIKit
 import SlidingTabBar
 
+var tabBarView: SlidingTabBar!
+
 class Host: UITabBarController, SlidingTabBarDataSource, SlidingTabBarDelegate, UITabBarControllerDelegate {
 
-    var tabBarView: SlidingTabBar!
+    
     var fromIndex: Int!
     var toIndex: Int!
     
@@ -35,6 +37,10 @@ class Host: UITabBarController, SlidingTabBarDataSource, SlidingTabBarDelegate, 
         
         self.delegate = self
         self.view.addSubview(tabBarView)
+        
+        UILabel.appearance().substituteFontName = "Vazir"
+        UITextField.appearance().substituteFontName = "Vazir"
+        UIButton.appearance().substituteFontName = "Vazir-Bold"
     }
     
     func tabBarItemsInSlidingTabBar(tabBarView: SlidingTabBar) -> [UITabBarItem] {
@@ -46,6 +52,11 @@ class Host: UITabBarController, SlidingTabBarDataSource, SlidingTabBarDelegate, 
         self.fromIndex = from
         self.toIndex = index
         self.selectedIndex = index
+        
+        if from == index
+        {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Update") , object:nil)
+        }
     }
     
     func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {

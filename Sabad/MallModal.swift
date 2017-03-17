@@ -10,7 +10,6 @@ import UIKit
 
 class MallModal: UIViewController , UITableViewDelegate , UITableViewDataSource{
 
-
     @IBOutlet weak var tableView: UITableView!
     
     var mall:Mall!
@@ -22,7 +21,6 @@ class MallModal: UIViewController , UITableViewDelegate , UITableViewDataSource{
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        print(mall.Id!)
         tableView.separatorStyle = .none
         tableView.register(SearchCell.self, forCellReuseIdentifier: self.cellId1)
         QueryOnDB(MallId: self.mall.Id as! Int, Offset: self.Offset)
@@ -43,9 +41,6 @@ extension MallModal
 {
     func QueryOnDB(MallId:Int , Offset:Int)
     {
-        
-        //let soapMessage1 = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><StoreInMall xmlns=\"http://BuyApp.ir/\"><MallId>\(MallId)</MallId><Offset>\(Offset)</Offset></StoreInMall></soap:Body></soap:Envelope>"
-        
         let soapMessage =
         "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><StoreInMall xmlns=\"http://BuyApp.ir/\"><MallId>\(MallId)</MallId><Offset>\(Offset)</Offset></StoreInMall></soap:Body></soap:Envelope>"
         
@@ -55,7 +50,6 @@ extension MallModal
         let mutableR = NSMutableURLRequest(url: theURL! as URL)
         
         mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        //mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
         mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
         mutableR.httpMethod = "POST"
         mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
@@ -67,24 +61,18 @@ extension MallModal
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
-                    
                     var dictionaryData = NSDictionary()
                     
                     do
                     {
                         dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
-                        
-                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
+
                         let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
                         let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
                         let mainDict1 = mainDict2.object(forKey: "StoreInMallResponse") as! NSDictionary
                         let mainDict = mainDict1.object(forKey: "StoreInMallResult") as! NSDictionary
-                        
-                        //print(mainDict1)
-                        //print(mainDict)
                         
                         if mainDict.count > 0{
                             
@@ -134,81 +122,16 @@ extension MallModal
                     }
                     catch
                     {
-                        //print("Your Dictionary value nil")
                     }
                 }
             }
             else
             {
-                print("nil data")
             }
         }
         dataTask.resume()
     }
 
-    //get from web service
-    /*func QueryOnDB(MallId:Int , Offset:Int) //check out all conditions
-    {
-        let soap = SOAPEngine()
-        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
-        soap.userAgent = "SOAPEngine"
-        soap.actionNamespaceSlash = true
-        soap.version = SOAPVersion.VERSION_1_1
-        soap.responseHeader = true
-        
-        soap.setValue(MallId, forKey: "MallId")
-        soap.setValue(Offset, forKey: "Offset")
-        soap.requestURL(Request.webServiceAddress,
-                        soapAction: Request.storesInMallAction,
-                        completeWithDictionary: { (statusCode : Int,
-                            dict : [AnyHashable : Any]?) -> Void in
-                            
-                            let result:Dictionary = dict! as Dictionary
-                            //print(result)
-                            let result1:NSDictionary = result[Array(result.keys)[0]]! as! NSDictionary
-                            let result2:NSDictionary = result1["StoreInMallResponse"] as! NSDictionary
-                            var result3:String = result2["StoreInMallResult"] as! String
-                            
-                            //print(result3)
-                            result3 = "{ \"content\" : " + result3 + "}"
-                            let data = (result3).data(using: .utf8)!
-                            
-                            guard let _result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : AnyObject] else{
-                                
-                                return
-                            }
-                            
-                            if let _stores = _result["content"] as? [AnyObject]{
-                                
-                                Offset == 0 ? storesInMall = [Store]() : () //load more or not
-                                
-                                if _stores.count == 0
-                                {
-                                    self.getMoreStore = false
-                                }
-                                else
-                                {
-                                    self.getMoreStore = true
-                                }
-                                
-                                for store in _stores{
-                                    
-                                    if let actstore = store as? [String : AnyObject]{
-                                        
-                                        let newstore = Store(Id: actstore["Id"]!, stCode: actstore["stCode"]!, MallId: actstore["MallId"]!, stName: actstore["stName"]!, stAddress: actstore["stAddress"]!, stManager: actstore["stManager"]!, stDescription: actstore["stDescription"]!, stTel: actstore["stTel"]!, stActive: actstore["stActive"]!, Mobile: actstore["Mobile"]!, urlImage: actstore["urlImage"]!, pm: actstore["pm"]!, Followers: actstore["Followers"]!)
-                                        storesInMall.append(newstore)
-                                        
-                                    }
-                                }
-                                self.tableView.reloadData()
-                            }
-        
-        }) { (error : Error?) -> Void in
-            
-            print(error!)
-        }
-    }*/
-    
     //tableView funcs
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -270,7 +193,6 @@ extension MallModal
         
         if(storesInMall.count - 1 == indexPath.row)
         {
-            print("s12")
             DispatchQueue.main.async {
                 
                 if self.getMoreStore

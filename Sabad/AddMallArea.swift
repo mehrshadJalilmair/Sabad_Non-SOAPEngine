@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class AddMallArea: UIViewController {
 
@@ -17,7 +18,7 @@ class AddMallArea: UIViewController {
     let name: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "۰۹۱۳۰۰۰۰۰۰۰"
@@ -31,7 +32,7 @@ class AddMallArea: UIViewController {
     let address: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "۰۹۱۳۰۰۰۰۰۰۰"
@@ -132,6 +133,8 @@ extension AddMallArea
     
     func addToServer(address:String , name:String)
     {
+        globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
+        
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><RequestMall xmlns=\"http://BuyApp.ir/\"><twId>\(storeTwon)</twId><name>\(name)</name><address>\(address)</address></RequestMall></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
@@ -152,9 +155,8 @@ extension AddMallArea
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -184,31 +186,68 @@ extension AddMallArea
                                 
                                 for res in _ress
                                 {
-                                    if res["Result"] as! Int == -2
-                                    {
-                                        
-                                    }
-                                    else if res["Result"] as! Int == 1
+                                    if res["Result"] as! Int == 1
                                     {
                                         DispatchQueue.main.async {
                                             
-                                            if self.whichType == 1
-                                            {
-                                                inputAddress = "\(name)_\(address)"
-                                            }
-                                            else
-                                            {
-                                                inputAddress = "\(address)"
-                                            }
-                                            inputName = name
-                                            closeAfterAddMallArea = true
-                                            storeMall = 571
-                                            openGettingStoreFields = true
+                                            let alert = UIAlertController(title: "", message: "ثبت مکان جدید انجام شد", preferredStyle: UIAlertControllerStyle.alert)
                                             
-                                            self.dismiss(animated: true, completion: {
-                                                
-                                                
-                                            })
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    if self.whichType == 1
+                                                    {
+                                                        inputAddress = "\(name)_\(address)"
+                                                    }
+                                                    else
+                                                    {
+                                                        inputAddress = "\(address)"
+                                                    }
+                                                    inputName = name
+                                                    closeAfterAddMallArea = true
+                                                    storeMall = 571
+                                                    openGettingStoreFields = true
+                                                    self.dismiss(animated: true, completion: {
+                                                        
+                                                        
+                                                    })
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    break
+                                                }
+                                            }))
+                                            self.present(alert, animated: true, completion: nil)
+                                        }
+                                    }
+                                    else
+                                    {
+                                        DispatchQueue.main.async {
+                                            
+                                            let alert = UIAlertController(title: "خطای سرور", message: "ثبت مکان جدید انجام نشد", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    break
+                                                }
+                                            }))
+                                            self.present(alert, animated: true, completion: nil)
                                         }
                                     }
                                 }
@@ -227,7 +266,32 @@ extension AddMallArea
             }
             else
             {
-                print("nil data")
+                DispatchQueue.main.async {
+                    
+                    let alert = UIAlertController(title: "خطا در دریافت", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            
+                            break
+                            
+                        case .cancel:
+                            
+                            break
+                            
+                        case .destructive:
+                            
+                            break
+                        }
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                
+                globalAlert.hideView()
             }
         }
         dataTask.resume()

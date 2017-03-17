@@ -57,22 +57,7 @@ class tageds: UIViewController , UICollectionViewDelegateFlowLayout , UICollecti
         for (key, value) in defaults.dictionaryRepresentation() {
             
             if key.contains("stId") {
-                
-                //print("\(key) = \(value)")
-                /*fav_icon.setImage(UIImage(named: "favorite_set"), for: UIControlState.normal)
-                defaults.set(self.store.Id, forKey: "stId\(self.store.Id!)")
-                defaults.set(self.store.stName, forKey: "stName\(self.store.Id!)")
-                defaults.set(self.store.MallId, forKey: "MallId\(self.store.Id!)")
-                defaults.set(self.store.stTel, forKey: "stTel\(self.store.Id!)")
-                defaults.set(self.store.stManager, forKey: "stManager\(self.store.Id!)")
-                defaults.set(self.store.stDescription, forKey: "stDescription\(self.store.Id!)")
-                defaults.set(self.store.stAddress, forKey: "stAddress\(self.store.Id!)")
-                defaults.set(self.store.stCode, forKey: "stCode\(self.store.Id!)")
-                defaults.set(self.store.Followers, forKey: "Followers\(self.store.Id!)")
-                defaults.set(self.store.Mobile, forKey: "Mobile\(self.store.Id!)")
-                defaults.set(self.store.stActive, forKey: "stActive\(self.store.Id!)")
-                defaults.set(self.store.pm, forKey: "pm\(self.store.Id!)")
-                defaults.set(self.store.urlImage, forKey: "urlImage\(self.store.Id!)")*/
+
                 let newstore = Store(Id: value as AnyObject, stCode: defaults.value(forKey: "servicesId\(value)") as AnyObject, MallId: defaults.value(forKey: "MallId\(value)") as AnyObject, stName: defaults.value(forKey: "stName\(value)") as AnyObject, stAddress: defaults.value(forKey: "stAddress\(value)") as AnyObject, stManager: defaults.value(forKey: "stManager\(value)") as AnyObject, stDescription: defaults.value(forKey: "stDescription\(value)") as AnyObject, stTel: defaults.value(forKey: "stTel\(value)") as AnyObject, stActive: defaults.value(forKey: "stActive\(value)") as AnyObject, Mobile: defaults.value(forKey: "Mobile\(value)") as AnyObject, urlImage: defaults.value(forKey: "urlImage\(value)") as AnyObject, pm: defaults.value(forKey: "pm\(value)") as AnyObject, Followers: defaults.value(forKey: "Followers\(value)") as AnyObject)
                 
                 tagedStores.append(newstore)
@@ -80,9 +65,6 @@ class tageds: UIViewController , UICollectionViewDelegateFlowLayout , UICollecti
             }
             else if key.contains("offId")
             {
-                //print("\(key) = \(value)")
-                
-                //defaults.value(forKey: "offActive\(value)")
                 let newgood = Good(Id: value as AnyObject,
                                    servicesId: defaults.value(forKey: "servicesId\(value)") as AnyObject,
                                    offTitle: defaults.value(forKey: "offTitle\(value)") as AnyObject,
@@ -230,27 +212,30 @@ extension tageds
         
         let good  = tagedGoods[indexPath.row]
         
+        cell.offLabel.text = "\(good.offPercent!) درصد    "
+        cell.mainTimeLabel.text = "\(good.mainTime!) روز"
+        cell.titleLabel.text = good.offTitle as! String?
+        
+        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!) تومان")
+        attributeString.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, attributeString.length))
+        cell.alreadyPriceLabel.attributedText = attributeString
+        
+        let newPrice = (good.offBeforePrice as! Int)  - ((good.offBeforePrice as! Int) * (good.offPercent  as! Int) / 100)
+        
         if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))
         {
             cell.offLabel.isHidden = true
             cell.mainTimeLabel.isHidden = true
+            cell.alreadyPriceLabel.text = "\(good.offBeforePrice!) تومان"
+            cell.newPriceLabel.isHidden = true
         }
         else
         {
             cell.offLabel.isHidden = false
             cell.mainTimeLabel.isHidden = false
+            cell.newPriceLabel.isHidden = false
+            cell.newPriceLabel.text = "\(newPrice) تومان"
         }
-        
-        cell.offLabel.text = "\(good.offPercent!) درصد    "
-        cell.mainTimeLabel.text = "\(good.mainTime!) روز"
-        cell.titleLabel.text = good.offTitle as! String?
-        
-        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!)")
-        attributeString.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, attributeString.length))
-        cell.alreadyPriceLabel.attributedText = attributeString
-        
-        let newPrice = (good.offBeforePrice as! Int)  - ((good.offBeforePrice as! Int) * (good.offPercent  as! Int) / 100)
-        cell.newPriceLabel.text = "\(newPrice)"
         
         var image = ""
         if let nimage = good.offPrImage

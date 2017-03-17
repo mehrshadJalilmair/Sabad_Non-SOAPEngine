@@ -9,6 +9,7 @@ target 'Sabad' do
   pod "SlidingTabBar"
   pod 'AFNetworking', '~> 3.0'
   pod 'DatePickerDialog'
+  pod 'SCLAlertView'
 
 
   target 'SabadTests' do

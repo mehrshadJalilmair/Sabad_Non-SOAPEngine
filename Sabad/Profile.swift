@@ -156,7 +156,6 @@ class Profile: UIViewController , UITableViewDelegate , UITableViewDataSource{
                         ]
                     )
                     .didShowHandler { popup in
-                        print("showed popup!")
                     }
                     .didCloseHandler { popup in
                     
@@ -182,7 +181,6 @@ class Profile: UIViewController , UITableViewDelegate , UITableViewDataSource{
                         ]
                     )
                     .didShowHandler { popup in
-                        print("showed popup!")
                     }
                     .didCloseHandler { popup in
                         

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class follows: UIViewController , UICollectionViewDelegateFlowLayout , UICollectionViewDataSource , UIScrollViewDelegate{
 
@@ -18,7 +19,7 @@ class follows: UIViewController , UICollectionViewDelegateFlowLayout , UICollect
     
     //collection view
     lazy var collectionView : UICollectionView! =
-        {
+    {
             let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
             layout.sectionInset = UIEdgeInsets(top: 2, left: 5, bottom: 2, right: 5)
             let width = ((SCREEN_SIZE.width) / 2) - 10
@@ -84,28 +85,32 @@ extension follows
         cell.topRightView.isHidden = true
         
         let good  = followGoods[indexPath.row]
-        
-        if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))
-        {
-            cell.offLabel.isHidden = true
-            cell.mainTimeLabel.isHidden = true
-        }
-        else
-        {
-            cell.offLabel.isHidden = false
-            cell.mainTimeLabel.isHidden = false
-        }
+
         
         cell.offLabel.text = "\(good.offPercent!) درصد    "
         cell.mainTimeLabel.text = "\(good.mainTime!) روز"
         cell.titleLabel.text = good.offTitle as! String?
         
-        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!)")
+        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!) تومان")
         attributeString.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, attributeString.length))
         cell.alreadyPriceLabel.attributedText = attributeString
         
         let newPrice = (good.offBeforePrice as! Int)  - ((good.offBeforePrice as! Int) * (good.offPercent  as! Int) / 100)
-        cell.newPriceLabel.text = "\(newPrice)"
+        
+        if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))
+        {
+            cell.offLabel.isHidden = true
+            cell.mainTimeLabel.isHidden = true
+            cell.alreadyPriceLabel.text = "\(good.offBeforePrice!) تومان"
+            cell.newPriceLabel.isHidden = true
+        }
+        else
+        {
+            cell.offLabel.isHidden = false
+            cell.mainTimeLabel.isHidden = false
+            cell.newPriceLabel.isHidden = false
+            cell.newPriceLabel.text = "\(newPrice) تومان"
+        }
         
         var image = ""
         if let nimage = good.offPrImage
@@ -137,7 +142,6 @@ extension follows
         
         if(followGoods.count - 1 == indexPath.row)
         {
-            print("s112")
             DispatchQueue.main.async {
                 
                 if self.getMoreGood
@@ -163,6 +167,9 @@ extension follows
     
     func QueryOnDB(userId:Int , Offset:Int)
     {
+        globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
+        
+        
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetFollowedGood xmlns=\"http://BuyApp.ir/\"><userId>\(userId)</userId><Offset>\(Offset)</Offset></GetFollowedGood></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
@@ -183,24 +190,21 @@ extension follows
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
                     do
                     {
                         dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
-                        
-                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
+
                         let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
                         let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
                         let mainDict1 = mainDict2.object(forKey: "GetFollowedGoodResponse") as! NSDictionary
                         let mainDict = mainDict1.object(forKey: "GetFollowedGoodResult") as! NSDictionary
                         
-                        //print(mainDict1)
-                        //print(mainDict)
+
                         
                         if mainDict.count > 0{
                             
@@ -251,82 +255,40 @@ extension follows
                     }
                     catch
                     {
-                        //print("Your Dictionary value nil")
                     }
                 }
             }
             else
             {
-                print("nil data")
+                DispatchQueue.main.async {
+                    
+                    let alert = UIAlertController(title: "خطا در دریافت", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            
+                            break
+                            
+                        case .cancel:
+                            
+                            break
+                            
+                        case .destructive:
+                            
+                            break
+                        }
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                
+                globalAlert.hideView()
             }
         }
         dataTask.resume()
     }
-    
-    
-    //get from web service
-    /*func QueryOnDB(userId:Int , Offset:Int) //check out all conditions
-    {
-        let soap = SOAPEngine()
-        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
-        soap.userAgent = "SOAPEngine"
-        soap.actionNamespaceSlash = true
-        soap.version = SOAPVersion.VERSION_1_1
-        soap.responseHeader = true
-        
-        soap.setValue(userId, forKey: "userId")
-        soap.setValue(Offset, forKey: "Offset")
-        soap.requestURL(Request.webServiceAddress,
-                        soapAction: Request.getFellowGoodsAction,
-                        completeWithDictionary: { (statusCode : Int,
-                            dict : [AnyHashable : Any]?) -> Void in
-                            
-                            let result:Dictionary = dict! as Dictionary
-                            //print(result)
-                            let result1:NSDictionary = result[Array(result.keys)[0]]! as! NSDictionary
-                            let result2:NSDictionary = result1["GetFollowedGoodResponse"] as! NSDictionary
-                            var result3:String = result2["GetFollowedGoodResult"] as! String
-                            
-                            result3 = "{ \"content\" : " + result3 + "}"
-                            //print(result3)
-                            let data = (result3).data(using: .utf8)!
-                            
-                            guard let _result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : AnyObject] else{
-                                
-                                return
-                            }
-                            
-                            if let _goods = _result["content"] as? [AnyObject]{
-                                
-                                
-                                self.Offset == 0 ? followGoods = [Good]() : () //load more or not
-                                
-                                if _goods.count == 0
-                                {
-                                    self.getMoreGood = false
-                                }
-                                else
-                                {
-                                    self.getMoreGood = true
-                                }
-                                
-                                for good in _goods{
-                                    
-                                    if let actgood = good as? [String : AnyObject]{
-                                        
-                                        let newgood = Good(Id: actgood["Id"]!, servicesId: actgood["servicesId"]!, offTitle: actgood["offTitle"]!, offPrImage: actgood["offPrImage"]!, offBeforePrice: actgood["offBeforePrice"]!, offPercent: actgood["offPercent"]!, offActive: actgood["offActive"]!, offDescription: actgood["offDescription"]!, offStartDate: actgood["offStartDate"]!, offEndDate: actgood["offEndDate"]!, offStartTime: actgood["offStartTime"]!, offEndTime: actgood["offEndTime"]!, Views: actgood["Views"]!)
-                                        followGoods.append(newgood)
-                                        
-                                    }
-                                }
-                                self.collectionView.reloadData()
-                                
-                            }
-                        
-        }) { (error : Error?) -> Void in
-            
-            print(error!)
-        }
-    }*/
 }
 

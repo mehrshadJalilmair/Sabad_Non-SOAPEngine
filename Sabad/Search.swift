@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class Search: UIViewController , UICollectionViewDelegateFlowLayout , UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource , UIScrollViewDelegate , UITextFieldDelegate
 {
@@ -121,6 +122,8 @@ class Search: UIViewController , UICollectionViewDelegateFlowLayout , UICollecti
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(Update), name: NSNotification.Name(rawValue: "Update"), object: nil)
+        
         searchText.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
         configDialog()
@@ -132,6 +135,31 @@ class Search: UIViewController , UICollectionViewDelegateFlowLayout , UICollecti
         QueryOnDB(type: self.type, TxtSearch: self.TxtSearch, Offset: self.Offset)
     }
 
+    func Update()
+    {
+        
+        if moreInSearchType > 0
+        {
+            self.type = moreInSearchType
+            QueryOnDB(type: self.type, TxtSearch: self.TxtSearch, Offset: self.Offset)
+            moreInSearchType = -1
+        }
+        else
+        {
+            QueryOnDB(type: self.type, TxtSearch: self.TxtSearch, Offset: self.Offset)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if moreInSearchType > 0
+        {
+            self.type = moreInSearchType
+            QueryOnDB(type: self.type, TxtSearch: self.TxtSearch, Offset: self.Offset)
+            moreInSearchType = -1
+        }
+    }
+    
     func configCollectionView()
     {
         view.addSubview(collectionView)
@@ -271,6 +299,8 @@ extension Search
     
     func QueryOnDB(type:Int , TxtSearch:String , Offset:Int)
     {
+        globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
+        
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><Search xmlns=\"http://BuyApp.ir/\"><Offset>\(Offset)</Offset><text>\(TxtSearch)</text><type>\(type)</type><twId>\(twId)</twId></Search></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
@@ -291,9 +321,8 @@ extension Search
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -301,14 +330,12 @@ extension Search
                     {
                         dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
                         
-                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
+
                         let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
                         let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
                         let mainDict1 = mainDict2.object(forKey: "SearchResponse") as! NSDictionary
                         let mainDict = mainDict1.object(forKey: "SearchResult") as! NSDictionary
-                        
-                        //print(mainDict1)
-                        //print(mainDict)
+
                         
                         if mainDict.count > 0{
                             
@@ -343,7 +370,6 @@ extension Search
                                         if let actmall = mall as? [String : AnyObject]{
                                             
                                             let newmall = Mall(Id: actmall["Id"]!, twId: actmall["twId"]!, MallName: actmall["MallName"]!, MallDescription: actmall["MallDescription"]!, MallAddress: actmall["MallAddress"]!, MallTel: actmall["MallTel"]!, MallLogo: actmall["MallLogo"]!, MallActive: actmall["MallActive"]!, IsMall: actmall["IsMall"]! , Stores: actmall["Stores"]! as AnyObject)
-                                            //print(actmall)
                                             searchMallList.append(newmall)
                                         }
                                     }
@@ -433,18 +459,38 @@ extension Search
                     }
                     catch
                     {
-                        //print("Your Dictionary value nil")
                     }
                 }
             }
             else
             {
-                print("nil data")
+                DispatchQueue.main.async {
+                    
+                    let alert = UIAlertController(title: "خطا در دریافت", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            
+
+                            break
+                            
+                        case .cancel:
+                            
+                            break
+                            
+                        case .destructive:
+                            
+                            break
+                        }
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
             
             DispatchQueue.main.async {
                 
-                
+                globalAlert.hideView()
             }
         }
         dataTask.resume()
@@ -463,27 +509,31 @@ extension Search
         
         let good  = searchGoodList[indexPath.row]
         
-        if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))
-        {
-            cell.offLabel.isHidden = true
-            cell.mainTimeLabel.isHidden = true
-        }
-        else
-        {
-            cell.offLabel.isHidden = false
-            cell.mainTimeLabel.isHidden = false
-        }
         
         cell.offLabel.text = "\(good.offPercent!) درصد    "
         cell.mainTimeLabel.text = "\(good.mainTime!) روز"
         cell.titleLabel.text = good.offTitle as! String?
         
-        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!)")
+        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!) تومان")
         attributeString.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, attributeString.length))
         cell.alreadyPriceLabel.attributedText = attributeString
         
-        let newPrice = (good.offBeforePrice as! Int)  - ((good.offBeforePrice as! Int) * (good.offPercent  as! Int) / 100)
-        cell.newPriceLabel.text = "\(newPrice)"
+        let newPrice = (good.offBeforePrice as! Int)  - ((good.offBeforePrice as! Int) * (good.offPercent  as! Int) / 100)        
+        
+        if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))
+        {
+            cell.offLabel.isHidden = true
+            cell.mainTimeLabel.isHidden = true
+            cell.alreadyPriceLabel.text = "\(good.offBeforePrice!) تومان"
+            cell.newPriceLabel.isHidden = true
+        }
+        else
+        {
+            cell.offLabel.isHidden = false
+            cell.mainTimeLabel.isHidden = false
+            cell.newPriceLabel.isHidden = false
+            cell.newPriceLabel.text = "\(newPrice) تومان"
+        }
         
         var image = ""
         if let nimage = good.offPrImage
@@ -515,7 +565,6 @@ extension Search
 
         if(searchGoodList.count - 1 == indexPath.row)
         {
-            print("s3")
             DispatchQueue.main.async {
                 
                 if self.getMoreGood
@@ -643,7 +692,6 @@ extension Search
             
             if(searchMallList.count - 1 == indexPath.row)
             {
-                print("s1")
                 DispatchQueue.main.async {
                     
                     if self.getMoreMall
@@ -653,14 +701,12 @@ extension Search
                     }
                 }
             }
-            //print("\(indexPath.row)  \(searchMallList.count)")
         }
         else if type == 2
         {
             
             if(searchStoreList.count - 1 == indexPath.row)
             {
-                print("s2")
                 DispatchQueue.main.async {
                     
                     if self.getMoreStore
@@ -670,7 +716,6 @@ extension Search
                     }
                 }
             }
-            //print("\(indexPath.row)  \(searchStoreList.count)")
         }
         
         

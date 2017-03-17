@@ -107,13 +107,9 @@ class GoodCell: UICollectionViewCell {
         
         contentView.layer.borderWidth = 1
         contentView.layer.borderColor = UIColor.darkGray.withAlphaComponent(0.4).cgColor
-        //contentView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        //contentView.layer.shadowOpacity = 1
         contentView.layer.cornerRadius = 0.2
         contentView.layer.masksToBounds = true
         
-        //let cellWidth = ((SCREEN_SIZE.width) / 2) - 10
-        //let cellHeight = ((SCREEN_SIZE.width) / 2) + cellWidth/2 - 15
         
         contentView.addSubview(image)
         //x
@@ -149,6 +145,7 @@ class GoodCell: UICollectionViewCell {
         widthConstraint = NSLayoutConstraint(item: titleLabel, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: contentView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
         //h
         heightConstraint = NSLayoutConstraint(item: titleLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: labelsHeight)
+        
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         
         contentView.addSubview(alreadyPriceLabel)
@@ -160,6 +157,8 @@ class GoodCell: UICollectionViewCell {
         widthConstraint = NSLayoutConstraint(item: alreadyPriceLabel, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: contentView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
         //h
         heightConstraint = NSLayoutConstraint(item: alreadyPriceLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: labelsHeight)
+
+    
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         
         contentView.addSubview(newPriceLabel)
@@ -192,7 +191,7 @@ class GoodCell: UICollectionViewCell {
         //y
         verticalConstraint = NSLayoutConstraint(item: topRightView, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: contentView, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -5)
         //w
-        widthConstraint = NSLayoutConstraint(item: topRightView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: contentView.frame.width/2)
+        widthConstraint = NSLayoutConstraint(item: topRightView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: contentView.frame.width/2 + 15)
         //h
         heightConstraint = NSLayoutConstraint(item: topRightView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 20)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])

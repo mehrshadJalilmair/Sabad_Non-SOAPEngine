@@ -11,6 +11,7 @@ import UIKit
 class TopCollView: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     let cellId = "Item"
+    let cellId0 = "Item0"
     
     var type:Int?
     {
@@ -37,6 +38,7 @@ class TopCollView: UITableViewCell, UICollectionViewDataSource, UICollectionView
             collectionView.dataSource = self
             collectionView.delegate = self
             collectionView.register(GoodCell.self, forCellWithReuseIdentifier: self.cellId)
+            collectionView.register(MallCell.self, forCellWithReuseIdentifier: self.cellId0)
             collectionView.backgroundColor = UIColor.white
             collectionView.translatesAutoresizingMaskIntoConstraints = false
             return collectionView
@@ -92,19 +94,17 @@ extension TopCollView
         switch self.type! {
             
         case 0:
-            
+            let cell0 = collectionView.dequeueReusableCell(withReuseIdentifier: cellId0, for: indexPath) as! MallCell
             let mall  = homeMallList[indexPath.row]
             
-            cell.iconInTopRightView.image = UIImage(named: "ic_store_36pt")
-            cell.labelInTopRightView.text =  "\(mall.Stores!) فروشگاه"
+            cell0.iconInTopRightView.image = UIImage(named: "ic_store_36pt")
+            cell0.labelInTopRightView.text =  "\(mall.Stores!) فروشگاه"
             
-            cell.offLabel.isHidden = true
-            cell.mainTimeLabel.isHidden = true
+            cell0.titleLabel.text = mall.MallName as! String?
+
+            let address = NSString(string: (mall.MallAddress as! String?)!)
             
-            cell.titleLabel.text = mall.MallName as! String?
-            //cell.alreadyPriceLabel.text =  "\(mall.MallDescription!)"
-            //cell.newPriceLabel.text = mall.MallAddress as! String?
-            cell.alreadyPriceLabel.text = mall.MallAddress as! String?
+            cell0.addressLabel.text = address as String
             
             var image = ""
             if let nimage = mall.MallLogo
@@ -112,33 +112,32 @@ extension TopCollView
                 if(nimage is NSNull)
                 {
                     image = "nedstark"
-                    cell.image.image = UIImage(named: image)
+                    cell0.image.image = UIImage(named: image)
                 }
                 else
                 {
                     if(nimage.contains("http"))
                     {
                         image = nimage as! String
-                        cell.image.loadImageUsingCacheWithUrlString(urlString: image)
+                        cell0.image.loadImageUsingCacheWithUrlString(urlString: image)
                     }
                     else
                     {
                         image = "nedstark"
-                        cell.image.image = UIImage(named: image)
+                        cell0.image.image = UIImage(named: image)
                     }
                 }
             }
             else
             {
                 image = "nedstark"
-                cell.image.image = UIImage(named: image)
+                cell0.image.image = UIImage(named: image)
             }
             
             if(goodsGoodList.count - 1 == indexPath.row)
             {
-                print("s02")
             }
-            return cell
+            return cell0
             
         case 1:
             
@@ -184,7 +183,7 @@ extension TopCollView
             
             if(goodsGoodList.count - 1 == indexPath.row)
             {
-                print("s02")
+
             }
             return cell
 
@@ -193,29 +192,33 @@ extension TopCollView
             let good  = homeGoodsList[indexPath.row]
             
             cell.iconInTopRightView.image = UIImage(named: "ic_visibility_36pt")
-            cell.labelInTopRightView.text =  "\(good.Views!) بازدید" 
-            
-            if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))
-            {
-                cell.offLabel.isHidden = true
-                cell.mainTimeLabel.isHidden = true
-            }
-            else
-            {
-                cell.offLabel.isHidden = false
-                cell.mainTimeLabel.isHidden = false
-            }
+            cell.labelInTopRightView.text =  "\(good.Views!) بازدید"
             
             cell.offLabel.text = "\(good.offPercent!) درصد    "
             cell.mainTimeLabel.text = "\(good.mainTime!) روز"
             cell.titleLabel.text = good.offTitle as! String?
             
-            let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!)")
+            let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!) تومان")
             attributeString.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, attributeString.length))
             cell.alreadyPriceLabel.attributedText = attributeString
             
             let newPrice = (good.offBeforePrice as! Int)  - ((good.offBeforePrice as! Int) * (good.offPercent  as! Int) / 100)
-            cell.newPriceLabel.text = "\(newPrice)"
+            
+            
+            if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))
+            {
+                cell.offLabel.isHidden = true
+                cell.mainTimeLabel.isHidden = true
+                cell.alreadyPriceLabel.text = "\(good.offBeforePrice!) تومان"
+                cell.newPriceLabel.isHidden = true
+            }
+            else
+            {
+                cell.offLabel.isHidden = false
+                cell.mainTimeLabel.isHidden = false
+                cell.newPriceLabel.isHidden = false
+                cell.newPriceLabel.text = "\(newPrice) تومان"
+            }
             
             var image = ""
             if let nimage = good.offPrImage
@@ -247,7 +250,6 @@ extension TopCollView
             
             if(goodsGoodList.count - 1 == indexPath.row)
             {
-                print("s02")
             }
             return cell
             

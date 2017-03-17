@@ -8,12 +8,19 @@
 
 import UIKit
 import CoreData
+import SCLAlertView
 
 let SCREEN_SIZE = UIScreen.main.bounds
 let defaults = UserDefaults.standard
 
-
-
+let appearance = SCLAlertView.SCLAppearance(
+    kTitleFont: UIFont(name: "HelveticaNeue", size: 20)!,
+    kTextFont: UIFont(name: "HelveticaNeue", size: 14)!,
+    kButtonFont: UIFont(name: "HelveticaNeue-Bold", size: 14)!,
+    showCloseButton: false
+)
+var globalAlert:SCLAlertView!
+var moreInSearchType = -1
 
 var townList:[Town] = [Town]()
 var townListCopy:[Town] = [Town]()
@@ -87,8 +94,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        
+        
+        globalAlert = SCLAlertView(appearance: appearance)
         request = Request()
         request.GetTownList()
+        
         return true
     }
 

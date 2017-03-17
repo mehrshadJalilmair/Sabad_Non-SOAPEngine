@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class setAbuseController: UIViewController , PopupContentViewController{
 
@@ -17,8 +18,6 @@ class setAbuseController: UIViewController , PopupContentViewController{
         
         didSet {
             
-            ///button.layer.borderColor = UIColor(red: 242/255, green: 105/255, blue: 100/255, alpha: 1.0).cgColor
-            //button.layer.borderWidth = 1.5
         }
     }
     
@@ -61,6 +60,7 @@ class setAbuseController: UIViewController , PopupContentViewController{
     
     func setAbuse(id:Int , type: Int , description:String)
     {
+        globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
         
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><SetAbuse xmlns=\"http://BuyApp.ir/\"><id>\(id)</id><type>\(type)</type><description>\(description)</description></SetAbuse></soap:Body></soap:Envelope>"
         
@@ -70,7 +70,6 @@ class setAbuseController: UIViewController , PopupContentViewController{
         let mutableR = NSMutableURLRequest(url: theURL! as URL)
         
         mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        //mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
         mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
         mutableR.httpMethod = "POST"
         mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
@@ -80,11 +79,15 @@ class setAbuseController: UIViewController , PopupContentViewController{
         
         let dataTask = session.dataTask(with: mutableR as URLRequest) {data,response,error in
             
+            DispatchQueue.main.async
+            {
+                globalAlert.hideView()
+            }
+            
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -92,14 +95,10 @@ class setAbuseController: UIViewController , PopupContentViewController{
                     {
                         dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
                         
-                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
                         let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
                         let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
                         let mainDict1 = mainDict2.object(forKey: "SetAbuseResponse") as! NSDictionary
                         let mainDict = mainDict1.object(forKey: "SetAbuseResult") as! NSDictionary
-                        
-                        //print(mainDict1)
-                        //print(mainDict)
                         
                         if mainDict.count > 0{
                             
@@ -114,95 +113,100 @@ class setAbuseController: UIViewController , PopupContentViewController{
                                 return
                             }
                             
-                            if let _ress = _result["content"] as? [AnyObject]{
+                            if let _ress = _result["content"] as? [AnyObject]
+                            {
                                 
                                 for res in _ress
                                 {
-                                    if res["Result"] as! Int == 0
-                                    {
-                                        
-                                    }
-                                    else if res["Result"] as! Int == 1
+                                    if res["Result"] as! Int == 1
                                     {
                                         DispatchQueue.main.async {
                                             
-                                            self.closeHandler?()
+                                            let alert = UIAlertController(title: "", message: "تخلف ثبت شد!", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    self.closeHandler?()
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    break
+                                                }
+                                            }))
+                                            self.present(alert, animated: true, completion: nil)
                                         }
                                     }
+                                    else
+                                    {
+                                        DispatchQueue.main.async
+                                            {
+                                                let alert = UIAlertController(title: "خطای سرور", message: "تخلف ثبت نشد!", preferredStyle: UIAlertControllerStyle.alert)
+                                                
+                                                alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                    switch action.style{
+                                                    case .default:
+                                                        
+                                                        break
+                                                        
+                                                    case .cancel:
+                                                        
+                                                        break
+                                                        
+                                                    case .destructive:
+                                                        
+                                                        break
+                                                    }
+                                                }))
+                                                self.present(alert, animated: true, completion: nil)
+                                        }
+                                    }
+
                                 }
                             }
                             
                         }
-                        else{
+                        else
+                        {
                             
                         }
                     }
                     catch
                     {
-                        //print("Your Dictionary value nil")
                     }
                 }
             }
             else
             {
-                print("nil data")
+                DispatchQueue.main.async
+                    {
+                        let alert = UIAlertController(title: "خطای در دریافت", message: "تخلف ثبت نشد!", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                            switch action.style{
+                            case .default:
+                                
+                                break
+                                
+                            case .cancel:
+                                
+                                break
+                                
+                            case .destructive:
+                                
+                                break
+                            }
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                }
             }
         }
         dataTask.resume()
     }
-    
-    //get from web service
-    /*func setAbuse(id:Int , type: Int , description:String) //check out all conditions
-    {
-        let soap = SOAPEngine()
-        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
-        soap.userAgent = "SOAPEngine"
-        soap.actionNamespaceSlash = true
-        soap.version = SOAPVersion.VERSION_1_1
-        soap.responseHeader = true
-        
-        soap.setValue(id, forKey: "id")
-        soap.setValue(type, forKey: "type")
-        soap.setValue(description, forKey: "description")
-        soap.requestURL(Request.webServiceAddress,
-                        soapAction: Request.setAbuseAction,
-                        completeWithDictionary: { (statusCode : Int,
-                            dict : [AnyHashable : Any]?) -> Void in
-                            
-                            let result:Dictionary = dict! as Dictionary
-                            //print(result)
-                            let result1:NSDictionary = result[Array(result.keys)[0]]! as! NSDictionary
-                            let result2:NSDictionary = result1["SetAbuseResponse"] as! NSDictionary
-                            var result3:String = result2["SetAbuseResult"] as! String
-                            
-                            result3 = "{ \"content\" : " + result3 + "}"
-                            print(result3)
-                            
-                            let data = (result3).data(using: .utf8)!
-                            
-                            guard let _result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : AnyObject] else{
-                                
-                                return
-                            }
-                            
-                            if let _ress = _result["content"] as? [AnyObject]{
-                                
-                                for res in _ress
-                                {
-                                    if res["Result"] as! Int == 0
-                                    {
-                                        
-                                    }
-                                    else if res["Result"] as! Int == 1
-                                    {
-                                        self.closeHandler?()
-                                    }
-                                }
-                            }
-                            
-        }) { (error : Error?) -> Void in
-            
-            print(error!)
-        }
-    }*/
 }

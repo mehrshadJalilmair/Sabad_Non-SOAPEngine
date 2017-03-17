@@ -35,6 +35,9 @@
 		21C69C361E37CAFA0030A69F /* SabadUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C69C351E37CAFA0030A69F /* SabadUITests.swift */; };
 		2F057E591E6C4242003A24C5 /* UserStores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F057E581E6C4242003A24C5 /* UserStores.swift */; };
 		2F057E5B1E6C52DA003A24C5 /* enterCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F057E5A1E6C52D9003A24C5 /* enterCode.swift */; };
+		2F06DC681E7B3520003B0CF8 /* MallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F06DC671E7B3520003B0CF8 /* MallCell.swift */; };
+		2F06DC6C1E7B4A0F003B0CF8 /* Vazir-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F06DC6A1E7B39DE003B0CF8 /* Vazir-Bold.ttf */; };
+		2F06DC6D1E7B4A0F003B0CF8 /* Vazir.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F06DC6B1E7B39DE003B0CF8 /* Vazir.ttf */; };
 		2F0EAA611E6C91D10078E554 /* support.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F0EAA5F1E6C91D10078E554 /* support.storyboard */; };
 		2F0EAA621E6C91D10078E554 /* support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EAA601E6C91D10078E554 /* support.swift */; };
 		2F0EAA641E6C9D560078E554 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F0EAA631E6C9D550078E554 /* MessageUI.framework */; };
@@ -128,6 +131,9 @@
 		26837CF6E136A59085AFCAD9 /* Pods_SabadTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SabadTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F057E581E6C4242003A24C5 /* UserStores.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStores.swift; sourceTree = "<group>"; };
 		2F057E5A1E6C52D9003A24C5 /* enterCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = enterCode.swift; sourceTree = "<group>"; };
+		2F06DC671E7B3520003B0CF8 /* MallCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MallCell.swift; sourceTree = "<group>"; };
+		2F06DC6A1E7B39DE003B0CF8 /* Vazir-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Vazir-Bold.ttf"; sourceTree = "<group>"; };
+		2F06DC6B1E7B39DE003B0CF8 /* Vazir.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Vazir.ttf; sourceTree = "<group>"; };
 		2F0EAA5F1E6C91D10078E554 /* support.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = support.storyboard; sourceTree = "<group>"; };
 		2F0EAA601E6C91D10078E554 /* support.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = support.swift; sourceTree = "<group>"; };
 		2F0EAA631E6C9D550078E554 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -203,6 +209,7 @@
 			children = (
 				2127B5511E3BF70600031E2F /* Home.swift */,
 				2FFEC37A1E433E6800E91E5F /* TopCollView.swift */,
+				2F06DC671E7B3520003B0CF8 /* MallCell.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -304,6 +311,7 @@
 			isa = PBXGroup;
 			children = (
 				2FE5CADF1E76A2FF0030DC4D /* logo_sana_app.png */,
+				2F06DC691E7B39BF003B0CF8 /* Fonts */,
 				21C69C111E37CAF90030A69F /* Sabad */,
 				21C69C291E37CAFA0030A69F /* SabadTests */,
 				21C69C341E37CAFA0030A69F /* SabadUITests */,
@@ -372,6 +380,15 @@
 				2FBA23341E734945002E9C32 /* EditOff.swift */,
 			);
 			name = UserStores;
+			sourceTree = "<group>";
+		};
+		2F06DC691E7B39BF003B0CF8 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				2F06DC6A1E7B39DE003B0CF8 /* Vazir-Bold.ttf */,
+				2F06DC6B1E7B39DE003B0CF8 /* Vazir.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		2F0EAA5E1E6C91B30078E554 /* Supporting */ = {
@@ -551,7 +568,7 @@
 					21C69C0E1E37CAF90030A69F = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = GZTYPK66JG;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					21C69C251E37CAFA0030A69F = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -592,6 +609,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F06DC6C1E7B4A0F003B0CF8 /* Vazir-Bold.ttf in Resources */,
+				2F06DC6D1E7B4A0F003B0CF8 /* Vazir.ttf in Resources */,
 				2F53C59C1E41F55500475CD5 /* Filter.storyboard in Resources */,
 				2F57DDC91E4DE27700538108 /* setAbuseController.storyboard in Resources */,
 				21C69C201E37CAFA0030A69F /* LaunchScreen.storyboard in Resources */,
@@ -801,6 +820,7 @@
 				2FFF2C741E55F82C0051D495 /* XMLReader.m in Sources */,
 				2FCBFC861E79368100A0BA7A /* AddMallArea.swift in Sources */,
 				2FC83E051E4F7C0200300635 /* GoodAddress.swift in Sources */,
+				2F06DC681E7B3520003B0CF8 /* MallCell.swift in Sources */,
 				2FBA23351E734945002E9C32 /* EditOff.swift in Sources */,
 				21C69C151E37CAF90030A69F /* Host.swift in Sources */,
 				2F4F8E1B1E559615005E9D24 /* aboutCanDo.swift in Sources */,
@@ -970,8 +990,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ir.cando.Sabad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "56d2a501-27f3-4a00-b4e5-82cb7b9e2664";
-				PROVISIONING_PROFILE_SPECIFIER = Sabad;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mehrshad/Desktop/Sabad Project/Sabad Versions/Sabad_Non-SOAPEngine/Sabad/Sabad-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -989,8 +1009,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ir.cando.Sabad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "56d2a501-27f3-4a00-b4e5-82cb7b9e2664";
-				PROVISIONING_PROFILE_SPECIFIER = Sabad;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mehrshad/Desktop/Sabad Project/Sabad Versions/Sabad_Non-SOAPEngine/Sabad/Sabad-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
@@ -101,6 +102,16 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
         return label
     }()
     let desc: UILabel! = {
+        
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.textColor = UIColor.black
+        label.textAlignment = .center
+        label.backgroundColor = UIColor.white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    let address: UILabel! = {
         
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 10)
@@ -207,6 +218,7 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
         manager.text = selectedStore.stManager as? String
         followerLabel.text = "\(selectedStore.Followers!) دنبال کننده"
         name.text = selectedStore.stName as? String
+        address.text = selectedStore.stAddress as? String
     }
     
     override func viewDidLayoutSubviews() {
@@ -396,6 +408,18 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         
+        scrollView.addSubview(address)
+        //x
+        horizontalConstraint = NSLayoutConstraint(item: address, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: desc, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0)
+        //y
+        verticalConstraint = NSLayoutConstraint(item: address, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: -5)
+        //w
+        widthConstraint = NSLayoutConstraint(item: address, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
+        //h
+        heightConstraint = NSLayoutConstraint(item: address, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 30)
+        //90 == 3*header of section height + 15
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
         
         btnsView.backgroundColor = UIColor.darkGray
         editBtn.backgroundColor = UIColor(r: 80, g: 101, b: 161)
@@ -423,7 +447,7 @@ class UserStore: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , U
         //x
         let horizontalConstraint = NSLayoutConstraint(item: collectionView, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: 0)
         //y
-        let verticalConstraint = NSLayoutConstraint(item: collectionView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.desc, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +8)
+        let verticalConstraint = NSLayoutConstraint(item: collectionView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.address, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +8)
         //w
         let widthConstraint = NSLayoutConstraint(item: collectionView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
         //h
@@ -441,7 +465,6 @@ extension UserStore
     //press image slider index
     func itemPressedAtIndex(index: Int) {
         
-        print(index)
     }
     
     @IBAction func edit(_ sender: Any) {
@@ -483,18 +506,15 @@ extension UserStore
             switch action.style{
             case .default:
                 
-                print("default")
                 self.deleteStore()
                 break
                 
             case .cancel:
                 
-                print("cancel")
                 break
                 
             case .destructive:
                 
-                print("destructive")
                 break
             }
         }))
@@ -503,17 +523,14 @@ extension UserStore
             switch action.style{
             case .default:
                 
-                print("default")
                 break
                 
             case .cancel:
                 
-                print("cancel")
                 break
                 
             case .destructive:
                 
-                print("destructive")
                 break
             }
         }))
@@ -523,6 +540,8 @@ extension UserStore
     
     func deleteStore()
     {
+        globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
+        
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><DeleteStore xmlns=\"http://BuyApp.ir/\"><StId>\(selectedStore.Id!)</StId></DeleteStore></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
@@ -543,9 +562,8 @@ extension UserStore
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -585,17 +603,14 @@ extension UserStore
                                                 switch action.style{
                                                 case .default:
                                                     
-                                                    print("default")
                                                     break
                                                     
                                                 case .cancel:
                                                     
-                                                    print("cancel")
                                                     break
                                                     
                                                 case .destructive:
                                                     
-                                                    print("destructive")
                                                     break
                                                 }
                                             }))
@@ -607,10 +622,54 @@ extension UserStore
                                     {
                                         DispatchQueue.main.async {
                                             
-                                            self.dismiss(animated: true, completion: {
-                                                
-                                                
-                                            })
+                                            let alert = UIAlertController(title: "", message: "فروشگاه حذف شد", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    self.dismiss(animated: true, completion: {
+                                                        
+                                                        
+                                                    })
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    break
+                                                }
+                                            }))
+                                            self.present(alert, animated: true, completion: nil)
+                                        }
+
+                    
+                                    }
+                                    else
+                                    {
+                                        DispatchQueue.main.async {
+                                            
+                                            let alert = UIAlertController(title: "خطای سرور", message: "فروشگاه حذف نشد!", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    break
+                                                }
+                                            }))
+                                            self.present(alert, animated: true, completion: nil)
                                         }
                                     }
                                 }
@@ -629,7 +688,32 @@ extension UserStore
             }
             else
             {
-                print("nil data")
+                DispatchQueue.main.async {
+                    
+                    let alert = UIAlertController(title: "خطا در دریافت", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            
+                            break
+                            
+                        case .cancel:
+                            
+                            break
+                            
+                        case .destructive:
+                            
+                            break
+                        }
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+            
+            DispatchQueue.main.async
+            {
+                globalAlert.hideView()
             }
         }
         dataTask.resume()
@@ -639,7 +723,6 @@ extension UserStore
         
         self.dismiss(animated: true) {
             
-            print("dismiss")
         }
     }
 
@@ -657,27 +740,32 @@ extension UserStore
         cell.iconInTopRightView.image = UIImage(named: "ic_visibility_36pt")
         cell.labelInTopRightView.text =  "\(good.Views!) بازدید"
         
-        if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))
-        {
-            cell.offLabel.isHidden = true
-            cell.mainTimeLabel.isHidden = true
-        }
-        else
-        {
-            cell.offLabel.isHidden = false
-            cell.mainTimeLabel.isHidden = false
-        }
+        
         
         cell.offLabel.text = "\(good.offPercent!) درصد    "
         cell.mainTimeLabel.text = "\(good.mainTime!) روز"
         cell.titleLabel.text = good.offTitle as! String?
         
-        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!)")
+        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!) تومان")
         attributeString.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, attributeString.length))
         cell.alreadyPriceLabel.attributedText = attributeString
         
         let newPrice = (good.offBeforePrice as! Int)  - ((good.offBeforePrice as! Int) * (good.offPercent  as! Int) / 100)
-        cell.newPriceLabel.text = "\(newPrice)"
+        
+        if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))
+        {
+            cell.offLabel.isHidden = true
+            cell.mainTimeLabel.isHidden = true
+            cell.alreadyPriceLabel.text = "\(good.offBeforePrice!) تومان"
+            cell.newPriceLabel.isHidden = true
+        }
+        else
+        {
+            cell.offLabel.isHidden = false
+            cell.mainTimeLabel.isHidden = false
+            cell.newPriceLabel.isHidden = false
+            cell.newPriceLabel.text = "\(newPrice) تومان"
+        }
         
         var image = ""
         if let nimage = good.offPrImage
@@ -709,7 +797,6 @@ extension UserStore
         
         if(storeGoods.count - 1 == indexPath.row)
         {
-            print("s02")
         }
         return cell
     }
@@ -747,9 +834,8 @@ extension UserStore
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -812,13 +898,11 @@ extension UserStore
                     }
                     catch
                     {
-                        //print("Your Dictionary value nil")
                     }
                 }
             }
             else
             {
-                print("nil data")
             }
         }
         dataTask.resume()
@@ -846,9 +930,8 @@ extension UserStore
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -899,19 +982,18 @@ extension UserStore
                                     self.collectionView.reloadData()
                                     if self.storeGoods.count > 0
                                     {
-                                        let height = self.slider1Container.frame.height  + self.containersContainer.frame.height + 5 + (4 * self.name.frame.height) + self.collectionView.frame.height + 8
+                                        let height = self.slider1Container.frame.height  + self.containersContainer.frame.height + 5 + (5 * self.name.frame.height) + self.collectionView.frame.height + 25
                                         
                                         self.scrollView.contentSize = CGSize(self.view.frame.width , height)
                                     }
                                     else
                                     {
-                                        let height = self.slider1Container.frame.height + self.containersContainer.frame.height + 5 + (4 * self.name.frame.height)
+                                        let height = self.slider1Container.frame.height + self.containersContainer.frame.height + 5 + (5 * self.name.frame.height)
                                         
                                         self.scrollView.contentSize = CGSize(self.view.frame.width , height)
                                     }
                                 }
                             }
-                            
                         }
                         else{
                             
@@ -919,13 +1001,11 @@ extension UserStore
                     }
                     catch
                     {
-                        //print("Your Dictionary value nil")
                     }
                 }
             }
             else
             {
-                print("nil data")
             }
         }
         dataTask.resume()

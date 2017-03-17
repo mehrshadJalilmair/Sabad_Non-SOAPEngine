@@ -97,11 +97,8 @@ class Good: NSObject{
             self.offTitle = "" as AnyObject?
         }
         
-        //print(offStartDate)
-        //print(offEndDate)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy HH:mm:ss a"
-        //let _date1 = dateFormatter.date(from: self.offStartDate as! String)!
         let _date2 = dateFormatter.date(from: self.offEndDate as! String)! as NSDate
         
         let calendar = NSCalendar.current as NSCalendar

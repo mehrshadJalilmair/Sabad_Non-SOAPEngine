@@ -10,24 +10,7 @@ import UIKit
 
 class SearchCell: UITableViewCell {
     
-    /*let IImageView: UIImageView = {
-        let IImageView = UIImageView()
-        IImageView.translatesAutoresizingMaskIntoConstraints = false
-        IImageView.layer.cornerRadius = 24
-        IImageView.layer.masksToBounds = true
-        IImageView.contentMode = .scaleAspectFill
-        return IImageView
-    }()
-    
-    let timeLabel: UILabel = {
-        let label = UILabel()
-        //        label.text = "HH:MM:SS"
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = UIColor.darkGray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()*/
-    let View : UIView! = {
+        let View : UIView! = {
         
         let View = UIView()
         //View.backgroundColor = UIColor.green

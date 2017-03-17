@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '46B4085ECFA43CBD290DFDD7963E50A7'
+               BlueprintIdentifier = 'A498D399DDC3C3146B5BB28E9032D838'
                BlueprintName = 'SlidingTabBar'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'SlidingTabBar.framework'>

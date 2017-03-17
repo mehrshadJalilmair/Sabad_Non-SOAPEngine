@@ -9,7 +9,6 @@ import UIKit
 
 class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
-
     let cellId = "Item"
     
     //views
@@ -41,7 +40,7 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
     let collectionViewSupporterLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.black
         label.textAlignment = .center
         label.backgroundColor = UIColor.white
@@ -70,7 +69,7 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
     let name: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.black
         label.textAlignment = .center
         label.backgroundColor = UIColor.white
@@ -80,7 +79,7 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
     let manager: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.lightGray
         label.textAlignment = .center
         label.backgroundColor = UIColor.white
@@ -90,7 +89,7 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
     let tell: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.lightGray
         label.textAlignment = .center
         label.backgroundColor = UIColor.white
@@ -100,8 +99,19 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
     let desc: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.black
+        label.textAlignment = .center
+        label.backgroundColor = UIColor.white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    let address: UILabel! = {
+        
+        let label = UILabel()
+        label.font = UIFont(name: "Vazir", size: 10)
+        label.textColor = UIColor.black
+        label.numberOfLines = 3
         label.textAlignment = .center
         label.backgroundColor = UIColor.white
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -118,7 +128,7 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.titleLabel?.font = UIFont(name: "Vazir-Bold", size: 12)
         //button.semanticContentAttribute = .forceRightToLeft
         button.showsTouchWhenHighlighted = true
         button.addTarget(self, action: #selector(follow), for: .touchUpInside)
@@ -142,7 +152,7 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
     let followerLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.black
         label.textAlignment = .center
         label.backgroundColor = UIColor.lightGray
@@ -152,6 +162,7 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
     lazy var followerIcon:UIButton! = {
         
         let followerIcon = UIButton(type: .system)
+        followerIcon.titleLabel?.font = UIFont(name: "Vazir-Bold", size: 12)
         followerIcon.setImage(UIImage(named :"ic_touch_app_36pt"), for: UIControlState.normal)
         //followerIcon.addTarget(self, action: #selector(setAbusesetAbuse), for: UIControlEvents.touchUpInside)
         followerIcon.translatesAutoresizingMaskIntoConstraints = false
@@ -172,7 +183,7 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
     lazy var abuseLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.black
         label.textAlignment = .center
         label.text = "ثبت تخلف"
@@ -192,6 +203,7 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
         icon.backgroundColor = UIColor.lightGray
         icon.tintColor = UIColor.black
         icon.tag = self.store.Id as! Int
+        icon.titleLabel?.font = UIFont(name: "Vazir-Bold", size: 12)
         return icon
     }()
 
@@ -222,6 +234,8 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
     
     func setInits()
     {
+        selectedStore = self.store
+        
         if defaults.object(forKey: "stId\(self.store.Id!)") == nil
         {
             fav_icon.setImage(UIImage(named: "favorite_unset"), for: UIControlState.normal)
@@ -257,10 +271,8 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         
-        //init Slider One (Top)
-        //let images: [String] = ["" , ""]//["http://static2.varzesh3.com/v3/static/img/varzesh3-logo.png" , "http://static2.varzesh3.com/v3/static/img/varzesh3-logo.png" , "http://static2.varzesh3.com/v3/static/img/varzesh3-logo.png" , "http://static2.varzesh3.com/v3/static/img/varzesh3-logo.png"]
         slider1 = LIHSlider(images: sliderImagesURLS)
-        //slider1.sliderDescriptions = ["Image 1 description","Image 2 description","Image 3 description","Image 4 description","Image 5 description","Image 6 description"]
+
         self.sliderVc1  = LIHSliderViewController(slider: slider1)
         sliderVc1.delegate = self
         self.addChildViewController(self.sliderVc1)
@@ -443,6 +455,20 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         desc.text = self.store.stDescription as? String
+        
+        scrollView.addSubview(address)
+        //x
+        horizontalConstraint = NSLayoutConstraint(item: address, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: desc, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0)
+        //y
+        verticalConstraint = NSLayoutConstraint(item: address, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: -5)
+        //w
+        widthConstraint = NSLayoutConstraint(item: address, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
+        //h
+        heightConstraint = NSLayoutConstraint(item: address, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 30)
+        //90 == 3*header of section height + 15
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        address.text = self.store.stAddress as? String
+        address.numberOfLines = 3
     }
     
     func initCollectionView()
@@ -454,7 +480,7 @@ class StoreModal: UIViewController , UIScrollViewDelegate , LIHSliderDelegate , 
         //x
         let horizontalConstraint = NSLayoutConstraint(item: collectionView, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: 0)
         //y
-        let verticalConstraint = NSLayoutConstraint(item: collectionView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.desc, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: +8)
+        let verticalConstraint = NSLayoutConstraint(item: collectionView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.address, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0)
         //w
         let widthConstraint = NSLayoutConstraint(item: collectionView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
         //h
@@ -470,7 +496,6 @@ extension StoreModal
     //press image slider index
     func itemPressedAtIndex(index: Int) {
         
-        print(index)
     }
     
     func follow()
@@ -502,7 +527,6 @@ extension StoreModal
                 ]
             )
             .didShowHandler { popup in
-                print("showed popup!")
             }
             .didCloseHandler { popup in
                 
@@ -520,7 +544,6 @@ extension StoreModal
         
         self.dismiss(animated: true) {
             
-            print("dismiss")
         }
     }
     @IBAction func Neshan(_ sender: Any) {
@@ -568,7 +591,6 @@ extension StoreModal
                 
                 if let url = NSURL(string: "tel://\(number)") {
                     
-                    print("call")
                     UIApplication.shared.openURL(url as URL)
                 }
             }
@@ -589,27 +611,30 @@ extension StoreModal
         cell.iconInTopRightView.image = UIImage(named: "ic_visibility_36pt")
         cell.labelInTopRightView.text =  "\(good.Views!) بازدید"
         
-        if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))
-        {
-            cell.offLabel.isHidden = true
-            cell.mainTimeLabel.isHidden = true
-        }
-        else
-        {
-            cell.offLabel.isHidden = false
-            cell.mainTimeLabel.isHidden = false
-        }
-        
         cell.offLabel.text = "\(good.offPercent!) درصد    "
         cell.mainTimeLabel.text = "\(good.mainTime!) روز"
         cell.titleLabel.text = good.offTitle as! String?
         
-        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!)")
+        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!) تومان")
         attributeString.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, attributeString.length))
         cell.alreadyPriceLabel.attributedText = attributeString
         
         let newPrice = (good.offBeforePrice as! Int)  - ((good.offBeforePrice as! Int) * (good.offPercent  as! Int) / 100)
-        cell.newPriceLabel.text = "\(newPrice)"
+        cell.newPriceLabel.text = "\(newPrice) تومان"
+        
+        if ((good.offPercent as! Int == 0) || (good.mainTime! < 0))
+        {
+            cell.offLabel.isHidden = true
+            cell.mainTimeLabel.isHidden = true
+            cell.alreadyPriceLabel.text = "\(good.offBeforePrice!) تومان"
+            cell.newPriceLabel.isHidden = true
+        }
+        else
+        {
+            cell.offLabel.isHidden = false
+            cell.newPriceLabel.isHidden = false
+            cell.mainTimeLabel.isHidden = false
+        }
         
         var image = ""
         if let nimage = good.offPrImage
@@ -641,7 +666,6 @@ extension StoreModal
         
         if(storeGoods.count - 1 == indexPath.row)
         {
-            print("s02")
         }
         return cell
     }
@@ -658,9 +682,6 @@ extension StoreModal
     
     func GetImagesAndSet(stId:Int)
     {
-        
-        //let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><ImagesInStore xmlns=\"http://BuyApp.ir/\"><stId>\(stId)</stId></ImagesInStore></soap:Body></soap:Envelope>"
-        
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><ImagesInStore xmlns=\"http://BuyApp.ir/\"><stId>\(stId)</stId></ImagesInStore></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
@@ -669,7 +690,6 @@ extension StoreModal
         let mutableR = NSMutableURLRequest(url: theURL! as URL)
         
         mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        //mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
         mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
         mutableR.httpMethod = "POST"
         mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
@@ -681,24 +701,19 @@ extension StoreModal
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
                     do
                     {
                         dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
-                        
-                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
+
                         let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
                         let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
                         let mainDict1 = mainDict2.object(forKey: "ImagesInStoreResponse") as! NSDictionary
                         let mainDict = mainDict1.object(forKey: "ImagesInStoreResult") as! NSDictionary
-                        
-                        //print(mainDict1)
-                        //print(mainDict)
                         
                         if mainDict.count > 0{
                             
@@ -721,9 +736,6 @@ extension StoreModal
                                     
                                     if let actad = ad as? [String : AnyObject]{
                                         
-                                        
-                                        //let newAd = Ad(advImageUrl: actad["advImageUrl"]!, advText: actad["advText"]!, _Type: actad["Type"]!, Address: actad["Address"]!)
-                                        //self.sliderImages.append(newAd)
                                         self.sliderImagesURLS.append(actad["imgUrl"] as! String)
                                     }
                                 }
@@ -737,8 +749,6 @@ extension StoreModal
                                     }
                                     else
                                     {
-                                        //self.slider1Container.isHidden = false
-                                        
                                         self.sliderImagesURLS.insert(self.store.urlImage as! String, at: 0)
                                         self.slider1ContainerSupportImageView.isHidden = true
                                         self.sliderVc1.slider.sliderImages = self.sliderImagesURLS
@@ -753,90 +763,18 @@ extension StoreModal
                     }
                     catch
                     {
-                        //print("Your Dictionary value nil")
                     }
                 }
             }
             else
             {
-                print("nil data")
             }
         }
         dataTask.resume()
     }
-
-    //get from web service
-    /*func GetImagesAndSet(stId:Int) //check out all conditions
-    {
-        let soap = SOAPEngine()
-        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
-        soap.userAgent = "SOAPEngine"
-        soap.actionNamespaceSlash = true
-        soap.version = SOAPVersion.VERSION_1_1
-        soap.responseHeader = true
-        
-        soap.setValue(stId, forKey: "stId")
-        soap.requestURL(Request.webServiceAddress,
-                        soapAction: Request.getStoreImagesAction,
-                        completeWithDictionary: { (statusCode : Int,
-                            dict : [AnyHashable : Any]?) -> Void in
-                            
-                            let result:Dictionary = dict! as Dictionary
-                            //print(result)
-                            let result1:NSDictionary = result[Array(result.keys)[0]]! as! NSDictionary
-                            let result2:NSDictionary = result1["ImagesInStoreResponse"] as! NSDictionary
-                            var result3:String = result2["ImagesInStoreResult"] as! String
-                            
-                            result3 = "{ \"content\" : " + result3 + "}"
-                            //print(result3)
-                            let data = (result3).data(using: .utf8)!
-                            
-                            guard let _result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : AnyObject] else{
-                                
-                                return
-                            }
-                            
-                            if let _ads = _result["content"] as? [AnyObject]{
-                                
-                                self.sliderImagesURLS = [String]()
-                                self.sliderImages = [Ad]()
-                                for ad in _ads{
-                                    
-                                    if let actad = ad as? [String : AnyObject]{
-                                        
-                                        
-                                        //let newAd = Ad(advImageUrl: actad["advImageUrl"]!, advText: actad["advText"]!, _Type: actad["Type"]!, Address: actad["Address"]!)
-                                        //self.sliderImages.append(newAd)
-                                        self.sliderImagesURLS.append(actad["imgUrl"] as! String)
-                                    }
-                                }
-                                if self.sliderImagesURLS.count == 0
-                                {
-                                    self.slider1ContainerSupportImageView.isHidden = false
-                                    self.scrollView.bringSubview(toFront: self.slider1ContainerSupportImageView)
-                                }
-                                else
-                                {
-                                    //self.slider1Container.isHidden = false
-                            
-                                    self.sliderImagesURLS.insert(self.store.urlImage as! String, at: 0)
-                                    self.slider1ContainerSupportImageView.isHidden = true
-                                    self.sliderVc1.slider.sliderImages = self.sliderImagesURLS
-                                    self.sliderVc1.pageControl.numberOfPages = self.sliderImagesURLS.count
-                                }
-                            }
-                            
-        }) { (error : Error?) -> Void in
-            
-            print(error!)
-        }
-    }*/
     
     func QueryOnDB(stId:Int)
     {
-        
-        //let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GoodsInStore xmlns=\"http://BuyApp.ir/\"><stId>\(stId)</stId></GoodsInStore></soap:Body></soap:Envelope>"
-        
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GoodsInStore xmlns=\"http://BuyApp.ir/\"><stId>\(stId)</stId></GoodsInStore></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
@@ -845,7 +783,6 @@ extension StoreModal
         let mutableR = NSMutableURLRequest(url: theURL! as URL)
         
         mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        //mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
         mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
         mutableR.httpMethod = "POST"
         mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
@@ -857,9 +794,8 @@ extension StoreModal
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -867,14 +803,10 @@ extension StoreModal
                     {
                         dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
                         
-                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
                         let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
                         let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
                         let mainDict1 = mainDict2.object(forKey: "GoodsInStoreResponse") as! NSDictionary
                         let mainDict = mainDict1.object(forKey: "GoodsInStoreResult") as! NSDictionary
-                        
-                        //print(mainDict1)
-                        //print(mainDict)
                         
                         if mainDict.count > 0{
                             
@@ -911,19 +843,15 @@ extension StoreModal
                                     self.collectionView.reloadData()
                                     if self.storeGoods.count > 0
                                     {
-                                        let height = self.slider1Container.frame.height + self.followingButton.frame.height + 5 + self.containersContainer.frame.height + 5 + (4 * self.name.frame.height) + self.collectionView.frame.height + 8
+                                        let height = self.slider1Container.frame.height + self.followingButton.frame.height + 5 + self.containersContainer.frame.height + 5 + (4 * self.name.frame.height) + self.collectionView.frame.height + 8 + self.address.frame.height
                                         
                                         self.scrollView.contentSize = CGSize(self.view.frame.width , height)
-                                        //self.collectionViewSupporterLabel.isHidden = true
                                     }
                                     else
                                     {
-                                        let height = self.slider1Container.frame.height + self.followingButton.frame.height + 5 + self.containersContainer.frame.height + 5 + (4 * self.name.frame.height)
+                                        let height = self.slider1Container.frame.height + self.followingButton.frame.height + 5 + self.containersContainer.frame.height + 5 + (4 * self.name.frame.height) + self.address.frame.height
                                         
                                         self.scrollView.contentSize = CGSize(self.view.frame.width , height)
-                                        
-                                        //self.collectionViewSupporterLabel.isHidden = false
-                                        //self.scrollView.bringSubview(toFront: self.collectionViewSupporterLabel)
                                     }
                                 }
                             }
@@ -935,97 +863,19 @@ extension StoreModal
                     }
                     catch
                     {
-                        //print("Your Dictionary value nil")
                     }
                 }
             }
             else
             {
-                print("nil data")
             }
         }
         dataTask.resume()
     }
-
-    
-    //get from web service
-    /*func QueryOnDB(stId:Int) //check out all conditions
-    {
-        let soap = SOAPEngine()
-        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
-        soap.userAgent = "SOAPEngine"
-        soap.actionNamespaceSlash = true
-        soap.version = SOAPVersion.VERSION_1_1
-        soap.responseHeader = true
-        
-        soap.setValue(stId, forKey: "stId")
-        soap.requestURL(Request.webServiceAddress,
-                        soapAction: Request.getStoreGoodsAction,
-                        completeWithDictionary: { (statusCode : Int,
-                            dict : [AnyHashable : Any]?) -> Void in
-                            
-                            let result:Dictionary = dict! as Dictionary
-                            //print(result)
-                            let result1:NSDictionary = result[Array(result.keys)[0]]! as! NSDictionary
-                            let result2:NSDictionary = result1["GoodsInStoreResponse"] as! NSDictionary
-                            var result3:String = result2["GoodsInStoreResult"] as! String
-                            
-                            result3 = "{ \"content\" : " + result3 + "}"
-                            //print(result3)
-                            let data = (result3).data(using: .utf8)!
-                            
-                            guard let _result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : AnyObject] else{
-                                
-                                return
-                            }
-                            
-                            if let _goods = _result["content"] as? [AnyObject]{
-                            
-                                
-                                if _goods.count > 0
-                                {
-                                    self.storeGoods = [Good]()
-                                }
-                                for good in _goods{
-                                    
-                                    if let actgood = good as? [String : AnyObject]{
-                                        
-                                        let newgood = Good(Id: actgood["Id"]!, servicesId: actgood["servicesId"]!, offTitle: actgood["offTitle"]!, offPrImage: actgood["offPrImage"]!, offBeforePrice: actgood["offBeforePrice"]!, offPercent: actgood["offPercent"]!, offActive: actgood["offActive"]!, offDescription: actgood["offDescription"]!, offStartDate: actgood["offStartDate"]!, offEndDate: actgood["offEndDate"]!, offStartTime: actgood["offStartTime"]!, offEndTime: actgood["offEndTime"]!, Views: actgood["Views"]!)
-                                        self.storeGoods.append(newgood)
-                                        
-                                    }
-                                }
-                                self.collectionView.reloadData()
-                                if self.storeGoods.count > 0
-                                {
-                                    let height = self.slider1Container.frame.height + self.followingButton.frame.height + 5 + self.containersContainer.frame.height + 5 + (4 * self.name.frame.height) + self.collectionView.frame.height + 8
-                                    
-                                    self.scrollView.contentSize = CGSize(self.view.frame.width , height)
-                                    //self.collectionViewSupporterLabel.isHidden = true
-                                }
-                                else
-                                {
-                                    let height = self.slider1Container.frame.height + self.followingButton.frame.height + 5 + self.containersContainer.frame.height + 5 + (4 * self.name.frame.height)
-                                    
-                                    self.scrollView.contentSize = CGSize(self.view.frame.width , height)
-                                    
-                                    //self.collectionViewSupporterLabel.isHidden = false
-                                    //self.scrollView.bringSubview(toFront: self.collectionViewSupporterLabel)
-                                }
-                            }
-                            
-        }) { (error : Error?) -> Void in
-            
-            print(error!)
-        }
-    }*/
     
     
     func setFollow(stId:Int , userId: Int , saveUserId:Bool)
     {
-        
-        //let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><SetFollow xmlns=\"http://BuyApp.ir/\"><stId>\(stId)</stId><userId>\(userId)</userId></SetFollow></soap:Body></soap:Envelope>"
-        
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><SetFollow xmlns=\"http://BuyApp.ir/\"><stId>\(stId)</stId><userId>\(userId)</userId></SetFollow></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
@@ -1046,9 +896,8 @@ extension StoreModal
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -1056,14 +905,10 @@ extension StoreModal
                     {
                         dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
                         
-                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
                         let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
                         let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
                         let mainDict1 = mainDict2.object(forKey: "SetFollowResponse") as! NSDictionary
                         let mainDict = mainDict1.object(forKey: "SetFollowResult") as! NSDictionary
-                        
-                        //print(mainDict1)
-                        //print(mainDict)
                         
                         if mainDict.count > 0{
                             
@@ -1084,8 +929,6 @@ extension StoreModal
                                     
                                     if let actres = res as? [String : AnyObject]{
                                         
-                                        //print(actres["Id"]!)
-                                        
                                         if defaults.object(forKey: "follow\(self.store.Id!)") != nil //fellow already
                                         {
                                             DispatchQueue.main.async {
@@ -1095,8 +938,6 @@ extension StoreModal
                                                 self.store.Followers = ((self.store.Followers as! Int) - 1) as AnyObject
                                                 self.followerLabel.text = "\(self.store.Followers!) دنبال کننده"
                                             }
-                                            //self.store.Followers = ((self.store.Followers as! Int) - 1) as AnyObject
-                                            //followerLabel.text = "\(self.store.Followers!) دنبال کننده"
                                         }
                                         else
                                         {
@@ -1124,88 +965,13 @@ extension StoreModal
                     }
                     catch
                     {
-                        //print("Your Dictionary value nil")
                     }
                 }
             }
             else
             {
-                print("nil data")
             }
         }
         dataTask.resume()
     }
-    
-    //get from web service
-    /*func setFollow(stId:Int , userId: Int , saveUserId:Bool) //check out all conditions
-    {
-        let soap = SOAPEngine()
-        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
-        soap.userAgent = "SOAPEngine"
-        soap.actionNamespaceSlash = true
-        soap.version = SOAPVersion.VERSION_1_1
-        soap.responseHeader = true
-        
-        soap.setValue(stId, forKey: "stId")
-        soap.setValue(userId, forKey: "userId")
-        soap.requestURL(Request.webServiceAddress,
-                        soapAction: Request.setFollowAction,
-                        completeWithDictionary: { (statusCode : Int,
-                            dict : [AnyHashable : Any]?) -> Void in
-                            
-                            let result:Dictionary = dict! as Dictionary
-                            //print(result)
-                            let result1:NSDictionary = result[Array(result.keys)[0]]! as! NSDictionary
-                            let result2:NSDictionary = result1["SetFollowResponse"] as! NSDictionary
-                            var result3:String = result2["SetFollowResult"] as! String
-                            
-                            result3 = "{ \"content\" : " + result3 + "}"
-                            //print(result3)
-                            
-                            let data = (result3).data(using: .utf8)!
-                            
-                            guard let _result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : AnyObject] else{
-                                
-                                return
-                            }
-                            
-                            if let _res = _result["content"] as? [AnyObject]{
-                                
-                                for res in _res{
-                                    
-                                    if let actres = res as? [String : AnyObject]{
-                                        
-                                        //print(actres["Id"]!)
-                                    
-                                        if defaults.object(forKey: "follow\(self.store.Id!)") != nil //fellow already
-                                        {
-                                            self.followingButton.backgroundColor = UIColor(r: 80, g: 101, b: 161)
-                                            defaults.removeObject(forKey: "follow\(self.store.Id!)") //unfollow
-                                            self.store.Followers = ((self.store.Followers as! Int) - 1) as AnyObject
-                                            self.followerLabel.text = "\(self.store.Followers!) دنبال کننده"
-                                            //self.store.Followers = ((self.store.Followers as! Int) - 1) as AnyObject
-                                            //followerLabel.text = "\(self.store.Followers!) دنبال کننده"
-                                        }
-                                        else
-                                        {
-                                            self.followingButton.backgroundColor = UIColor(r: 0, g: 200, b: 0)
-                                            defaults.set(self.store.Id, forKey: "follow\(self.store.Id!)") //set follow
-                                            self.store.Followers = ((self.store.Followers as! Int) + 1) as AnyObject
-                                            self.followerLabel.text = "\(self.store.Followers!) دنبال کننده"
-                                        }
-                                        
-                                        
-                                        if saveUserId
-                                        {
-                                            defaults.set(actres["Id"] as! Int, forKey: "userId") //save user id once a time
-                                        }
-                                    }
-                                }
-                            }
-                            
-        }) { (error : Error?) -> Void in
-            
-            print(error!)
-        }
-    }*/
 }

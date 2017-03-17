@@ -34,7 +34,7 @@ public class SlidingTabBar: UIView {
     
     private var tabBarItems: [UITabBarItem]!
     private var slidingTabBarItems: [SlidingTabBarItem]!
-    private var tabBarButtons: [UIButton]!
+    public var tabBarButtons: [UIButton]!
     
     private var slideMaskDelay: Double!
     private var selectedTabBarItemIndex: Int!
@@ -216,5 +216,4 @@ public class SlidingTabBar: UIView {
         selectedTabBarItemIndex = index
         delegate.didSelectViewController(tabBarView: self, atIndex: index, from: from!)
     }
-
 }

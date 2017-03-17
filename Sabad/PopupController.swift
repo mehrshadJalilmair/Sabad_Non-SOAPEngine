@@ -506,12 +506,3 @@ extension PopupController: UIGestureRecognizerDelegate {
     }
 }
 
-//extension UIViewController {
-//    func popupController() -> PopupController? {
-//        var parent = parent
-//        while !(parent is PopupController || parent == nil) {
-//            parent = parent!.parent
-//        }
-//        return parent as? PopupController
-//    }
-//}

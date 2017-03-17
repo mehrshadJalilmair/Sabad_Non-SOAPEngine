@@ -59,6 +59,32 @@ extension UIColor {
 }
 
 
+extension UILabel
+{
+    var substituteFontName : String
+    {
+        get { return self.font.fontName }
+        set { self.font = UIFont(name: newValue, size: self.font.pointSize) }
+    }
+}
 
+
+extension UITextField
+{
+    var substituteFontName : String
+    {
+        get { return self.font!.fontName }
+        set { self.font = UIFont(name: newValue, size: (self.font?.pointSize)!) }
+    }
+}
+
+extension UIButton
+{
+    var substituteFontName : String
+    {
+        get { return self.titleLabel!.font!.fontName }
+        set { self.titleLabel?.font = UIFont(name: newValue, size: (self.titleLabel?.font.pointSize)!)}
+    }
+}
 
 

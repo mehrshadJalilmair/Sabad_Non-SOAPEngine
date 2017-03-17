@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class TowNandMallBeforStCr: UIViewController , UITableViewDelegate , UITableViewDataSource{
     
@@ -40,7 +41,7 @@ class TowNandMallBeforStCr: UIViewController , UITableViewDelegate , UITableView
         bottomBotton.layer.cornerRadius = 2
         bottomBotton.layer.masksToBounds = true
         bottomBotton.setTitleColor(UIColor.white, for: .normal)
-        bottomBotton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        bottomBotton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
         
         whichList = 0
         openGettingStoreFields = false
@@ -80,7 +81,6 @@ extension TowNandMallBeforStCr
     @IBAction func addAreaOrMall(_ sender: Any) {
         
 
-        print("here \(whichList)")
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let mvc = storyboard.instantiateViewController(withIdentifier: "AddMallArea") as! AddMallArea
         mvc.isModalInPopover = true
@@ -217,17 +217,14 @@ extension TowNandMallBeforStCr
                         }
                         
                         self.GetTownMallList(TwId: storeTwon)
-                        print("default")
                         break
                         
                     case .cancel:
                         
-                        print("cancel")
                         break
                         
                     case .destructive:
                         
-                        print("destructive")
                         break
                     }
                 }))
@@ -236,12 +233,10 @@ extension TowNandMallBeforStCr
                     switch action.style{
                     case .default:
                         
-                        print("default")
                         break
                         
                     case .cancel:
                         
-                        print("cancel")
                         
                         self.whichList = 2
                         
@@ -269,7 +264,6 @@ extension TowNandMallBeforStCr
                         
                     case .destructive:
                         
-                        print("destructive")
                         break
                     }
                 }))
@@ -315,6 +309,8 @@ extension TowNandMallBeforStCr
     
     func GetTownMallList(TwId:Int)
     {
+        globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
+        
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><MallForFilter xmlns=\"http://BuyApp.ir/\"><twId>\(TwId)</twId></MallForFilter></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
@@ -335,9 +331,8 @@ extension TowNandMallBeforStCr
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -419,7 +414,32 @@ extension TowNandMallBeforStCr
             }
             else
             {
-                print("nil data")
+                DispatchQueue.main.async {
+                    
+                    let alert = UIAlertController(title: "خطا در دریافت", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            
+                            break
+                            
+                        case .cancel:
+                            
+                            break
+                            
+                        case .destructive:
+                            
+                            break
+                        }
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+            
+            DispatchQueue.main.async
+            {
+                globalAlert.hideView()
             }
         }
         dataTask.resume()

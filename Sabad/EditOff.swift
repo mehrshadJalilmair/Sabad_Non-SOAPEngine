@@ -6,9 +6,9 @@
 //  Copyright © 2017 Mehrshad Jalilmasir. All rights reserved.
 //
 
-
 import UIKit
 import DatePickerDialog
+import SCLAlertView
 
 class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate , UITextFieldDelegate{
     
@@ -73,7 +73,7 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let NameLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor.black
         label.text = "* عنوان کالا"
         label.textAlignment = .right
@@ -84,7 +84,7 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let NameTextFieald: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "عنوان کالا..."
@@ -110,7 +110,7 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let PriceLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor.black
         label.text = "* قیمت کالا"
         label.textAlignment = .right
@@ -121,7 +121,7 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let PriceTextField: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "قیمت کالا"
@@ -148,7 +148,7 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let OffLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor.black
         label.text = "* درصد تخفیف"
         label.textAlignment = .right
@@ -159,7 +159,7 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let OffTextField: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "درصد تخفیف"
@@ -185,7 +185,7 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let DescriptionLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor.black
         label.text = "توضیحات"
         label.textAlignment = .right
@@ -196,7 +196,7 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let DescriptionTextField: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "توضیحات"
@@ -221,7 +221,7 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let FromLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor.black
         label.text = "از : "
         label.textAlignment = .center
@@ -232,7 +232,7 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let ToLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor.black
         label.text = "تا : "
         label.textAlignment = .center
@@ -256,7 +256,7 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
         //button.semanticContentAttribute = .forceRightToLeft
         button.showsTouchWhenHighlighted = true
         button.tag = 0
@@ -279,7 +279,7 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
         //button.semanticContentAttribute = .forceRightToLeft
         button.tag = 1
         button.showsTouchWhenHighlighted = true
@@ -626,11 +626,7 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
         self.OffTextField.text = "\(selectedGood.offPercent!)"
         
         self.imageAddress = selectedGood.offPrImage as! String
-        //if let date = selectedGood.offEndDate
-        //{
-            //print(date)
-            //self.endDate = date as! Date
-        //}
+
     }
 }
 
@@ -659,7 +655,6 @@ extension EditOff
         guard let name = NameTextFieald.text, let price = PriceTextField.text , let off = OffTextField.text, let description = DescriptionTextField.text else {
             
             
-            print("Form is not valid")
             return
         }
         
@@ -690,6 +685,8 @@ extension EditOff
             return
         }
         
+        globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
+        
         if haveImage
         {
             myImageUploadRequest(name: name, price: price, off: off, description: description)
@@ -702,7 +699,6 @@ extension EditOff
     
     func pickLogo(_ sender: AnyObject)
     {
-        print("logo")
         chooseSource()
     }
     
@@ -772,7 +768,6 @@ extension EditOff
     }
     func imagePickerControllerDidCancel(picker: UIImagePickerController)
     {
-        print("picker cancel.")
     }
     
     func delImage(_ sender: AnyObject)
@@ -837,9 +832,29 @@ extension EditOff
                 
                 DispatchQueue.main.async {
                     
-                    
+                    globalAlert.hideView()
+                    DispatchQueue.main.async {
+                        
+                        let alert = UIAlertController(title: "خطا در بارگذاری عکس", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                            switch action.style{
+                            case .default:
+                                
+                                break
+                                
+                            case .cancel:
+                                
+                                break
+                                
+                            case .destructive:
+                                
+                                break
+                            }
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
-                print("error=\(error)")
                 return
             }
             let httpResponse = response as? HTTPURLResponse
@@ -848,7 +863,28 @@ extension EditOff
             {
                 DispatchQueue.main.async {
                     
-                    
+                    globalAlert.hideView()
+                    DispatchQueue.main.async {
+                        
+                        let alert = UIAlertController(title: "خطا در بارگذاری عکس", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                            switch action.style{
+                            case .default:
+                                
+                                break
+                                
+                            case .cancel:
+                                
+                                break
+                                
+                            case .destructive:
+                                
+                                break
+                            }
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
                 return
             }
@@ -934,9 +970,8 @@ extension EditOff
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -966,24 +1001,64 @@ extension EditOff
                                 
                                 for res in _ress
                                 {
-                                    if res["Result"] as! Int == 0
-                                    {
-                                        
-                                    }
-                                    else if res["Result"] as! Int == 1
+                                    if res["Result"] as! Int == 1
                                     {
                                         DispatchQueue.main.async {
                                             
-                                            selectedGood.offTitle = (name as AnyObject)
-                                            selectedGood.offDescription = (description as AnyObject)
-                                            selectedGood.offBeforePrice = (Int(price) as AnyObject)
-                                            selectedGood.offPercent = (Int(off) as AnyObject)
-                                            //selectedGood.offEndDate = (self.endDate as AnyObject)
-                                            selectedGood.offPrImage = (self.imageAddress as AnyObject)
-                                            self.dismiss(animated: true, completion: {
-                                                
-                                                
-                                            })
+                                            let alert = UIAlertController(title: "", message: "تغییرات ثبت شد", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    selectedGood.offTitle = (name as AnyObject)
+                                                    selectedGood.offDescription = (description as AnyObject)
+                                                    selectedGood.offBeforePrice = (Int(price) as AnyObject)
+                                                    selectedGood.offPercent = (Int(off) as AnyObject)
+                                                    //selectedGood.offEndDate = (self.endDate as AnyObject)
+                                                    selectedGood.offPrImage = (self.imageAddress as AnyObject)
+                                                    self.dismiss(animated: true, completion: {
+                                                        
+                                                        
+                                                    })
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    break
+                                                }
+                                            }))
+                                            self.present(alert, animated: true, completion: nil)
+                                        }
+
+                                        
+                                    }
+                                    else
+                                    {
+                                        DispatchQueue.main.async {
+                                            
+                                            let alert = UIAlertController(title: "خطای سرور", message: "تغییرات ثبت نشد!", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    break
+                                                }
+                                            }))
+                                            self.present(alert, animated: true, completion: nil)
                                         }
                                     }
                                 }
@@ -1002,7 +1077,32 @@ extension EditOff
             }
             else
             {
-                print("nil data")
+                DispatchQueue.main.async {
+                    
+                    let alert = UIAlertController(title: "خطا در دریافت", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            
+                            break
+                            
+                        case .cancel:
+                            
+                            break
+                            
+                        case .destructive:
+                            
+                            break
+                        }
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                
+                globalAlert.hideView()
             }
         }
         dataTask.resume()

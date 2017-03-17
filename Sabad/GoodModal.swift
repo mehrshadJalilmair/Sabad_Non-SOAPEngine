@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class GoodModal: UIViewController {
-
+    
     //views
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var topBarView: UIView!
@@ -25,7 +26,7 @@ class GoodModal: UIViewController {
     let offLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.black
         label.textAlignment = .center
         label.backgroundColor = UIColor(r: 0, g: 200, b: 0)
@@ -38,7 +39,7 @@ class GoodModal: UIViewController {
     let offTitleLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.black
         label.textAlignment = .center
         label.backgroundColor = UIColor.lightGray
@@ -49,7 +50,7 @@ class GoodModal: UIViewController {
     let offMainTimeLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.white
         label.textAlignment = .center
         label.backgroundColor = UIColor.black
@@ -61,14 +62,12 @@ class GoodModal: UIViewController {
         let button = UIButton(type: .system)
         button.backgroundColor = UIColor(r: 35, g: 35, b: 35)
         button.setTitle("رفتن به فروشگاه", for: .normal)
-        //button.setImage(UIImage(named: "ic_refresh"), for: .normal)
         button.tintColor = UIColor.white
         button.layer.cornerRadius = 2
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        //button.semanticContentAttribute = .forceRightToLeft
+        button.titleLabel?.font = UIFont(name: "Vazir-Bold", size: 12)
         button.showsTouchWhenHighlighted = true
         button.addTarget(self, action: #selector(gotoStore), for: .touchUpInside)
         return button
@@ -91,7 +90,7 @@ class GoodModal: UIViewController {
     let visitLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.black
         label.textAlignment = .center
         label.backgroundColor = UIColor.lightGray
@@ -102,7 +101,6 @@ class GoodModal: UIViewController {
         
         let followerIcon = UIButton(type: .system)
         followerIcon.setImage(UIImage(named :"ic_visibility_36pt"), for: UIControlState.normal)
-        //followerIcon.addTarget(self, action: #selector(setAbusesetAbuse), for: UIControlEvents.touchUpInside)
         followerIcon.translatesAutoresizingMaskIntoConstraints = false
         followerIcon.backgroundColor = UIColor.lightGray
         followerIcon.isUserInteractionEnabled = false
@@ -120,7 +118,7 @@ class GoodModal: UIViewController {
     lazy var abuseLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.black
         label.textAlignment = .center
         label.text = "ثبت تخلف"
@@ -152,42 +150,38 @@ class GoodModal: UIViewController {
     let AlPriceLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.black
         label.textAlignment = .left
         label.text = "قیمت قبلی"
-        //label.backgroundColor = UIColor.black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     let AlPriceNumberLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.lightGray
         label.textAlignment = .right
-        //label.backgroundColor = UIColor.black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     let newPriceLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.black
         label.textAlignment = .left
         label.text = "قیمت جدید"
-        //label.backgroundColor = UIColor.black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     let newPriceNumberLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont(name: "Vazir", size: 10)
         label.textColor = UIColor.black
         label.textAlignment = .right
-        //label.backgroundColor = UIColor.black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -218,6 +212,7 @@ class GoodModal: UIViewController {
         
         self.scrollView.contentSize = CGSize(self.view.frame.width , height)
     }
+
     
     func setInits()
     {
@@ -422,7 +417,7 @@ class GoodModal: UIViewController {
         
         
         
-        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!)")
+        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(good.offBeforePrice!) تومان")
         attributeString.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, attributeString.length))
         
         var newPrice = (good.offBeforePrice as! Int)
@@ -482,7 +477,7 @@ class GoodModal: UIViewController {
         heightConstraint = NSLayoutConstraint(item: newPriceNumberLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: priceContainer, attribute: NSLayoutAttribute.height, multiplier: 1/2, constant: 0)
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        newPriceNumberLabel.text = "\(newPrice)"
+        newPriceNumberLabel.text = "\(newPrice) تومان"
         
         
         priceContainer.addSubview(newPriceLabel)
@@ -496,6 +491,14 @@ class GoodModal: UIViewController {
         heightConstraint = NSLayoutConstraint(item: newPriceLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: priceContainer, attribute: NSLayoutAttribute.height, multiplier: 1/2, constant: 0)
         //90 == 3*header of section height + 15
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        
+        if !haveOff
+        {
+            AlPriceLabel.text = "قیمت "
+            AlPriceNumberLabel.text = "\(self.good.offBeforePrice!) تومان"
+            newPriceLabel.isHidden = true
+            newPriceNumberLabel.isHidden = true
+        }
     }
 }
 
@@ -571,9 +574,8 @@ extension GoodModal
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -581,14 +583,10 @@ extension GoodModal
                     {
                         dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
                         
-                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
                         let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
                         let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
                         let mainDict1 = mainDict2.object(forKey: "AddressOfGoodResponse") as! NSDictionary
                         let mainDict = mainDict1.object(forKey: "AddressOfGoodResult") as! NSDictionary
-                        
-                        //print(mainDict1)
-                        //print(mainDict)
                         
                         if mainDict.count > 0{
                             
@@ -625,14 +623,11 @@ extension GoodModal
                                                     ]
                                                 )
                                                 .didShowHandler { popup in
-                                                    print("showed popup!")
                                                     
                                                 }
                                                 .didCloseHandler { _ in
                                                     
-                                                    print("closed popup!")
                                             }
-                                            //print(actad)
                                             let container = GoodAddress.instance()
                                             container.address = "\n\(actad["MallName"]!)\n\(actad["stName"]!)\n\(actad["stAddress"]!)\n\(actad["stTel"]!)"
                                             
@@ -654,95 +649,21 @@ extension GoodModal
                     }
                     catch
                     {
-                        //print("Your Dictionary value nil")
                     }
                 }
             }
             else
             {
-                print("nil data")
             }
         }
         dataTask.resume()
         
-        /*let soap = SOAPEngine()
-        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
-        soap.userAgent = "SOAPEngine"
-        soap.actionNamespaceSlash = true
-        soap.version = SOAPVersion.VERSION_1_1
-        soap.responseHeader = true
-        
-        soap.setValue(self.good.Id as! Int, forKey: "offId")
-        soap.requestURL(Request.webServiceAddress,
-                        soapAction: Request.getGoodAddressAction,
-                        completeWithDictionary: { (statusCode : Int,
-                            dict : [AnyHashable : Any]?) -> Void in
-                            
-                            let result:Dictionary = dict! as Dictionary
-                            //print(result)
-                            let result1:NSDictionary = result[Array(result.keys)[0]]! as! NSDictionary
-                            let result2:NSDictionary = result1["AddressOfGoodResponse"] as! NSDictionary
-                            var result3:String = result2["AddressOfGoodResult"] as! String
-                            
-                            result3 = "{ \"content\" : " + result3 + "}"
-                            //print(result3)
-                            let data = (result3).data(using: .utf8)!
-                            
-                            guard let _result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : AnyObject] else{
-                                
-                                return
-                            }
-                            
-                            if let _ads = _result["content"] as? [AnyObject]{
-                                
-                                for ad in _ads
-                                {
-                                    
-                                    if let actad = ad as? [String : AnyObject]{
-                                        
-                                        
-                                        let popup = PopupController
-                                            .create(self)
-                                            .customize(
-                                                [
-                                                    .layout(.top),
-                                                    .animation(.slideDown),
-                                                    .scrollable(false),
-                                                    .dismissWhenTaps(false),
-                                                    .backgroundStyle(.blackFilter(alpha: 0))
-                                                ]
-                                            )
-                                            .didShowHandler { popup in
-                                                print("showed popup!")
-                                                
-                                            }
-                                            .didCloseHandler { _ in
-                                                
-                                                print("closed popup!")
-                                        }
-                                        //print(actad)
-                                        let container = GoodAddress.instance()
-                                        container.address = "\n\(actad["MallName"]!)\n\(actad["stName"]!)\n\(actad["stAddress"]!)\n\(actad["stTel"]!)"
-                                        
-                                        container.closeHandler = { _ in
-                                            popup.dismiss()
-                                        }
-                                        popup.show(container)
-                                        
-                                        return
-                                    }
-                                }
-                            }
-                            
-        }) { (error : Error?) -> Void in
-            
-            print(error!)
-        }*/
     }
     
     
     func gotoStore()
     {
+        globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
         
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><StoreOfGood xmlns=\"http://BuyApp.ir/\"><offId>\(self.good.Id as! Int)</offId></StoreOfGood></soap:Body></soap:Envelope>"
         
@@ -752,7 +673,6 @@ extension GoodModal
         let mutableR = NSMutableURLRequest(url: theURL! as URL)
         
         mutableR.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        //mutableR.addValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
         mutableR.addValue(soapLenth, forHTTPHeaderField: "Content-Length")
         mutableR.httpMethod = "POST"
         mutableR.httpBody = soapMessage.data(using: String.Encoding.utf8)
@@ -764,24 +684,19 @@ extension GoodModal
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
                     do
                     {
                         dictionaryData = try XMLReader.dictionary(forXMLData: data) as NSDictionary
-                        
-                        //let mainDict = dictionaryData.objectForKey("soap:Envelope")!.objectForKey("soap:Body")!.objectForKey("TownListResponse")!.objectForKey("TownListResult")   ?? NSDictionary()
+
                         let mainDict3 = dictionaryData.object(forKey: "soap:Envelope") as! NSDictionary
                         let mainDict2 = mainDict3.object(forKey: "soap:Body") as! NSDictionary
                         let mainDict1 = mainDict2.object(forKey: "StoreOfGoodResponse") as! NSDictionary
                         let mainDict = mainDict1.object(forKey: "StoreOfGoodResult") as! NSDictionary
-                        
-                        //print(mainDict1)
-                        //print(mainDict)
                         
                         if mainDict.count > 0{
                             
@@ -807,6 +722,8 @@ extension GoodModal
                                         
                                         DispatchQueue.main.async {
                                             
+                                            globalAlert.hideView()
+                                            
                                             let storyboard = UIStoryboard(name: "Main", bundle: nil)
                                             let mvc = storyboard.instantiateViewController(withIdentifier: "StoreModal") as! StoreModal
                                             mvc.isModalInPopover = true
@@ -822,77 +739,31 @@ extension GoodModal
                         }
                         else{
                             
+                            DispatchQueue.main.async {
+                                
+                                globalAlert.hideView()
+                            }
                         }
                     }
                     catch
                     {
-                        //print("Your Dictionary value nil")
+                        DispatchQueue.main.async {
+                            
+                            globalAlert.hideView()
+                        }
                     }
                 }
             }
             else
             {
-                print("nil data")
+                DispatchQueue.main.async {
+                    
+                    globalAlert.hideView()
+                }
             }
         }
         dataTask.resume()
     }
-    
-    /*func gotoStore()
-    {
-        let soap = SOAPEngine()
-        soap.licenseKey = "eJJDzkPK9Xx+p5cOH7w0Q+AvPdgK1fzWWuUpMaYCq3r1mwf36Ocw6dn0+CLjRaOiSjfXaFQBWMi+TxCpxVF/FA=="
-        soap.userAgent = "SOAPEngine"
-        soap.actionNamespaceSlash = true
-        soap.version = SOAPVersion.VERSION_1_1
-        soap.responseHeader = true
-        
-        soap.setValue(self.good.Id as! Int, forKey: "offId")
-        soap.requestURL(Request.webServiceAddress,
-                        soapAction: Request.gotoStoreAction,
-                        completeWithDictionary: { (statusCode : Int,
-                            dict : [AnyHashable : Any]?) -> Void in
-                            
-                            let result:Dictionary = dict! as Dictionary
-                            //print(result)
-                            let result1:NSDictionary = result[Array(result.keys)[0]]! as! NSDictionary
-                            let result2:NSDictionary = result1["StoreOfGoodResponse"] as! NSDictionary
-                            var result3:String = result2["StoreOfGoodResult"] as! String
-                            
-                            result3 = "{ \"content\" : " + result3 + "}"
-                            print(result3)
-                            let data = (result3).data(using: .utf8)!
-                            
-                            guard let _result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : AnyObject] else{
-                                
-                                return
-                            }
-                            
-                            if let _stores = _result["content"] as? [AnyObject]{
-                                
-                                for store in _stores
-                                {
-                                    
-                                    if let actstore = store as? [String : AnyObject]{
-                                        
-                                        let newstore = Store(Id: actstore["Id"]!, stCode: actstore["stCode"]!, MallId: actstore["MallId"]!, stName: actstore["stName"]!, stAddress: actstore["stAddress"]!, stManager: actstore["stManager"]!, stDescription: actstore["stDescription"]!, stTel: actstore["stTel"]!, stActive: actstore["stActive"]!, Mobile: actstore["Mobile"]!, urlImage: actstore["urlImage"]!, pm: actstore["pm"]!, Followers: actstore["Followers"]!)
-                                        
-                                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                                        let mvc = storyboard.instantiateViewController(withIdentifier: "StoreModal") as! StoreModal
-                                        mvc.isModalInPopover = true
-                                        mvc.modalTransitionStyle = .coverVertical
-                                        mvc.store = newstore
-                                        self.present(mvc, animated: true, completion: nil)
-                                        
-                                        return
-                                    }
-                                }
-                            }
-        }) { (error : Error?) -> Void in
-            
-            print(error!)
-        }
-    }*/
     
     func setAbuse()
     {
@@ -910,7 +781,6 @@ extension GoodModal
                 ]
             )
             .didShowHandler { popup in
-                print("showed popup!")
             }
             .didCloseHandler { popup in
                 

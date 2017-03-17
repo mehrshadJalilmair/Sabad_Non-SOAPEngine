@@ -9,6 +9,14 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Vazir-Bold.ttf">
+            <string>Vazir-Bold</string>
+        </array>
+        <array key="Vazir.ttf">
+            <string>Vazir</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Filter-->
         <scene sceneID="ZPl-XE-XZo">
@@ -48,7 +56,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.1215686275" green="0.1215686275" blue="0.1215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.31372549020000001" green="0.39607843139999999" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="1Qu-kX-8UZ"/>
                                     <constraint firstAttribute="bottom" secondItem="56l-qg-Yff" secondAttribute="bottom" constant="8" id="9aM-ch-fWU"/>
@@ -86,7 +94,7 @@
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vCS-5x-h6E">
                                                     <rect key="frame" x="46" y="9" width="283" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" name="Vazir" family="Vazir" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -122,7 +130,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="4og-ac-aem"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
+                                <fontDescription key="fontDescription" name="Vazir" family="Vazir" pointSize="13"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -141,7 +149,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="Q0q-vq-dW5"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                                        <fontDescription key="fontDescription" name="Vazir-Bold" family="Vazir" pointSize="12"/>
                                         <state key="normal" title="شهر تهران - همه پاساژها و محدوده ها">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
@@ -183,6 +191,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jIG-Ps-ASe">
                                         <rect key="frame" x="0.0" y="0.0" width="305" height="50"/>
                                         <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Vazir-Bold" family="Vazir" pointSize="12"/>
                                         <state key="normal" title="همه اجناس">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>

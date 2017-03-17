@@ -69,12 +69,10 @@ class support: UIViewController, MFMailComposeViewControllerDelegate, PopupConte
                     
                 case .cancel:
                     
-                    print("cancel")
                     break
                     
                 case .destructive:
                     
-                    print("destructive")
                     break
                 }
             }))
@@ -106,12 +104,10 @@ class support: UIViewController, MFMailComposeViewControllerDelegate, PopupConte
                     
                 case .cancel:
                     
-                    print("cancel")
                     break
                     
                 case .destructive:
                     
-                    print("destructive")
                     break
                 }
             }))
@@ -126,23 +122,19 @@ class support: UIViewController, MFMailComposeViewControllerDelegate, PopupConte
             
         case MFMailComposeResult.cancelled.rawValue: // <-- And here as well!
             
-            print("Cancelled")
             break
             
         case MFMailComposeResult.saved.rawValue:
             
             self.dismiss_(controller: controller)
-            print("sent")
             break
             
         case MFMailComposeResult.sent.rawValue:
             
             self.dismiss_(controller: controller)
-            print("saved")
             break
             
-        default:
-            print("Default")
+        default: break
         }
     }
     
@@ -162,12 +154,10 @@ class support: UIViewController, MFMailComposeViewControllerDelegate, PopupConte
                     
                 case .cancel:
                     
-                    print("cancel")
                     break
                     
                 case .destructive:
                     
-                    print("destructive")
                     break
                 }
             }))

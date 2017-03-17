@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate , UITextFieldDelegate{
 
@@ -83,7 +84,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
     let logoLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 12)
         label.textColor = UIColor.white
         label.text = "لوگو"
         label.textAlignment = .center
@@ -173,7 +174,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
     let NameLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor.black
         label.text = "* نام فروشگاه"
         label.textAlignment = .right
@@ -184,7 +185,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
     let NameTextFieald: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "نام فروشگاه"
@@ -210,7 +211,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
     let ManagementLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor.black
         label.text = "* مدیریت"
         label.textAlignment = .right
@@ -221,7 +222,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
     let ManagementTextFieald: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "امید جلالی"
@@ -248,7 +249,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
     let PhoneLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor.black
         label.text = "* موبایل"
         label.textAlignment = .right
@@ -259,7 +260,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
     let PhoneTextFieald: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "شماره موبایل"
@@ -286,7 +287,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
     let TellLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor.black
         label.text = "تلفن"
         label.textAlignment = .right
@@ -297,7 +298,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
     let TellTextFieald: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "شماره تلفن"
@@ -323,7 +324,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
     let DescriptionLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor.black
         label.text = "توضیحات"
         label.textAlignment = .right
@@ -334,7 +335,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
     let DescriptionTextFieald: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "توضیحات فروشگاه من"
@@ -371,7 +372,7 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
     let AddressTextFieald: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "طبقه اول،خیابان سوم"
@@ -397,7 +398,6 @@ class StoreCreation: UIViewController , UIScrollViewDelegate , UIImagePickerCont
         initDescriptionContainer()
         initAddressContainer()
         
-        print("\(inputName)   \(inputAddress)  \(storeMall)   \(storeTwonIndex)   \(storeTwon)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -890,25 +890,22 @@ extension StoreCreation
     
     func pickLogo(_ sender: AnyObject)
     {
-        print("logo")
+
         imageSource = .logo
         chooseSource()
     }
     func pickImage1(_ sender: AnyObject)
     {
-        print("here1")
         imageSource = .image1
         chooseSource()
     }
     func pickImage2(_ sender: AnyObject)
     {
-        print("here2")
         imageSource = .image2
         chooseSource()
     }
     func pickImage3(_ sender: AnyObject)
     {
-        print("here3")
         imageSource = .image3
         chooseSource()
     }
@@ -940,7 +937,6 @@ extension StoreCreation
     }
     func openCamera()
     {
-    
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera))
         {
             imagePicker.sourceType = UIImagePickerControllerSourceType.camera
@@ -1006,7 +1002,6 @@ extension StoreCreation
     }
     func imagePickerControllerDidCancel(picker: UIImagePickerController)
     {
-        print("picker cancel.")
         imageSource = .none
     }
     
@@ -1021,12 +1016,9 @@ extension StoreCreation
     
     @IBAction func confirm(_ sender: Any) {//create store
         
-        print(filledImageViews)
-        
         guard let name = NameTextFieald.text, let managagment = ManagementTextFieald.text , let phone = PhoneTextFieald.text, let description = DescriptionTextFieald.text, let address = AddressTextFieald.text , let tell = TellTextFieald.text else {
             
             
-            print("Form is not valid")
             return
         }
         
@@ -1046,6 +1038,8 @@ extension StoreCreation
                 break
             }
         }
+        
+        globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
         
         if haveImage
         {
@@ -1166,9 +1160,29 @@ extension StoreCreation
                 
                 DispatchQueue.main.async {
                     
-                    
+                    globalAlert.hideView()
+                    DispatchQueue.main.async {
+                        
+                        let alert = UIAlertController(title: "خطا در بارگذاری عکس", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                            switch action.style{
+                            case .default:
+                                
+                                break
+                                
+                            case .cancel:
+                                
+                                break
+                                
+                            case .destructive:
+                                
+                                break
+                            }
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
-                print("error=\(error)")
                 return
             }
             let httpResponse = response as? HTTPURLResponse
@@ -1177,7 +1191,28 @@ extension StoreCreation
             {
                 DispatchQueue.main.async {
                     
-                    
+                    globalAlert.hideView()
+                    DispatchQueue.main.async {
+                        
+                        let alert = UIAlertController(title: "خطا در بارگذاری عکس", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                            switch action.style{
+                            case .default:
+                                
+                                break
+                                
+                            case .cancel:
+                                
+                                break
+                                
+                            case .destructive:
+                                
+                                break
+                            }
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
                 return
             }
@@ -1258,9 +1293,8 @@ extension StoreCreation
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -1290,18 +1324,56 @@ extension StoreCreation
                                 
                                 for res in _ress
                                 {
-                                    if res["Result"] as! Int == 0
-                                    {
-                                        
-                                    }
-                                    else if res["Result"] as! Int == 1
+                                    if res["Result"] as! Int == 1
                                     {
                                         DispatchQueue.main.async {
                                             
-                                            self.dismiss(animated: true, completion: { 
-                                                
-                                                
-                                            })
+                                            let alert = UIAlertController(title: "", message: "فروشگاه ثبت شد", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    self.dismiss(animated: true, completion: {
+                                                        
+                                                        
+                                                    })
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    break
+                                                }
+                                            }))
+                                            self.present(alert, animated: true, completion: nil)
+                                        }
+                                    }
+                                    else
+                                    {
+                                        DispatchQueue.main.async {
+                                            
+                                            let alert = UIAlertController(title: "خطای سرور", message: "فروشگاه ثبت نشد!", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    break
+                                                }
+                                            }))
+                                            self.present(alert, animated: true, completion: nil)
                                         }
                                     }
                                 }
@@ -1314,13 +1386,37 @@ extension StoreCreation
                     }
                     catch
                     {
-                        //print("Your Dictionary value nil")
                     }
                 }
             }
             else
             {
-                print("nil data")
+                DispatchQueue.main.async {
+                    
+                    let alert = UIAlertController(title: "خطا در دریافت", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            
+                            break
+                            
+                        case .cancel:
+                            
+                            break
+                            
+                        case .destructive:
+                            
+                            break
+                        }
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                
+                globalAlert.hideView()
             }
         }
         dataTask.resume()

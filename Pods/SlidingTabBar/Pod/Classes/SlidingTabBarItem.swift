@@ -29,7 +29,7 @@ public class SlidingTabBarItem: UIView {
         iconView.tintColor = tintColor
         iconView.sizeToFit()
         
-        var TLX:CGFloat = frame.size.width/2 - 15
+        var TLX:CGFloat = frame.size.width/2 - 16
         if(item.title == "خانه")
         {
             TLX = frame.size.width/2 - 10
@@ -37,7 +37,7 @@ public class SlidingTabBarItem: UIView {
         
         textLabel = UILabel(frame: CGRect(x: TLX , y: (self.frame.height-image.size.height)/2 , width: self.frame.width, height: self.frame.height))
         textLabel.text = item.title
-        textLabel.font = UIFont(name: "American Typewriter" , size: 14)
+        textLabel.font = UIFont(name: "American Typewriter" , size: 12)
         //textLabel.textAlignment = .left
         textLabel.textColor = tintColor
         

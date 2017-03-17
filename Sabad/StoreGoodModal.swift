@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class StoreGoodModal: UIViewController {
     
@@ -152,7 +153,7 @@ class StoreGoodModal: UIViewController {
         }
         
         
-        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(selectedGood.offBeforePrice!)")
+        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "\(selectedGood.offBeforePrice!) تومان")
         attributeString.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, attributeString.length))
         
         var newPrice = (selectedGood.offBeforePrice as! Int)
@@ -167,10 +168,11 @@ class StoreGoodModal: UIViewController {
         }
         else
         {
-            //AlPriceLabel.text = "قیمت    "
-            AlPriceNumberLabel.text =  "\(selectedGood.offBeforePrice!)"
+            AlPriceLabel.text = "قیمت    "
+            AlPriceNumberLabel.text =  "\(selectedGood.offBeforePrice!) تومان"
         }
-        newPriceNumberLabel.text = "\(newPrice)"
+        
+        newPriceNumberLabel.text = "\(newPrice) تومان"
         if !haveOff
         {
             newPriceNumberLabel.isHidden = true
@@ -341,18 +343,15 @@ extension StoreGoodModal
             switch action.style{
             case .default:
                 
-                print("default")
                 self.deleteGood()
                 break
                 
             case .cancel:
                 
-                print("cancel")
                 break
                 
             case .destructive:
                 
-                print("destructive")
                 break
             }
         }))
@@ -361,17 +360,14 @@ extension StoreGoodModal
             switch action.style{
             case .default:
                 
-                print("default")
                 break
                 
             case .cancel:
                 
-                print("cancel")
                 break
                 
             case .destructive:
                 
-                print("destructive")
                 break
             }
         }))
@@ -381,6 +377,8 @@ extension StoreGoodModal
     
     func deleteGood()
     {
+        globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
+        
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><DeleteGood xmlns=\"http://BuyApp.ir/\"><OffId>\(selectedGood.Id!)</OffId></DeleteGood></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)
@@ -401,9 +399,8 @@ extension StoreGoodModal
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -433,25 +430,66 @@ extension StoreGoodModal
                                 
                                 for res in _ress
                                 {
-                                    if res["Result"] as! Int == 0
-                                    {
-                                        
-                                    }
-                                    else if res["Result"] as! Int == 1
+                                    if res["Result"] as! Int == 1
                                     {
                                         DispatchQueue.main.async {
                                             
-                                            self.dismiss(animated: true, completion: {
-                                                
-                                                
-                                            })
+                                            let alert = UIAlertController(title: "", message: "کالا حذف شد", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    self.dismiss(animated: true, completion: {
+                                                        
+                                                        
+                                                    })
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    break
+                                                }
+                                            }))
+                                            self.present(alert, animated: true, completion: nil)
+                                        }
+
+                                        
+                                    }
+                                    else
+                                    {
+                                        DispatchQueue.main.async {
+                                            
+                                            let alert = UIAlertController(title: "خطای سرور", message: "کالا حذف نشد!", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    break
+                                                }
+                                            }))
+                                            self.present(alert, animated: true, completion: nil)
                                         }
                                     }
                                 }
                             }
                             
                         }
-                        else{
+                        else
+                        {
                             
                         }
                     }
@@ -463,7 +501,32 @@ extension StoreGoodModal
             }
             else
             {
-                print("nil data")
+                DispatchQueue.main.async {
+                    
+                    let alert = UIAlertController(title: "خطا در دریافت", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            
+                            break
+                            
+                        case .cancel:
+                            
+                            break
+                            
+                        case .destructive:
+                            
+                            break
+                        }
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                
+                globalAlert.hideView()
             }
         }
         dataTask.resume()

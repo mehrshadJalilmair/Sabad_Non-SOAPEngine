@@ -8,6 +8,7 @@
 
 import UIKit
 import DatePickerDialog
+import SCLAlertView
 
 class addGood: UIViewController , UIScrollViewDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate , UITextFieldDelegate{
     
@@ -70,7 +71,7 @@ class addGood: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let NameLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor.black
         label.text = "* عنوان کالا"
         label.textAlignment = .right
@@ -81,7 +82,7 @@ class addGood: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let NameTextFieald: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "عنوان کالا..."
@@ -107,7 +108,7 @@ class addGood: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let PriceLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor.black
         label.text = "* قیمت کالا"
         label.textAlignment = .right
@@ -118,7 +119,7 @@ class addGood: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let PriceTextField: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "قیمت کالا"
@@ -144,7 +145,7 @@ class addGood: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let DescriptionLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = UIColor.black
         label.text = "توضیحات"
         label.textAlignment = .right
@@ -155,7 +156,7 @@ class addGood: UIViewController , UIScrollViewDelegate , UIImagePickerController
     let DescriptionTextField: FloatLabelTextField! = {
         
         let NameTextFieald = FloatLabelTextField()
-        NameTextFieald.font = UIFont.systemFont(ofSize: 14)
+        NameTextFieald.font = UIFont.systemFont(ofSize: 10)
         NameTextFieald.textColor = UIColor.black
         NameTextFieald.textAlignment = .center
         NameTextFieald.placeholder = "توضیحات"
@@ -396,7 +397,6 @@ extension addGood
         guard let name = NameTextFieald.text, let price = PriceTextField.text , let description = DescriptionTextField.text else {
             
             
-            print("Form is not valid")
             return
         }
         
@@ -406,6 +406,8 @@ extension addGood
             alertWarning.show()
             return
         }
+        
+        globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
         
         if haveImage
         {
@@ -431,7 +433,6 @@ extension addGood
     
     func pickLogo(_ sender: AnyObject)
     {
-        print("logo")
         chooseSource()
     }
     
@@ -501,7 +502,6 @@ extension addGood
     }
     func imagePickerControllerDidCancel(picker: UIImagePickerController)
     {
-        print("picker cancel.")
     }
     
     func delImage(_ sender: AnyObject)
@@ -537,9 +537,29 @@ extension addGood
                 
                 DispatchQueue.main.async {
                     
-                    
+                    globalAlert.hideView()
+                    DispatchQueue.main.async {
+                        
+                        let alert = UIAlertController(title: "خطا در بارگذاری عکس", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                            switch action.style{
+                            case .default:
+                                
+                                break
+                                
+                            case .cancel:
+                                
+                                break
+                                
+                            case .destructive:
+                                
+                                break
+                            }
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
-                print("error=\(error)")
                 return
             }
             let httpResponse = response as? HTTPURLResponse
@@ -548,7 +568,28 @@ extension addGood
             {
                 DispatchQueue.main.async {
                     
-                    
+                    globalAlert.hideView()
+                    DispatchQueue.main.async {
+                        
+                        let alert = UIAlertController(title: "خطا در بارگذاری عکس", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                            switch action.style{
+                            case .default:
+                                
+                                break
+                                
+                            case .cancel:
+                                
+                                break
+                                
+                            case .destructive:
+                                
+                                break
+                            }
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
                 return
             }
@@ -631,9 +672,8 @@ extension addGood
             
             if error == nil
             {
-                if let httpResponse = response as? HTTPURLResponse
+                if let _ = response as? HTTPURLResponse
                 {
-                    print(httpResponse.statusCode)
                     
                     var dictionaryData = NSDictionary()
                     
@@ -673,17 +713,14 @@ extension addGood
                                                 switch action.style{
                                                 case .default:
                                                     
-                                                    print("default")
                                                     break
                                                     
                                                 case .cancel:
                                                     
-                                                    print("cancel")
                                                     break
                                                     
                                                 case .destructive:
                                                     
-                                                    print("destructive")
                                                     break
                                                 }
                                             }))
@@ -695,10 +732,53 @@ extension addGood
                                     {
                                         DispatchQueue.main.async {
                                             
-                                            self.dismiss(animated: true, completion: {
-                                                
-                                                
-                                            })
+                                            let alert = UIAlertController(title: "", message: "کالا ثبت شد", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    self.dismiss(animated: true, completion: {
+                                                        
+                                                        
+                                                    })
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    break
+                                                }
+                                            }))
+                                            self.present(alert, animated: true, completion: nil)
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        DispatchQueue.main.async {
+                                            
+                                            let alert = UIAlertController(title: "خطای سرور", message: "کالا ثبت نشد!", preferredStyle: UIAlertControllerStyle.alert)
+                                            
+                                            alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                                                switch action.style{
+                                                case .default:
+                                                    
+                                                    break
+                                                    
+                                                case .cancel:
+                                                    
+                                                    break
+                                                    
+                                                case .destructive:
+                                                    
+                                                    break
+                                                }
+                                            }))
+                                            self.present(alert, animated: true, completion: nil)
                                         }
                                     }
                                 }
@@ -717,7 +797,32 @@ extension addGood
             }
             else
             {
-                print("nil data")
+                DispatchQueue.main.async {
+                    
+                    let alert = UIAlertController(title: "خطا در دریافت", message: "اتصال اینترنت را بررسی کنید!", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    alert.addAction(UIAlertAction(title: "تایید", style: UIAlertActionStyle.default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            
+                            break
+                            
+                        case .cancel:
+                            
+                            break
+                            
+                        case .destructive:
+                            
+                            break
+                        }
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+            
+            DispatchQueue.main.async
+            {
+                globalAlert.hideView()
             }
         }
         dataTask.resume()
