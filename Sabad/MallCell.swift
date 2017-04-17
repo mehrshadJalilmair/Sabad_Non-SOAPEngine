@@ -21,7 +21,7 @@ class MallCell: UICollectionViewCell {
     let titleLabel: UILabel! = {
         
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = UIColor.black
         label.textAlignment = .center
         label.backgroundColor = UIColor.white
