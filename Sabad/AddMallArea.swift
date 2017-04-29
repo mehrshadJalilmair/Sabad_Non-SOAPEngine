@@ -135,6 +135,13 @@ extension AddMallArea
     {
         globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
         
+        
+        var name:String = name.replacingOccurrences(of: "ك", with: "ک")
+        name = name.replacingOccurrences(of: "ي", with: "ی")
+        
+        var address:String = address.replacingOccurrences(of: "ك", with: "ک")
+        address = address.replacingOccurrences(of: "ي", with: "ی")
+        
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><RequestMall xmlns=\"http://BuyApp.ir/\"><twId>\(storeTwon)</twId><name>\(name)</name><address>\(address)</address></RequestMall></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)

@@ -357,7 +357,11 @@ class EditOff: UIViewController , UIScrollViewDelegate , UIImagePickerController
         
         let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
         tapGesture6.cancelsTouchesInView = true
-        DescriptionLabel.addGestureRecognizer(tapGesture6)
+        DescriptionContainer.addGestureRecognizer(tapGesture6)
+        
+        let tapGesture4 = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
+        tapGesture4.cancelsTouchesInView = true
+        DateContainer.addGestureRecognizer(tapGesture4)
     }
     
     func setScrollViewContentSize() {
@@ -950,6 +954,34 @@ extension EditOff
         date = date.replacingOccurrences(of: "-", with: "/")
         date = date.replacingOccurrences(of: " +0000", with: "")
         
+        var price:String = price.replacingOccurrences(of: "۰", with: "0")
+        price = price.replacingOccurrences(of: "۹", with: "9")
+        price = price.replacingOccurrences(of: "۸", with: "8")
+        price = price.replacingOccurrences(of: "۷", with: "7")
+        price = price.replacingOccurrences(of: "۶", with: "6")
+        price = price.replacingOccurrences(of: "۵", with: "5")
+        price = price.replacingOccurrences(of: "۴", with: "4")
+        price = price.replacingOccurrences(of: "۳", with: "3")
+        price = price.replacingOccurrences(of: "۲", with: "2")
+        price = price.replacingOccurrences(of: "۱", with: "1")
+        
+        var off:String = off.replacingOccurrences(of: "۰", with: "0")
+        off = off.replacingOccurrences(of: "۹", with: "9")
+        off = off.replacingOccurrences(of: "۸", with: "8")
+        off = off.replacingOccurrences(of: "۷", with: "7")
+        off = off.replacingOccurrences(of: "۶", with: "6")
+        off = off.replacingOccurrences(of: "۵", with: "5")
+        off = off.replacingOccurrences(of: "۴", with: "4")
+        off = off.replacingOccurrences(of: "۳", with: "3")
+        off = off.replacingOccurrences(of: "۲", with: "2")
+        off = off.replacingOccurrences(of: "۱", with: "1")
+        
+        var description:String = description.replacingOccurrences(of: "ك", with: "ک")
+        description = description.replacingOccurrences(of: "ي", with: "ی")
+        
+        var name:String = name.replacingOccurrences(of: "ك", with: "ک")
+        name = name.replacingOccurrences(of: "ي", with: "ی")
+
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><AddOff xmlns=\"http://BuyApp.ir/\"><Id>\(selectedGood.Id!)</Id><Title>\(name)</Title><EndDate>\(date)</EndDate><BeforePrice>\(price)</BeforePrice><Percent>\(off)</Percent><Description>\(description)</Description><MallId>\(selectedStore.MallId!)</MallId><stId>\(selectedStore.Id!)</stId><imgUrl>\(self.imageAddress)</imgUrl><Mobile>\(phone)</Mobile><TransactionNum></TransactionNum><Paytime></Paytime></AddOff></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)

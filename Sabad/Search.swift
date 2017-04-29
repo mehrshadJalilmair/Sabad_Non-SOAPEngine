@@ -301,7 +301,8 @@ extension Search
     {
         globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
         
-        let TxtSearch:String = TxtSearch.replacingOccurrences(of: "ك", with: "ک")
+        var TxtSearch:String = TxtSearch.replacingOccurrences(of: "ك", with: "ک")
+        TxtSearch = TxtSearch.replacingOccurrences(of: "ي", with: "ی")
         
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><Search xmlns=\"http://BuyApp.ir/\"><Offset>\(Offset)</Offset><text>\(TxtSearch)</text><type>\(type)</type><twId>\(twId)</twId></Search></soap:Body></soap:Envelope>"
         

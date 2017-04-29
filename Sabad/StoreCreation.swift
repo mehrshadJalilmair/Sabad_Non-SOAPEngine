@@ -1273,6 +1273,19 @@ extension StoreCreation
     
     func sendInfoToServer(name:String , managament:String , phone:String , tell:String , description:String , address:String)
     {
+        var managament:String = managament.replacingOccurrences(of: "ك", with: "ک")
+        managament = managament.replacingOccurrences(of: "ي", with: "ی")
+        
+        var description:String = description.replacingOccurrences(of: "ك", with: "ک")
+        description = description.replacingOccurrences(of: "ي", with: "ی")
+        
+        var name:String = name.replacingOccurrences(of: "ك", with: "ک")
+        name = name.replacingOccurrences(of: "ي", with: "ی")
+        
+        var address:String = address.replacingOccurrences(of: "ك", with: "ک")
+        address = address.replacingOccurrences(of: "ي", with: "ی")
+        
+        
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><CreateStore xmlns=\"http://BuyApp.ir/\"><stId>\(0)</stId><stName>\(name)</stName><stCode></stCode><stAddress>\(address)</stAddress><stManager>\(managament)</stManager><stDescription>\(description)</stDescription><stTel>\(tell)</stTel><Mobile>\(phone)</Mobile><MallId>\(storeMall)</MallId><img>\(filledImageViewNames["logo"]!)</img><img1>\(filledImageViewNames["image1"]!)</img1><img2>\(filledImageViewNames["image2"]!)</img2><img3>\(filledImageViewNames["image3"]!)</img3></CreateStore></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)

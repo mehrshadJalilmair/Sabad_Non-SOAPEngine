@@ -178,7 +178,7 @@ public class SlidingTabBar: UIView {
         return tabBarContainerRect
     }
     
-    private func animateTabBarSelection(from from: Int, to: Int) {
+    private func animateTabBarSelection(from: Int, to: Int) {
         
         let overlaySlidingMultiplier = CGFloat(to - from) * tabBarItemWidth
         

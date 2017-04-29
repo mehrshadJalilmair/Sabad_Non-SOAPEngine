@@ -415,7 +415,7 @@ class UpdateStore: UIViewController , UIScrollViewDelegate , UIImagePickerContro
         
         let tapGesture6 = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
         tapGesture6.cancelsTouchesInView = true
-        TellLabel.addGestureRecognizer(tapGesture6)
+        TellContainer.addGestureRecognizer(tapGesture6)
     }
     
     func setScrollViewContentSize() {

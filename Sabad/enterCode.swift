@@ -113,6 +113,28 @@ extension enterCode
         
         globalAlert.showWait("", subTitle: "لطفا صبور باشید...", closeButtonTitle: "", duration: 1000, colorStyle: 0x5065A1, colorTextButton: 0x000000, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
         
+        var phone:String = phone.replacingOccurrences(of: "۰", with: "0")
+        phone = phone.replacingOccurrences(of: "۹", with: "9")
+        phone = phone.replacingOccurrences(of: "۸", with: "8")
+        phone = phone.replacingOccurrences(of: "۷", with: "7")
+        phone = phone.replacingOccurrences(of: "۶", with: "6")
+        phone = phone.replacingOccurrences(of: "۵", with: "5")
+        phone = phone.replacingOccurrences(of: "۴", with: "4")
+        phone = phone.replacingOccurrences(of: "۳", with: "3")
+        phone = phone.replacingOccurrences(of: "۲", with: "2")
+        phone = phone.replacingOccurrences(of: "۱", with: "1")
+        
+        var code:String = code.replacingOccurrences(of: "۰", with: "0")
+        code = code.replacingOccurrences(of: "۹", with: "9")
+        code = code.replacingOccurrences(of: "۸", with: "8")
+        code = code.replacingOccurrences(of: "۷", with: "7")
+        code = code.replacingOccurrences(of: "۶", with: "6")
+        code = code.replacingOccurrences(of: "۵", with: "5")
+        code = code.replacingOccurrences(of: "۴", with: "4")
+        code = code.replacingOccurrences(of: "۳", with: "3")
+        code = code.replacingOccurrences(of: "۲", with: "2")
+        code = code.replacingOccurrences(of: "۱", with: "1")
+        
         let soapMessage = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><SendSms xmlns=\"http://BuyApp.ir/\"><Mobile>\(phone)</Mobile><Code>\(code)</Code></SendSms></soap:Body></soap:Envelope>"
         
         let soapLenth = String(soapMessage.characters.count)

@@ -173,7 +173,7 @@ class GoodCell: UICollectionViewCell {
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         
         contentView.addSubview(offLabel)
-        offLabel.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_4));
+        offLabel.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi/4));
         //x
         horizontalConstraint = NSLayoutConstraint(item: offLabel, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: contentView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: -12)
         //y
