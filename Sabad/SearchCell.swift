@@ -10,7 +10,7 @@ import UIKit
 
 class SearchCell: UITableViewCell {
     
-        let View : UIView! = {
+    let View : UIView! = {
         
         let View = UIView()
         //View.backgroundColor = UIColor.green
